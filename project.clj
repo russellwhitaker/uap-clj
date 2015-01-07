@@ -7,5 +7,7 @@
   :plugins [[lein-git-deps "0.0.2-SNAPSHOT"]
             [speclj "3.1.0"]]
   :test-paths ["spec"]
-  :git-dependencies [["https://github.com/ua-parser/uap-core.git"]])
+  :git-dependencies [["https://github.com/ua-parser/uap-core.git"]]
+  :main uap-clj.core
+  :aot [uap-clj.core])
 

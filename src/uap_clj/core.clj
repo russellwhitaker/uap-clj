@@ -1,5 +1,6 @@
 (ns uap-clj.core
-  (:require [clj-yaml.core :refer [parse-string]]))
+  (:require [clj-yaml.core :refer [parse-string]])
+  (:gen-class))
 
 (def regexes-all (parse-string (slurp ".lein-git-deps/uap-core/regexes.yaml")))
 
@@ -23,3 +24,15 @@
       (get-in first-hit [:regex :family_replacement]
               (second (get first-hit :result)))
       "Other")))
+
+(defn -main
+  "Takes a filename from the commandline containing one useragent per line,
+   and prints useragent with its matching browser family separated by a tab
+   character."
+  [filename]
+  (with-open [useragents (clojure.java.io/reader filename)]
+    (let [lookup-results (map vector (line-seq useragents)
+                                     (map #(get-user-agent % regexes-ua)
+                                          (line-seq useragents)))]
+      (doseq [x lookup-results]
+        (println (str (first x) \tab (second x)))))))
