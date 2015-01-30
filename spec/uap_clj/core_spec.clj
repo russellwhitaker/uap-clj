@@ -60,3 +60,5 @@
   (map #(run-os-fixture % regexes-os)
     (map #(select-keys % [:user_agent_string :family :major :minor :patch])
          tests-os)))
+
+(run-specs)
