@@ -228,6 +228,7 @@ The foregoing example is not intended for production, and is merely an example o
 ## Future / Enhancements
 
 What's up next:
+
 1. Implement Device parsing;
 2. Re-implement UDFs as GenericUDFs;
 3. Refine Browser and OS parsing to catch edge cases;
