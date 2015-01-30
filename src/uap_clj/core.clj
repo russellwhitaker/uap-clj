@@ -1,12 +1,12 @@
 (ns uap-clj.core
-  (:require [clj-yaml.core :refer [parse-string]])
+  (:require [clj-yaml.core :refer [parse-string]]
+            [clojure.java.io :as io])
   (:gen-class))
 
-(def regexes-all (parse-string (slurp ".lein-git-deps/uap-core/regexes.yaml")))
+(def regexes-all (parse-string (slurp (io/resource "regexes.yaml"))))
 
 (def regexes-browser (:user_agent_parsers regexes-all))
 (def regexes-os (:os_parsers regexes-all))
-(def regexes-dev (:device_parsers regexes-all))
 
 (defn match-with-context
   "Return match result with match groups & regex replacement map"
@@ -14,33 +14,40 @@
   (let [result (re-find (re-pattern (:regex regex)) line)]
     {:result result :regex regex}))
 
+(defn get-family
+  "If :family_replacement exists, use it and interpolate values as necessary,
+   else return 'Other'"
+  [result regex replacement-category]
+  (let [alternate (nth result 1 nil)]
+    (clojure.string/replace
+      (or
+        (get regex replacement-category alternate)
+        "Other")
+      #"\$1" alternate)))
+
 (defn extract-browser-fields
   "Extract browser family, major number, minor number, and patch number
    from user agent string"
   [ua regexes]
   (let [result-scan (map #(match-with-context ua %) regexes)
         first-hit (first (remove #(= nil (:result %)) result-scan))
+        regex (get first-hit :regex)
         result (flatten (vector (get first-hit :result)))
-        family (or
-                 (get-in first-hit [:regex :family_replacement]
-                         (nth result 1 nil))
-                 "Other")
+        family (get-family result regex :family_replacement)
         major (nth result 2 nil)
         minor (nth result 3 nil)
         patch (nth result 4 nil)]
     {:family family :major major :minor minor :patch patch}))
 
 (defn extract-os-fields
-  "Extract os family, major number, minor number, and patch number
+  "Extract o/s family, major number, minor number, and patch number
    from user agent string"
   [ua regexes]
   (let [result-scan (map #(match-with-context ua %) regexes)
         first-hit (first (remove #(= nil (:result %)) result-scan))
+        regex (get first-hit :regex)
         result (flatten (vector (get first-hit :result)))
-        family (or
-                 (get-in first-hit [:regex :os_replacement]
-                         (nth result 1 nil))
-                 "Other")
+        family (get-family result regex :os_replacement)
         major (nth result 2 nil)
         minor (nth result 3 nil)
         patch (nth result 4 nil)]
