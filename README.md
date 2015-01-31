@@ -230,6 +230,7 @@ The foregoing example is not intended for production applications, unless that's
 
 What's up next:
 
+0. Generate an artifact for Clojars distribution;
 1. Implement Device parsing;
 2. Re-implement UDFs as GenericUDFs;
 3. Refine Browser and OS parsing to deal with some apparently hairy regex substitution not accounted for in the initial Implementation;
