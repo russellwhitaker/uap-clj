@@ -1,18 +1,16 @@
 # uap-clj
 
-A library for extracting browser and operating system information from a raw useragent string:
+A [`ua-parser/uap-core`](https://github.com/ua-parser/uap-core) based library for extracting browser and operating system information from a raw useragent string:
 
 1. family
 2. major number
 3. minor number
 4. patch level
 
-Implementation is provided for two different classes of use cases: 1.) commandline processing of a textfile containing useragent strings, one per line or 2.) import as User Defined Functions (UDFs) in the Hadoop Hive environment.
+Implementation is provided here for two different categories of use case: 1.) commandline processing of a textfile containing useragent strings, one per line or 2.) importation as User Defined Functions (UDFs) in the Hadoop Hive environment.
 
 ## Setup
-This project depends on the file `regexes.yaml` actively maintained in the [`ua-parser/uap-core`](https://github.com/ua-parser/uap-core) project, as well
-as on the test fixtures `test_ua.yaml` and `test_os.yaml` in the same project. Make sure to run `lein deps` after cloning this code repository, and re-run
-on occasion to pull in changes in those `uap-core` assets.
+This project depends on the file `regexes.yaml` actively maintained in the public [`ua-parser/uap-core`](https://github.com/ua-parser/uap-core) repository, as well as on the test fixtures `test_ua.yaml` and `test_os.yaml` contained therein. Be sure to run `lein deps` after cloning this code repository, and re-run on occasion to pull in changes committed to those `uap-core` assets.
 
 To generate your classes and .jar files:
 
@@ -22,7 +20,8 @@ lein clean && lein deps && lein compile && lein uberjar
 
 ###Java and Hive version dependencies
 
-This code has been tested and shown to run under Hive commandline versions 0.12.0 and 0.14.0 when compiled under Java v1.7 (Mac OS X v10.9.5) and run :
+This code has been tested and shown to run under Hive commandline versions 0.12.0 and 0.14.0 when compiled under Java v1.7 (Mac OS X v10.9.5):
+
 ```bash
 → java -version
 java version "1.7.0_51"
@@ -30,34 +29,33 @@ Java(TM) SE Runtime Environment (build 1.7.0_51-b13)
 Java HotSpot(TM) 64-Bit Server VM (build 24.51-b03, mixed mode)
 ```
 
-
 ## Use
 
 ### commandline (CLI)
 
-Although this utility was written with the overall goal of providing a small set of Hive UDF functions for extracting browser and O/S data from useragent strings, I've also provided a simple mechanism for creating a basic report outside Hadoop/Hive from the unix commandline:
+Although this library was written with the overall goal of providing a small set of Hive UDF functions for extracting browser and O/S data from useragent strings, I've also provided a simple mechanism for creating a basic report outside Hadoop/Hive from the unix commandline:
 
 ```bash
 /usr/bin/java -jar uap-clj-0.1.0-SNAPSHOT-standalone.jar <input_filename> [<optional_out_filename>]
 ```
 
-This command takes as its first argument the name of a text file containing one useragent per line, and prints a headerless TSV (tab-separated) file (defaults to `output.tsv`) with this format:
+This command takes as its first argument the name of a text file containing one useragent per line, and prints a headerless TSV (tab-separated) file - defaulting to `output.tsv` - with this line format:
 
 `useragent string<tab>browser family<tab>browser major<tab>browser minor<tab>browser patch<tab>os family<tab>os major<tab>os minor<tab>os patch<newline>`
 
-The resulting file is headerless and can be be trivially imported by your favorite spreadsheet or database ETL tool.
+The output file is headerless and can be be trivially imported by your favorite spreadsheet or database ETL tool.
 
-This run option is available as well, particularly useful during development:
+A Leiningen-based run option is available as well, which is particularly convenient during development:
 
 ```bash
 lein run <input_filename> [<optional_out_filename>]
 ```
 
-Note that the above instructions assume you're using the standalone .jar for development & portability, which will get you running quickly, but it's generally a better thing to use the mininal jarfile which _doesn't_ pull in 50Mb of dependencies (in this case `uap-clj-0.1.0-SNAPSHOT.jar`) and install your dependencies on your classpath.
+Note that these instructions assume you're using the standalone version of the project .jar file, for development & portability: this will get you running quickly, but it's almost always a better thing to use the mininal jarfile instead, since it _doesn't_ pull in 50Mb of dependencies. To enable this, you'll need to install prerequisite dependencies (specified in `project.clj`) on your classpath.
 
 ### Hive UDF
 
-After generating a .jar file - in this case, a standalone uberjar for testing - `scp` to your HDFS client host and copy to a location in HDFS (here, `hdfs:///shared/jars`), then confirm that that `ADD JAR` works in your hive client:
+After generating a .jar file, `scp` it to your HDFS client host and then `hadoop fs -put` it in an HDFS directory (e.g. `hdfs:///shared/jars`), then confirm that doing an `ADD JAR` of the new jarfile succeeds:
 
 ```bash
 hive> list jars;
@@ -80,7 +78,7 @@ OK
 Time taken: 0.082 seconds
 ```
 
-If you don't already have a source of useragent strings in form of SELECTable columns of useragent strings in an existing Hive table, you can populate an external table by copying a text file comprising user agent strings, one per line, to a temporary location in HDFS so you can test your newly registered UDFs:
+If you don't already have a source of useragent data in form of SELECTable columns of useragent strings in an existing Hive table, you can populate an external table by copying a text file comprising user agent strings, one per line, to a temporary location in HDFS:
 
 ```sql
 CREATE EXTERNAL TABLE raw_useragent(agent STRING)
@@ -100,7 +98,7 @@ agent               	string
 Time taken: 0.735 seconds, Fetched: 1 row(s)
 ```
 
-Assuming you've moved a source text file (or several) to `hdfs:///shared/data/raw/useragent`, you should see a populated external table, in this case one with 6832 sampled useragent strings for development:
+Assuming you've moved a source text file (or several) to `hdfs:///shared/data/raw/useragent`, you should see a populated external table the size of the number of lines in your source file:
 
 ```bash
 hive> select count(*) from raw_useragent;
@@ -132,7 +130,8 @@ Mozilla/4.0 (compatible; MSIE 10.0; Windows NT 6.1; Trident/5.0)	IE	10	0	<empty>
 Time taken: 0.106 seconds, Fetched: 10 row(s)
 ```
 
-See that three output columns are specified, but what looks like nine columns are displayed; that's because each of the UDFs - `browser()` and `os()` - output a simple Hive Text object comprising four strings concatenated by non-printing tab characters. To store these values cleanly, you might consider creating a target table containing the outputs of the UDFs split on the embedded tab delimiters stored in columns of Hive `array<string>` type, e.g.:
+See that three output columns are specified in the query, but what looks like nine columns are displayed: that's because each of the UDFs - `browser()` and `os()` - return a simple Hive Text object comprising four strings concatenated by non-printing tab characters. To store these values cleanly and usably, you might consider creating a target table containing the outputs of the UDFs split on the embedded tab delimiters stored in columns of Hive `array<string>` type, e.g.:
+
 
 ```bash
 hive> CREATE TABLE processed_useragent(
@@ -152,6 +151,7 @@ Time taken: 0.604 seconds, Fetched: 3 row(s)
 ```
 
 Now populate this new table from the `raw_useragent` external table:
+
 
 ```bash
 hive> INSERT INTO TABLE processed_useragent
@@ -176,7 +176,8 @@ rowcount
 Time taken: 0.123 seconds, Fetched: 1 row(s)
 ```
 
-Now you have a data source set up for use in useragent analysis:
+Finally, you have a data source set up for use in useragent analytics:
+
 
 ```bash
 hive> select * from processed_useragent limit 10;
@@ -195,7 +196,7 @@ Mozilla/4.0 (compatible; MSIE 10.0; Windows NT 6.1; Trident/5.0)	["IE","10","0",
 Time taken: 0.095 seconds, Fetched: 10 row(s)
 ```
 
-From here, you can extract fields of interest in your reports, for example:
+From this point, you can extract fields of interest in your reports following a variation of this basic pattern:
 
 ```bash
 hive> SELECT agent AS logged_agent,
@@ -223,7 +224,7 @@ Mozilla/4.0 (compatible; MSIE 10.0; Windows NT 6.1; Trident/5.0)	IE	10	0	<empty>
 Time taken: 0.131 seconds, Fetched: 10 row(s)
 ```
 
-The foregoing example is not intended for production, and is merely an example of a toy use case.
+The foregoing example is not intended for production applications, unless that's the way you like to roll.
 
 ## Future / Enhancements
 
@@ -231,9 +232,10 @@ What's up next:
 
 1. Implement Device parsing;
 2. Re-implement UDFs as GenericUDFs;
-3. Refine Browser and OS parsing to catch edge cases;
-4. Write a preprocessor for the `speclj` testrunner which filters against text fixtures with no corresponding `regexes.yaml` entry.
+3. Refine Browser and OS parsing to deal with some apparently hairy regex substitution not accounted for in the initial Implementation;
+4. Add memoization and/or LRU caching after various performance tests;
+5. Write a preprocessor for the `speclj` testrunner which filters against text fixtures with no corresponding `regexes.yaml` entry (the need for which will become apparent to the user who runs `lein spec --reporter=d`.)
 
-Pull requests will be very happily considered.  
+Pull requests will be very happily considered.
 
 __Maintained by Russell Whitaker__
