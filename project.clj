@@ -1,8 +1,10 @@
-(defproject uap-clj "0.1.0-SNAPSHOT"
+(defproject uap-clj "0.1.0"
   :description "Clojure language implementation of ua-parser with Hive UDF wrappers"
   :url "https://github.com/russellwhitaker/uap-clj"
-  :license {:name "MIT License"
+  :license {:name "The MIT License (MIT)"
             :url "http://www.opensource.org/licenses/mit-license.php"}
+  :scm {:name "git"
+        :url "https://github.com/russellwhitaker/uap-clj"}
   :dependencies [[org.clojure/clojure "1.6.0"]
                  [circleci/clj-yaml "0.5.3"]
                  [org.apache.hive/hive-exec "0.12.0"]
