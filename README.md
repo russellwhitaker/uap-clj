@@ -10,7 +10,12 @@ A [`ua-parser/uap-core`](https://github.com/ua-parser/uap-core) based library fo
 Implementation is provided here for two different categories of use case: 1.) commandline processing of a textfile containing useragent strings, one per line or 2.) importation as User Defined Functions (UDFs) in the Hadoop Hive environment.
 
 ## Setup
-This project depends on the file `regexes.yaml` actively maintained in the public [`ua-parser/uap-core`](https://github.com/ua-parser/uap-core) repository, as well as on the test fixtures `test_ua.yaml` and `test_os.yaml` contained therein. Be sure to run `lein deps` after cloning this code repository, and re-run on occasion to pull in changes committed to those `uap-core` assets.
+
+Add this to the `:dependencies` stanza of your `project.clj`:
+
+[![Clojars Project](http://clojars.org/uap-clj/latest-version.svg)](http://clojars.org/uap-clj)
+
+`uap-clj` depends on the file `regexes.yaml` actively maintained in the public [`ua-parser/uap-core`](https://github.com/ua-parser/uap-core) repository, as well as on the test fixtures `test_ua.yaml` and `test_os.yaml` contained therein. Be sure to run `lein deps` after cloning this code repository, and re-run on occasion to pull in changes committed to those `uap-core` assets.
 
 To generate your classes and .jar files:
 
@@ -230,7 +235,6 @@ The foregoing example is not intended for production applications, unless that's
 
 What's up next:
 
-0. Generate an artifact for Clojars distribution;
 1. Implement Device parsing;
 2. Re-implement UDFs as GenericUDFs;
 3. Refine Browser and OS parsing to deal with some apparently hairy regex substitution not accounted for in the initial Implementation;
