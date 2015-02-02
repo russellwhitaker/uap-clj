@@ -41,7 +41,7 @@ Java HotSpot(TM) 64-Bit Server VM (build 24.51-b03, mixed mode)
 Although this library was written with the overall goal of providing a small set of Hive UDF functions for extracting browser and O/S data from useragent strings, I've also provided a simple mechanism for creating a basic report outside Hadoop/Hive from the unix commandline:
 
 ```bash
-/usr/bin/java -jar uap-clj-0.1.0-SNAPSHOT-standalone.jar <input_filename> [<optional_out_filename>]
+/usr/bin/java -jar uap-clj-0.1.0-standalone.jar <input_filename> [<optional_out_filename>]
 ```
 
 This command takes as its first argument the name of a text file containing one useragent per line, and prints a headerless TSV (tab-separated) file - defaulting to `output.tsv` - with this line format:
@@ -64,12 +64,12 @@ After generating a .jar file, `scp` it to your HDFS client host and then `hadoop
 
 ```bash
 hive> list jars;
-hive> add jar hdfs:///shared/jars/uap-clj-0.1.0-SNAPSHOT-standalone.jar;
-converting to local hdfs:///shared/jars/uap-clj-0.1.0-SNAPSHOT-standalone.jar
-Added [/tmp/e34eeeef-1af2-4af2-a92d-c2df813deb00_resources/uap-clj-0.1.0-SNAPSHOT-standalone.jar] to class path
-Added resources: [hdfs:///shared/jars/uap-clj-0.1.0-SNAPSHOT-standalone.jar]
+hive> add jar hdfs:///shared/jars/uap-clj-0.1.0-standalone.jar;
+converting to local hdfs:///shared/jars/uap-clj-0.1.0-standalone.jar
+Added [/tmp/e34eeeef-1af2-4af2-a92d-c2df813deb00_resources/uap-clj-0.1.0-standalone.jar] to class path
+Added resources: [hdfs:///shared/jars/uap-clj-0.1.0-standalone.jar]
 hive> list jars;
-/tmp/e34eeeef-1af2-4af2-a92d-c2df813deb00_resources/uap-clj-0.1.0-SNAPSHOT-standalone.jar
+/tmp/e34eeeef-1af2-4af2-a92d-c2df813deb00_resources/uap-clj-0.1.0-standalone.jar
 ```
 
 Register your functions with names of your choice:
