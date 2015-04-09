@@ -44,7 +44,7 @@ Although this library was written with the overall goal of providing a small set
 /usr/bin/java -jar uap-clj-0.1.0-standalone.jar <input_filename> [<optional_out_filename>]
 ```
 
-This command takes as its first argument the name of a text file containing one useragent per line, and prints a headerless TSV (tab-separated) file - defaulting to `output.tsv` - with this line format:
+This command takes as its first argument the name of a text file containing one useragent per line, and prints a TSV (tab-separated) file - defaulting to `output.tsv` - with this line format:
 
 `useragent string<tab>browser family<tab>browser major<tab>browser minor<tab>browser patch<tab>os family<tab>os major<tab>os minor<tab>os patch<newline>`
 
