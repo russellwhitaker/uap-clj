@@ -64,12 +64,12 @@ After generating a .jar file, `scp` it to your HDFS client host and then `hadoop
 
 ```bash
 hive> list jars;
-hive> add jar hdfs:///shared/jars/uap-clj-0.1.0-standalone.jar;
-converting to local hdfs:///shared/jars/uap-clj-0.1.0-standalone.jar
-Added [/tmp/e34eeeef-1af2-4af2-a92d-c2df813deb00_resources/uap-clj-0.1.0-standalone.jar] to class path
-Added resources: [hdfs:///shared/jars/uap-clj-0.1.0-standalone.jar]
+hive> add jar hdfs:///shared/jars/uap-clj-0.2.0-standalone.jar;
+converting to local hdfs:///shared/jars/uap-clj-0.2.0-standalone.jar
+Added [/tmp/e34eeeef-1af2-4af2-a92d-c2df813deb00_resources/uap-clj-0.2.0-standalone.jar] to class path
+Added resources: [hdfs:///shared/jars/uap-clj-0.2.0-standalone.jar]
 hive> list jars;
-/tmp/e34eeeef-1af2-4af2-a92d-c2df813deb00_resources/uap-clj-0.1.0-standalone.jar
+/tmp/e34eeeef-1af2-4af2-a92d-c2df813deb00_resources/uap-clj-0.2.0-standalone.jar
 ```
 
 Register your functions with names of your choice:
