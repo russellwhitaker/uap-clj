@@ -7,6 +7,8 @@ A [`ua-parser/uap-core`](https://github.com/ua-parser/uap-core) based library fo
 3. minor number
 4. patch level
 
+This library is also used by an Apache Hadoop Hive Simple UDF, [`uap-clj-hiveudf`](https://github.com/russellwhitaker/uap-clj-hiveudf).
+
 ## Setup
 
 Add this to the `:dependencies` stanza of your `project.clj`:
@@ -38,7 +40,7 @@ Java HotSpot(TM) 64-Bit Server VM (build 24.51-b03, mixed mode)
 
 
 ```bash
-/usr/bin/java -jar uap-clj-0.1.0-standalone.jar <input_filename> [<optional_out_filename>]
+/usr/bin/java -jar uap-clj-0.3.0-standalone.jar <input_filename> [<optional_out_filename>]
 ```
 
 This command takes as its first argument the name of a text file containing one useragent per line, and prints a TSV (tab-separated) file - defaulting to `output.tsv` - with this line format:
