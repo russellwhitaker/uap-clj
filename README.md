@@ -1,11 +1,6 @@
 # uap-clj
 
-A [`ua-parser/uap-core`](https://github.com/ua-parser/uap-core) based library for extracting browser and operating system information from a raw useragent string:
-
-1. family
-2. major number
-3. minor number
-4. patch level
+A [`ua-parser/uap-core`](https://github.com/ua-parser/uap-core) based library for extracting browser, operating system, and device information from a raw useragent string:
 
 This library is also used by an Apache Hadoop Hive Simple UDF, [`uap-clj-hiveudf`](https://github.com/russellwhitaker/uap-clj-hiveudf).
 
@@ -15,7 +10,7 @@ Add this to the `:dependencies` stanza of your `project.clj`:
 
 [![Clojars Project](http://clojars.org/uap-clj/latest-version.svg)](http://clojars.org/uap-clj)
 
-`uap-clj` depends on the file `regexes.yaml` actively maintained in the public [`ua-parser/uap-core`](https://github.com/ua-parser/uap-core) repository, as well as on the test fixtures `test_ua.yaml` and `test_os.yaml` contained therein. Be sure to run `lein deps` after cloning this code repository, and re-run on occasion to pull in changes committed to those `uap-core` assets.
+`uap-clj` depends on the file `regexes.yaml` actively maintained in the public [`ua-parser/uap-core`](https://github.com/ua-parser/uap-core) repository, as well as on the test fixtures `test_ua.yaml`, `test_os.yaml`, and `test_device.yaml` contained therein. Be sure to run `lein deps` after cloning this code repository, and re-run on occasion to pull in changes committed to those `uap-core` assets.
 
 To generate your classes and .jar files:
 
@@ -40,12 +35,12 @@ Java HotSpot(TM) 64-Bit Server VM (build 24.51-b03, mixed mode)
 
 
 ```bash
-/usr/bin/java -jar uap-clj-0.3.0-standalone.jar <input_filename> [<optional_out_filename>]
+/usr/bin/java -jar uap-clj-1.0.0-standalone.jar <input_filename> [<optional_out_filename>]
 ```
 
-This command takes as its first argument the name of a text file containing one useragent per line, and prints a TSV (tab-separated) file - defaulting to `output.tsv` - with this line format:
+This command takes as its first argument the name of a text file containing one useragent per line, and prints a TSV (tab-separated) file - defaulting to `useragent_lookup.tsv` - with this line format:
 
-`useragent string<tab>browser family<tab>browser major<tab>browser minor<tab>browser patch<tab>os family<tab>os major<tab>os minor<tab>os patch<newline>`
+`useragent string<tab>browser family<tab>browser major<tab>browser minor<tab>browser patch<tab>os family<tab>os major<tab>os minor<tab>os patch<tab>os patch minor<tab>device family<tab>device brand<tab>device model<newline>`
 
 The output file has a single-line header and can be be trivially imported by your favorite spreadsheet or database ETL tool.
 
@@ -60,13 +55,7 @@ Note that these instructions assume you're using the standalone version of the p
 
 ## Future / Enhancements
 
-What's up next:
-
-1. Implement Device parsing;
-2. Refine Browser and OS parsing to deal with some apparently hairy regex substitution not accounted for in the initial Implementation;
-3. Write a preprocessor for the `speclj` testrunner which filters against text fixtures with no corresponding `regexes.yaml` entry (the need for which will become apparent to the user who runs `lein spec --reporter=d`.)
-
-Pull requests will be very happily considered.
+I have responded to issues posted to this repository with enhancements I rolled into the codebase, so I do welcome feedback from users. Also, pull requests will be very happily considered.
 
 __Maintained by Russell Whitaker__
 
