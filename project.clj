@@ -7,8 +7,10 @@
         :url "https://github.com/russellwhitaker/uap-clj"}
   :dependencies [[org.clojure/clojure "1.6.0"]
                  [circleci/clj-yaml "0.5.3"]]
-  :profiles {:dev {:dependencies [[speclj "3.2.0"]
-                                  [lein-git-deps "0.0.2-SNAPSHOT"]]}}
+  :jvm-opts ["-Xss2m"]
+  :profiles {:dev
+              {:dependencies [[speclj "3.2.0"]
+                              [lein-git-deps "0.0.2-SNAPSHOT"]]}}
   :plugins [[lein-git-deps "0.0.2-SNAPSHOT"]
             [speclj "3.2.0"]]
   :test-paths ["spec"]

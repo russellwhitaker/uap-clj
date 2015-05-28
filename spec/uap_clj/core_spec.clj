@@ -5,9 +5,43 @@
             [clojure.java.io :as io :refer [resource]]
             [clojure.template :refer [do-template]]))
 
-(def tests-browser (:test_cases
+(def all-tests-browser (:test_cases
                      (parse-string
                        (slurp (io/resource "tests/test_ua.yaml")))))
+
+;;;
+;;; These tests are broken in the upsteam uap-core project,
+;;;   and so should not be used in this test suite until they're
+;;;   fixed.
+;;;
+(def bad-tests-browser
+  #{{:user_agent_string
+  "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 5.1; Trident/4.0; GTB6; .NET CLR 2.0.50727; .NET CLR 1.1.4322)",
+  :js_ua
+  "{'js_user_agent_string': 'Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 5.1; Trident/4.0; .NET CLR 2.0.50727; .NET CLR 1.1.4322)', 'js_user_agent_family': 'IE Platform Preview', 'js_user_agent_v1': '9', 'js_user_agent_v2': '0', 'js_user_agent_v3': '1'}",
+  :family "IE Platform Preview",
+  :major "9",
+  :minor "0",
+  :patch "1"}
+    {:user_agent_string
+  "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 5.1; Trident/4.0; chromeframe; .NET CLR 2.0.50727; .NET CLR 3.0.4506.2152; .NET CLR 3.5.30729; Sleipnir 2.8.5)3.0.30729)",
+  :js_ua
+  "{'js_user_agent_string': 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US) AppleWebKit/530.1 (KHTML, like Gecko) Chrome/2.0.169.1 Safari/530.1'}",
+  :family "Chrome Frame (Sleipnir 2)",
+  :major "2",
+  :minor "0",
+  :patch "169"}
+    {:user_agent_string
+  "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.0; Trident/4.0; chromeframe; SLCC1; .NET CLR 2.0.50727; .NET CLR 3.5.30729; .NET CLR 3.0.30729)",
+  :js_ua
+  "{'js_user_agent_string': 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US) AppleWebKit/530.1 (KHTML, like Gecko) Chrome/2.0.169.1 Safari/530.1'}",
+  :family "Chrome Frame (IE 8)",
+  :major "2",
+  :minor "0",
+  :patch "169"}})
+
+(def tests-browser (remove bad-tests-browser all-tests-browser))
+
 (def tests-os (:test_cases
                 (parse-string
                   (slurp (io/resource "tests/test_os.yaml")))))
@@ -29,7 +63,7 @@
         expected (select-keys fixture [:family :major :minor :patch])
         browser (extract-browser-fields line regexes)]
   (do-template [family major minor patch]
-               (describe (format "a user agent in the '%s' browser family" (str family))
+               (describe (format "a user agent '%s' in the '%s' browser family" line (str family))
                  (it (format "is in the '%s' browser family" (str family))
                    (should= (str family) (str (:family browser))))
                  (it (format "has '%s' as its major number" (str major))
@@ -101,11 +135,12 @@
 ;;; As of this commit, there are a very large number of tests in test_device.yaml:
 ;;;   uap-clj.core=> (count tests-device)
 ;;;   15948
-;;; These test fixtures are generated at compile time; exceeding around 4200 tests
+;;; These test fixtures are generated at compile time; exceeding around 4200 assertions
 ;;;   blows the stack of the thread running the tests in a context below (on the
 ;;;   developer's machine), but partitioning as below works around that annoyance.
-;;;   (A case could be made for setting "-Xss" in LEIN_JVM_OPTS, but I wanted to
-;;;   minimize environmental dependencies in my attempt to make this work.)
+;;;   With this in mind, I've set this in project.clj:
+;;;     :jvm-opts ["-Xss2m"]
+;;;   I hope to revert that change sometime.
 ;;;
 (context "Known Devices:"
   (context "Part 1 of 4:"
