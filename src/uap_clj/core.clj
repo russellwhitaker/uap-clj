@@ -117,7 +117,7 @@
     (catch java.lang.IndexOutOfBoundsException e
       {:family "Other" :brand nil :model nil})))
 
-(defn lookup-line
+(defn lookup-useragent
   "Takes a line with a raw useragent string and does
    browser, O/S, and device lookup
   "
@@ -138,7 +138,7 @@
   (with-open [rdr (clojure.java.io/reader in-filename)]
     (let [out-filename (or (first optional-args) "./useragent_lookup.tsv")
           results (doall
-                    (map lookup-line (line-seq rdr)))]
+                    (map lookup-useragent (line-seq rdr)))]
       (with-open [wtr (clojure.java.io/writer out-filename :append false)]
         (.write wtr header)
         (doseq [ua results]
