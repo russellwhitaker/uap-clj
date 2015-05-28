@@ -43,6 +43,8 @@ Ran 53371 tests containing 53371 assertions.
 
 That's a lot of tests. All the tests in [`uap-core`'s test directory](https://github.com/ua-parser/uap-core/tree/master/tests) in fact, except for 3 bad tests which are filtered against in the test runner (and which should be fixed upstream).
 
+This repository also runs `lein spec` under Travis-ci if you're considering contributing to this project.
+
 ## Use
 
 ### commandline (CLI)
