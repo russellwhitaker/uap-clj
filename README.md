@@ -41,9 +41,11 @@ Ran 53371 tests containing 53371 assertions.
 0 failures, 0 errors.
 ```
 
-That's a lot of tests. All the tests in [`uap-core`'s test directory](https://github.com/ua-parser/uap-core/tree/master/tests) in fact, except for 3 bad tests which are filtered against in the test runner (and which should be fixed upstream).
+That's a lot of tests. All the tests in [`uap-core`'s test directory](https://github.com/ua-parser/uap-core/tree/master/tests) in fact, [except for 3 non-specification-compliant upstream tests](https://github.com/ua-parser/uap-core/issues/55) which are filtered against in our test runner.
 
 This repository also runs `lein spec` under Travis-ci if you're considering contributing to this project.
+
+Note that this test suite runs all the browser, o/s, and device YAML fixtures (save the aforementioned 3 non-specification-compliant tests) in [`ua-parser/uap-core/tests`](https://github.com/ua-parser/uap-core/blob/master/tests), but the Travis-ci job associated with the [`ua-parser/uap-core`](https://github.com/ua-parser/uap-core) repository runs a test suite with fewer assertions from a different, partially overlapping set of tests invoked from [`ua-parser/uap-core/tests/test.js`](https://github.com/ua-parser/uap-core/blob/master/tests/test.js).
 
 ## Use
 
