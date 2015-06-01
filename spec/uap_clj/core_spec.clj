@@ -10,9 +10,14 @@
                        (slurp (io/resource "tests/test_ua.yaml")))))
 
 ;;;
-;;; These tests are broken in the upsteam uap-core project,
-;;;   and so should not be used in this test suite until they're
-;;;   fixed.
+;;; These tests do not conform to the specification in the upsteam uap-core project,
+;;;   and are only handled in the non-specification-compliant ua-parser/uap-python
+;;;   and ua-parser/uap-php projects. This inconsistency needs to be dealt with in the
+;;;   specification, which does not define a behavior for the alternative substitution
+;;;   of "js_user_agent_string" and related replacement values such as "js_user_agent_family".
+;;;
+;;; In the meantime, this strictly specification-compliant Clojure implementation will
+;;;   ignore these tests.
 ;;;
 (def bad-tests-browser
   #{{:user_agent_string
