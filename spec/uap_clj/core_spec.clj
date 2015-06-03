@@ -5,47 +5,9 @@
             [clojure.java.io :as io :refer [resource]]
             [clojure.template :refer [do-template]]))
 
-(def all-tests-browser (:test_cases
+(def tests-browser (:test_cases
                      (parse-string
                        (slurp (io/resource "tests/test_ua.yaml")))))
-
-;;;
-;;; These tests do not conform to the specification in the upsteam uap-core project,
-;;;   and are only handled in the non-specification-compliant ua-parser/uap-python
-;;;   and ua-parser/uap-php projects. This inconsistency needs to be dealt with in the
-;;;   specification, which does not define a behavior for the alternative substitution
-;;;   of "js_user_agent_string" and related replacement values such as "js_user_agent_family".
-;;;
-;;; In the meantime, this strictly specification-compliant Clojure implementation will
-;;;   ignore these tests.
-;;;
-(def bad-tests-browser
-  #{{:user_agent_string
-  "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 5.1; Trident/4.0; GTB6; .NET CLR 2.0.50727; .NET CLR 1.1.4322)",
-  :js_ua
-  "{'js_user_agent_string': 'Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 5.1; Trident/4.0; .NET CLR 2.0.50727; .NET CLR 1.1.4322)', 'js_user_agent_family': 'IE Platform Preview', 'js_user_agent_v1': '9', 'js_user_agent_v2': '0', 'js_user_agent_v3': '1'}",
-  :family "IE Platform Preview",
-  :major "9",
-  :minor "0",
-  :patch "1"}
-    {:user_agent_string
-  "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 5.1; Trident/4.0; chromeframe; .NET CLR 2.0.50727; .NET CLR 3.0.4506.2152; .NET CLR 3.5.30729; Sleipnir 2.8.5)3.0.30729)",
-  :js_ua
-  "{'js_user_agent_string': 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US) AppleWebKit/530.1 (KHTML, like Gecko) Chrome/2.0.169.1 Safari/530.1'}",
-  :family "Chrome Frame (Sleipnir 2)",
-  :major "2",
-  :minor "0",
-  :patch "169"}
-    {:user_agent_string
-  "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.0; Trident/4.0; chromeframe; SLCC1; .NET CLR 2.0.50727; .NET CLR 3.5.30729; .NET CLR 3.0.30729)",
-  :js_ua
-  "{'js_user_agent_string': 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US) AppleWebKit/530.1 (KHTML, like Gecko) Chrome/2.0.169.1 Safari/530.1'}",
-  :family "Chrome Frame (IE 8)",
-  :major "2",
-  :minor "0",
-  :patch "169"}})
-
-(def tests-browser (remove bad-tests-browser all-tests-browser))
 
 (def tests-os (:test_cases
                 (parse-string
