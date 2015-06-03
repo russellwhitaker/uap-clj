@@ -32,12 +32,12 @@ Java HotSpot(TM) 64-Bit Server VM (build 24.51-b03, mixed mode)
 ## Development
 ### Running the test suite
 
-This project uses [`speclj`](http://speclj.com). The core test suite comprises almost entirely test generators built from reading in test fixtures from the upstream [`ua-parser/uap-core`](https://github.com/ua-parser/uap-core) repository, which themselves are pulled into the local workspace as dependencies using [`tobyhede/lein-git-deps`](https://github.com/tobyhede/lein-git-deps). A vanishingly small number of non-template-generated tests - there are only 3 of them - verify (obviously non-exhaustively) the specification-mandated behavior of setting "Other" for the family field of browser, o/s, or device if the encountered useragent string is not matched by any regular expression in `regexes.yaml`.
+This project uses [`speclj`](http://speclj.com). The core test suite comprises almost entirely test generators built from reading in test fixtures from the [`ua-parser/uap-core`](https://github.com/ua-parser/uap-core) repository, which themselves are pulled into the local workspace as dependencies using [`tobyhede/lein-git-deps`](https://github.com/tobyhede/lein-git-deps).
 
 ```bash
 → lein spec --reporter=c
 
-Ran 53371 tests containing 53371 assertions.
+Ran 53383 tests containing 53383 assertions.
 0 failures, 0 errors.
 ```
 
