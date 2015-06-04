@@ -1,6 +1,6 @@
 # uap-clj
 
-A [`ua-parser/uap-core`](https://github.com/ua-parser/uap-core) based library for extracting browser, operating system, and device information from a raw useragent string:
+A [`ua-parser/uap-core`](https://github.com/ua-parser/uap-core) based library for extracting browser, operating system, and device information from a raw useragent string.
 
 This library is also used by an Apache Hadoop Hive Simple UDF, [`uap-clj-hiveudf`](https://github.com/russellwhitaker/uap-clj-hiveudf).
 
@@ -40,12 +40,7 @@ This project uses [`speclj`](http://speclj.com). The core test suite comprises a
 Ran 53383 tests containing 53383 assertions.
 0 failures, 0 errors.
 ```
-
-That's a lot of tests. All the tests in [`uap-core`'s test directory](https://github.com/ua-parser/uap-core/tree/master/tests) in fact, [except for 3 non-specification-compliant upstream tests](https://github.com/ua-parser/uap-core/issues/55) which are filtered against in our test runner.
-
-This repository also runs `lein spec` under Travis-ci if you're considering contributing to this project.
-
-The test suite runs all the browser, o/s, and device YAML fixtures in [`ua-parser/uap-core/tests`](https://github.com/ua-parser/uap-core/blob/master/tests).
+The test suite runs against all the browser, o/s, and device YAML fixtures in [`ua-parser/uap-core/tests`](https://github.com/ua-parser/uap-core/blob/master/tests).
 
 ## Use
 
