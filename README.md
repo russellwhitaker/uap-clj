@@ -45,7 +45,7 @@ That's a lot of tests. All the tests in [`uap-core`'s test directory](https://gi
 
 This repository also runs `lein spec` under Travis-ci if you're considering contributing to this project.
 
-Note that this test suite runs all the browser, o/s, and device YAML fixtures (save the aforementioned 3 non-specification-compliant tests) in [`ua-parser/uap-core/tests`](https://github.com/ua-parser/uap-core/blob/master/tests), but the Travis-ci job associated with the [`ua-parser/uap-core`](https://github.com/ua-parser/uap-core) repository runs a test suite with fewer assertions from a different, partially overlapping set of tests invoked from [`ua-parser/uap-core/tests/test.js`](https://github.com/ua-parser/uap-core/blob/master/tests/test.js).
+The test suite runs all the browser, o/s, and device YAML fixtures in [`ua-parser/uap-core/tests`](https://github.com/ua-parser/uap-core/blob/master/tests).
 
 ## Use
 
@@ -120,6 +120,34 @@ nil
 uap-clj.core=>
 ```
 You can also use any other Clojure REPL for the same type of interactive data exploration.
+
+### In a RESTful API
+
+If you have an Heroku account, [you can easily deploy a Compojure app there](https://devcenter.heroku.com/articles/getting-started-with-clojure) using GET and POST
+routes that look something like this:
+
+```clojure
+(defroutes app
+  (GET "/ua" {{input :input} :params}
+       {:status 200
+        :headers {"Content-Type" "text/plain"}
+        :body (pr-str (lookup-useragent input))})
+  (POST "/" {{ua :ua} :params}
+       {:status 200
+        :headers {"Content-Type" "text/plain"}
+        :body (pr-str (lookup-useragent ua))})
+  (ANY "*" []
+       (route/not-found (slurp (io/resource "404.html")))))
+```
+All you need to enable the use of the `lookup-useragent` function here is to add
+`[uap-clj "1.0.0"]` to the `:dependencies` vector in your Compojure app's `project.clj`,
+and `[uap-clj.core :refer [lookup-useragent]]` to the `:require` vector of your `web.clj`.
+Then you can do this type of thing after deployment:
+
+```bash
+→ curl --data "ua=AppleCoreMedia/1.0.0.12F69 (Apple TV; U; CPU OS 8_3 like Mac OS X; en_us)" http://<your_app>.herokuapp.com
+{:ua "AppleCoreMedia/1.0.0.12F69 (Apple TV; U; CPU OS 8_3 like Mac OS X; en_us)", :browser {:family "Other", :patch nil, :major nil, :minor nil}, :os {:family "ATV OS X", :major "", :minor "", :patch "", :patch_minor ""}, :device {:family "AppleTV", :brand "Apple", :model "AppleTV"}}
+```
 
 ## Future / Enhancements
 
