@@ -47,7 +47,7 @@ The test suite runs against all the browser, o/s, and device YAML fixtures in [`
 ### commandline (CLI)
 
 ```bash
-/usr/bin/java -jar uap-clj-1.0.0-standalone.jar <input_filename> [<optional_out_filename>]
+/usr/bin/java -jar uap-clj-1.0.1-standalone.jar <input_filename> [<optional_out_filename>]
 ```
 
 This command takes as its first argument the name of a text file containing one useragent per line, and prints a TSV (tab-separated) file - defaulting to `useragent_lookup.tsv` - with this line format:
@@ -135,7 +135,7 @@ routes that look something like this:
        (route/not-found (slurp (io/resource "404.html")))))
 ```
 All you need to enable the use of the `lookup-useragent` function here is to add
-`[uap-clj "1.0.0"]` to the `:dependencies` vector in your Compojure app's `project.clj`,
+`[uap-clj "1.0.1"]` to the `:dependencies` vector in your Compojure app's `project.clj`,
 and `[uap-clj.core :refer [lookup-useragent]]` to the `:require` vector of your `web.clj`.
 Then you can do this type of thing after deployment:
 
