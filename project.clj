@@ -1,4 +1,4 @@
-(defproject uap-clj "1.0.0"
+(defproject uap-clj "1.0.1"
   :description "Clojure language implementation of ua-parser"
   :url "https://github.com/russellwhitaker/uap-clj"
   :license {:name "The MIT License (MIT)"
