@@ -37,7 +37,7 @@ This project uses [`speclj`](http://speclj.com). The core test suite comprises a
 ```bash
 → lein spec --reporter=c
 
-Ran 53383 tests containing 53383 assertions.
+Ran 53403 tests containing 53403 assertions.
 0 failures, 0 errors.
 ```
 The test suite runs against all the browser, o/s, and device YAML fixtures in [`ua-parser/uap-core/tests`](https://github.com/ua-parser/uap-core/blob/master/tests).
