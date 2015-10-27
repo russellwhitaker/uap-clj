@@ -37,7 +37,7 @@ This project uses [`speclj`](http://speclj.com). The core test suite comprises a
 ```bash
 → lein spec --reporter=c
 
-Ran 53403 tests containing 53403 assertions.
+Ran 53668 tests containing 53668 assertions.
 0 failures, 0 errors.
 ```
 The test suite runs against all the browser, o/s, and device YAML fixtures in [`ua-parser/uap-core/tests`](https://github.com/ua-parser/uap-core/blob/master/tests).
@@ -47,7 +47,7 @@ The test suite runs against all the browser, o/s, and device YAML fixtures in [`
 ### commandline (CLI)
 
 ```bash
-/usr/bin/java -jar uap-clj-1.0.1-standalone.jar <input_filename> [<optional_out_filename>]
+/usr/bin/java -jar uap-clj-1.0.3-standalone.jar <input_filename> [<optional_out_filename>]
 ```
 
 This command takes as its first argument the name of a text file containing one useragent per line, and prints a TSV (tab-separated) file - defaulting to `useragent_lookup.tsv` - with this line format:
@@ -70,9 +70,9 @@ If you'd like to explore useragent data interactively, and you have Leiningen in
 
 ```clojure
 → lein repl
-nREPL server started on port 61174 on host 127.0.0.1 - nrepl://127.0.0.1:61174
-REPL-y 0.3.5, nREPL 0.2.6
-Clojure 1.6.0
+nREPL server started on port 57950 on host 127.0.0.1 - nrepl://127.0.0.1:57950
+REPL-y 0.3.7, nREPL 0.2.10
+Clojure 1.7.0
 Java HotSpot(TM) 64-Bit Server VM 1.7.0_51-b13
     Docs: (doc function-name-here)
           (find-doc "part-of-name-here")
@@ -135,7 +135,7 @@ routes that look something like this:
        (route/not-found (slurp (io/resource "404.html")))))
 ```
 All you need to enable the use of the `lookup-useragent` function here is to add
-`[uap-clj "1.0.1"]` to the `:dependencies` vector in your Compojure app's `project.clj`,
+`[uap-clj "1.0.3"]` to the `:dependencies` vector in your Compojure app's `project.clj`,
 and `[uap-clj.core :refer [lookup-useragent]]` to the `:require` vector of your `web.clj`.
 Then you can do this type of thing after deployment:
 
