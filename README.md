@@ -2,7 +2,7 @@
 
 A [`ua-parser/uap-core`](https://github.com/ua-parser/uap-core) based library for extracting browser, operating system, and device information from a raw useragent string.
 
-This library is also used by an Apache Hadoop Hive Simple UDF, [`uap-clj-hiveudf`](https://github.com/russellwhitaker/uap-clj-hiveudf).
+This library is also used by an Apache Hadoop Hive Simple UDF, [`uap-clj-hiveudf`](https://github.com/russellwhitaker/uap-clj-hiveudf), and an Amazon AWS Lambda function, [`uap-clj-lambda`](https://github.com/russellwhitaker/uap-clj-lambda).
 
 ## Setup
 
@@ -19,16 +19,22 @@ To generate your classes and .jar files:
 lein clean && lein uberjar
 ```
 
-###Java dependencies
+### Java dependencies
 
-This code has been tested and shown to run under Java v1.7 (Mac OS X v10.9.5):
+This code has been tested and shown to run under Java v1.7 and v1.8:
 
 ```bash
 → java -version
 java version "1.7.0_51"
 Java(TM) SE Runtime Environment (build 1.7.0_51-b13)
 Java HotSpot(TM) 64-Bit Server VM (build 24.51-b03, mixed mode)
+
+→ java -version
+java version "1.8.0_66"
+Java(TM) SE Runtime Environment (build 1.8.0_66-b17)
+Java HotSpot(TM) 64-Bit Server VM (build 25.66-b17, mixed mode)
 ```
+
 ## Development
 ### Running the test suite
 
@@ -70,10 +76,10 @@ If you'd like to explore useragent data interactively, and you have Leiningen in
 
 ```clojure
 → lein repl
-nREPL server started on port 57950 on host 127.0.0.1 - nrepl://127.0.0.1:57950
+nREPL server started on port 52739 on host 127.0.0.1 - nrepl://127.0.0.1:52739
 REPL-y 0.3.7, nREPL 0.2.10
 Clojure 1.7.0
-Java HotSpot(TM) 64-Bit Server VM 1.7.0_51-b13
+Java HotSpot(TM) 64-Bit Server VM 1.8.0_66-b17
     Docs: (doc function-name-here)
           (find-doc "part-of-name-here")
   Source: (source function-name-here)
