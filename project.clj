@@ -11,7 +11,7 @@
               {:dependencies [[speclj "3.3.1"]
                               [lein-git-deps "0.0.2"]]
                :test-paths ["spec"]
-               :jvm-opts ["-Xss4m"]}
+               :jvm-opts ["-Xss6m"]}
              :uberjar {:aot :all
                        :uberjar-exclusions
                          [#"tests|test_resources|docs|\.md|LICENSE|META-INF"]}}
@@ -19,4 +19,5 @@
             [speclj "3.3.1"]]
   :git-dependencies [["https://github.com/ua-parser/uap-core.git"]]
   :resource-paths [".lein-git-deps/uap-core"]
-  :main uap-clj.core)
+  :main uap-clj.core
+  :aot :all)

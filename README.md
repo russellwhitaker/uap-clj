@@ -16,7 +16,14 @@ as well as on the test fixtures `test_ua.yaml`, `test_os.yaml`, and `test_device
 To generate your classes and .jar files:
 
 ```bash
-lein clean && lein uberjar
+→ lein clean && lein uberjar
+Compiling uap-clj.browser
+Compiling uap-clj.common
+Compiling uap-clj.core
+Compiling uap-clj.device
+Compiling uap-clj.os
+Created /Users/<username>/dev/uap-clj/target/uap-clj-1.1.0.jar
+Created /Users/<username>/dev/uap-clj/target/uap-clj-1.1.0-standalone.jar
 ```
 
 ### Java dependencies
@@ -53,7 +60,7 @@ The test suite runs against all the browser, o/s, and device YAML fixtures in [`
 ### commandline (CLI)
 
 ```bash
-/usr/bin/java -jar uap-clj-1.0.3-standalone.jar <input_filename> [<optional_out_filename>]
+/usr/bin/java -jar uap-clj-1.1.0-standalone.jar <input_filename> [<optional_out_filename>]
 ```
 
 This command takes as its first argument the name of a text file containing one useragent per line, and prints a TSV (tab-separated) file - defaulting to `useragent_lookup.tsv` - with this line format:
@@ -141,7 +148,7 @@ routes that look something like this:
        (route/not-found (slurp (io/resource "404.html")))))
 ```
 All you need to enable the use of the `lookup-useragent` function here is to add
-`[uap-clj "1.0.3"]` to the `:dependencies` vector in your Compojure app's `project.clj`,
+`[uap-clj "1.1.0"]` to the `:dependencies` vector in your Compojure app's `project.clj`,
 and `[uap-clj.core :refer [lookup-useragent]]` to the `:require` vector of your `web.clj`.
 Then you can do this type of thing after deployment:
 

@@ -1,6 +1,6 @@
 (ns uap-clj.os-spec
   (:require [speclj.core :refer :all]
-            [uap-clj.core :refer :all]
+            [uap-clj.os :refer :all]
             [uap-clj.common-spec :refer [unknown-ua]]
             [clj-yaml.core :refer [parse-string]]
             [clojure.java.io :as io :refer [resource]]
