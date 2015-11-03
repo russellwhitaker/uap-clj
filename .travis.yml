@@ -1,2 +1,5 @@
 language: clojure
-script: lein spec --reporter=c
+script: JAVA_OPTS="-Xss12M" lein spec --reporter=c
+jdk:
+  - oraclejdk8
+
