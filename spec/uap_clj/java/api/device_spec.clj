@@ -1,6 +1,6 @@
-(ns uap-clj.device-spec
+(ns uap-clj.java.api.device-spec
   (:require [speclj.core :refer :all]
-            [uap-clj.device :refer :all]
+            [uap-clj.java.api.device :refer [-lookup]]
             [uap-clj.common-spec :refer [unknown-ua]]
             [clj-yaml.core :refer [parse-string]]
             [clojure.java.io :as io :refer [resource]]
@@ -15,24 +15,24 @@
      Device: family/brand/model
    and output of parser function
   "
-  [fixture regexes]
+  [fixture]
   (let [line (:user_agent_string fixture)
         expected (select-keys fixture [:family :brand :model])
-        device (extract-device-fields line regexes)]
+        device (-lookup line)]
   (do-template [family brand model]
                (describe (format "a user agent '%s' in the '%s' Device family" line (str family))
                  (it (format "is in the '%s' Device family" (str family))
-                   (should= (str family) (str (:family device))))
+                   (should= (str family) (str (.get device "family"))))
                  (it (format "has '%s' as its brand" (str brand))
-                   (should= (str brand) (str (:brand device))))
+                   (should= (str brand) (str (.get device "brand"))))
                  (it (format "has '%s' as its model" (str model))
-                   (should= (str model) (str (:model device)))))
+                   (should= (str model) (str (.get device "model")))))
                (get expected :family "")
                (get expected :brand "")
                (get expected :model ""))))
 
 (context "Known Device:"
-  (map #(run-device-fixture % regexes-device) tests-device))
+  (map #(run-device-fixture %) tests-device))
 
 ;;;
 ;;; The ua-parser core specification requires setting device family to "Other"
@@ -40,11 +40,11 @@
 ;;;   useragent string is encountered.
 ;;;
 (context "Unknown device"
-  (let [device (extract-device-fields unknown-ua regexes-device)]
+  (let [device (-lookup unknown-ua)]
     (describe (format "An as-yet uncataloged device '%s'" unknown-ua)
       (it "is categorized as family 'Other'"
-        (should= "Other" (str (:family device))))
+        (should= "Other" (str (.get device "family"))))
       (it "has '' as its brand"
-        (should= "" (str (:brand device))))
+        (should= "" (str (.get device "brand"))))
       (it "has '' as its model"
-        (should= "" (str (:model device)))))))
+        (should= "" (str (.get device "model")))))))
