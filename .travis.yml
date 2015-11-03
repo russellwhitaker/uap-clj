@@ -4,5 +4,6 @@ before_script:
   - export JAVA_OPTS="-Xss6M"
   - JAVA_OPTS="-Xss6M -XshowSettings" lein with-profile dev javac
 script: JAVA_OPTS="-Xss6M -XshowSettings" lein spec --reporter=c
+jdk:
   - oraclejdk8
 
