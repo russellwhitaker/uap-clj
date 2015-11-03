@@ -1,9 +1,7 @@
 language: clojure
 before_script: 
-  - export MAVEN_OPTS="-Xss6M"
-  - export JAVA_OPTS="-Xss6M"
-  - JAVA_OPTS="-Xss6M -XshowSettings" lein with-profile dev javac
-script: JAVA_OPTS="-Xss6M -XshowSettings" lein spec --reporter=c
+  - JAVA_OPTS="-Xss12M" lein with-profile dev javac
+script: JAVA_OPTS="-Xss12M" lein spec --reporter=c
 jdk:
   - oraclejdk8
 
