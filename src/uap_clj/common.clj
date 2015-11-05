@@ -21,16 +21,20 @@
 (defn first-match
   "The uaparser/core specification indicates that for each type
    (browser, o/s, device), the first successful match for a regex
-   in regexes.yaml is used, and any subsequent successful matches
-   are discarded.
+   in regexes.yaml shall be used.
 
    If no regex successfully matches, then 'Other' is returned, which
    later is used as the 'family' replacement for each of the types.
   "
   [ua regexes]
-  (let [results (map #(match-with-context ua %) regexes)]
-    (or (first (remove #(nil? (:result %)) results))
-        {:ua ua :result "Other"})))
+  (or (loop [rs regexes]
+        (when (seq rs)
+          (let [rgx (first rs)
+                result (match-with-context ua rgx)]
+            (if (not (nil? (:result result)))
+              result
+              (recur (next rs))))))
+      {:ua ua :result "Other"}))
 
 (defn lookup-field
   "Extract individual type field or supply an alternate substitute

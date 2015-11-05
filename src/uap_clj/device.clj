@@ -5,13 +5,13 @@
             [clojure.string :as s :refer [join trim]])
   (:gen-class))
 
-(def regexes-device (:device_parsers regexes-all))
+(def regexes (:device_parsers regexes-all))
 
 (defn extract-device-fields
   "Extract device family, brand, and model number
    from user agent string
   "
-  [ua regexes]
+  [ua]
   (try
   (let [match (first-match ua regexes)
         result (first (flatten (vector (:result match))))]

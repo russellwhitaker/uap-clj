@@ -6,9 +6,8 @@
             [clojure.java.io :as io :refer [resource]]
             [clojure.template :refer [do-template]]))
 
-(def tests-device (:test_cases
-                    (parse-string
-                      (slurp (io/resource "tests/test_device.yaml")))))
+(def tests (:test_cases (parse-string
+                          (slurp (io/resource "tests/test_device.yaml")))))
 
 (defn run-device-fixture
   "Assert match between fixture test data:
@@ -32,7 +31,7 @@
                (get expected :model ""))))
 
 (context "Known Device:"
-  (map #(run-device-fixture %) tests-device))
+  (map #(run-device-fixture %) tests))
 
 ;;;
 ;;; The ua-parser core specification requires setting device family to "Other"

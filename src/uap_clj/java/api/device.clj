@@ -1,5 +1,5 @@
 (ns uap-clj.java.api.device
-  (:require [uap-clj.device :refer [regexes-device extract-device-fields]]
+  (:require [uap-clj.device :refer [extract-device-fields]]
             [clojure.walk :refer [stringify-keys]])
   (:import [java.util HashMap])
   (:gen-class
@@ -9,4 +9,4 @@
 (defn -lookup
   [useragent]
   (HashMap.
-    (stringify-keys (extract-device-fields useragent regexes-device))))
+    (stringify-keys (extract-device-fields useragent))))

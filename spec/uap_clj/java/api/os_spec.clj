@@ -6,9 +6,8 @@
             [clojure.java.io :as io :refer [resource]]
             [clojure.template :refer [do-template]]))
 
-(def tests-os (:test_cases
-                (parse-string
-                  (slurp (io/resource "tests/test_os.yaml")))))
+(def tests (:test_cases (parse-string
+                          (slurp (io/resource "tests/test_os.yaml")))))
 
 (defn run-os-fixture
   "Assert match between fixture test data:
@@ -38,7 +37,7 @@
                (get expected :patch_minor ""))))
 
 (context "Known O/S:"
-  (map #(run-os-fixture %) tests-os))
+  (map #(run-os-fixture %) tests))
 
 ;;;
 ;;; The ua-parser core specification requires setting o/s family to "Other"

@@ -1,5 +1,5 @@
 (ns uap-clj.java.api.browser
-  (:require [uap-clj.browser :refer [regexes-browser extract-browser-fields]]
+  (:require [uap-clj.browser :refer [extract-browser-fields]]
             [clojure.walk :refer [stringify-keys]])
   (:import [java.util HashMap])
   (:gen-class
@@ -9,4 +9,4 @@
 (defn -lookup
   [useragent]
   (HashMap.
-    (stringify-keys (extract-browser-fields useragent regexes-browser))))
+    (stringify-keys (extract-browser-fields useragent))))
