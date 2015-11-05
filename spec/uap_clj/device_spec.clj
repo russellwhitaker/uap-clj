@@ -6,19 +6,18 @@
             [clojure.java.io :as io :refer [resource]]
             [clojure.template :refer [do-template]]))
 
-(def tests-device (:test_cases
-                    (parse-string
-                      (slurp (io/resource "tests/test_device.yaml")))))
+(def tests (:test_cases (parse-string
+                          (slurp (io/resource "tests/test_device.yaml")))))
 
 (defn run-device-fixture
   "Assert match between fixture test data:
      Device: family/brand/model
    and output of parser function
   "
-  [fixture regexes]
+  [fixture]
   (let [line (:user_agent_string fixture)
         expected (select-keys fixture [:family :brand :model])
-        device (extract-device-fields line regexes)]
+        device (extract-device-fields line)]
   (do-template [family brand model]
                (describe (format "a user agent '%s' in the '%s' Device family" line (str family))
                  (it (format "is in the '%s' Device family" (str family))
@@ -32,7 +31,7 @@
                (get expected :model ""))))
 
 (context "Known Device:"
-  (map #(run-device-fixture % regexes-device) tests-device))
+  (map #(run-device-fixture %) tests))
 
 ;;;
 ;;; The ua-parser core specification requires setting device family to "Other"
@@ -40,7 +39,7 @@
 ;;;   useragent string is encountered.
 ;;;
 (context "Unknown device"
-  (let [device (extract-device-fields unknown-ua regexes-device)]
+  (let [device (extract-device-fields unknown-ua)]
     (describe (format "An as-yet uncataloged device '%s'" unknown-ua)
       (it "is categorized as family 'Other'"
         (should= "Other" (str (:family device))))

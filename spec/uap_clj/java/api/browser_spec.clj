@@ -6,9 +6,8 @@
             [clojure.java.io :as io :refer [resource]]
             [clojure.template :refer [do-template]]))
 
-(def tests-browser (:test_cases
-                     (parse-string
-                       (slurp (io/resource "tests/test_ua.yaml")))))
+(def tests (:test_cases (parse-string
+                          (slurp (io/resource "tests/test_ua.yaml")))))
 
 (defn run-browser-fixture
   "Assert match between fixture test data:
@@ -35,7 +34,7 @@
                (get expected :patch ""))))
 
 (context "Known Browsers:"
-  (map #(run-browser-fixture %) tests-browser))
+  (map #(run-browser-fixture %) tests))
 
 ;;;
 ;;; The ua-parser core specification requires setting browser family to "Other"

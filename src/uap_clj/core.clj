@@ -1,8 +1,8 @@
 (ns uap-clj.core
   (:require [uap-clj.common :as common :refer :all]
-            [uap-clj.browser :refer [extract-browser-fields regexes-browser]]
-            [uap-clj.os :refer [extract-os-fields regexes-os]]
-            [uap-clj.device :refer [extract-device-fields regexes-device]]
+            [uap-clj.browser :refer [extract-browser-fields]]
+            [uap-clj.os :refer [extract-os-fields]]
+            [uap-clj.device :refer [extract-device-fields]]
             [clj-yaml.core :refer [parse-string]]
             [clojure.java.io :as io :refer [resource]]
             [clojure.string :as s :refer [join trim]])
@@ -13,9 +13,9 @@
    browser, O/S, and device lookup
   "
   [line]
-  (let [browser (extract-browser-fields line regexes-browser)
-        os (extract-os-fields line regexes-os)
-        device (extract-device-fields line regexes-device)]
+  (let [browser (extract-browser-fields line)
+        os (extract-os-fields line)
+        device (extract-device-fields line)]
     {:ua line :browser browser :os os :device device}))
 
 ;;;

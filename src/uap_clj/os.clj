@@ -5,13 +5,13 @@
             [clojure.string :as s :refer [join trim]])
   (:gen-class))
 
-(def regexes-os (:os_parsers regexes-all))
+(def regexes (:os_parsers regexes-all))
 
 (defn extract-os-fields
   "Extract os/ family, major number, minor number, patch, and patch-minor number
    from user agent string
   "
-  [ua regexes]
+  [ua]
   (try
   (let [match (first-match ua regexes)
         result (first (flatten (vector (:result match))))]

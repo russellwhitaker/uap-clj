@@ -6,19 +6,18 @@
             [clojure.java.io :as io :refer [resource]]
             [clojure.template :refer [do-template]]))
 
-(def tests-browser (:test_cases
-                     (parse-string
-                       (slurp (io/resource "tests/test_ua.yaml")))))
+(def tests (:test_cases (parse-string
+                          (slurp (io/resource "tests/test_ua.yaml")))))
 
 (defn run-browser-fixture
   "Assert match between fixture test data:
      UserAgent: family/major/minor/patch
    and output of parser function
   "
-  [fixture regexes]
+  [fixture]
   (let [line (:user_agent_string fixture)
         expected (select-keys fixture [:family :major :minor :patch])
-        browser (extract-browser-fields line regexes)]
+        browser (extract-browser-fields line)]
   (do-template [family major minor patch]
                (describe (format "a user agent '%s' in the '%s' browser family" line (str family))
                  (it (format "is in the '%s' browser family" (str family))
@@ -35,7 +34,7 @@
                (get expected :patch ""))))
 
 (context "Known Browsers:"
-  (map #(run-browser-fixture % regexes-browser) tests-browser))
+  (map #(run-browser-fixture %) tests))
 
 ;;;
 ;;; The ua-parser core specification requires setting browser family to "Other"
@@ -43,7 +42,7 @@
 ;;;   (i.e. not in regexes.yaml) useragent string is encountered.
 ;;;
 (context "Unknown browser"
-  (let [browser (extract-browser-fields unknown-ua regexes-browser)]
+  (let [browser (extract-browser-fields unknown-ua)]
     (describe (format "An as-yet uncataloged browser '%s'" unknown-ua)
       (it "is categorized as family 'Other'"
         (should= "Other" (str (:family browser))))

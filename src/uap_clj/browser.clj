@@ -5,13 +5,13 @@
             [clojure.string :as s :refer [join trim]])
   (:gen-class))
 
-(def regexes-browser (:user_agent_parsers regexes-all))
+(def regexes (:user_agent_parsers regexes-all))
 
 (defn extract-browser-fields
   "Extract browser family, major number, minor number, and patch number
    from user agent string
   "
-  [ua regexes]
+  [ua]
   (try
   (let [match (first-match ua regexes)
         result (first (flatten (vector (:result match))))]
