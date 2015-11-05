@@ -1,4 +1,4 @@
-(defproject uap-clj "1.1.0"
+(defproject uap-clj "1.1.1"
   :description "Clojure language implementation of ua-parser"
   :url "https://github.com/russellwhitaker/uap-clj"
   :license {:name "The MIT License (MIT)"
@@ -11,7 +11,7 @@
               {:dependencies [[speclj "3.3.1"]
                               [lein-git-deps "0.0.2"]]
                :test-paths ["spec"]
-               :jvm-opts ["-Xss6m"]}
+               :jvm-opts ["-Xss256M"]}
              :uberjar {:aot :all
                        :uberjar-exclusions
                          [#"tests|test_resources|docs|\.md|LICENSE|META-INF"]}}
