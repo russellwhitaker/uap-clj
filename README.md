@@ -1,8 +1,12 @@
 # uap-clj
 
-A [`ua-parser/uap-core`](https://github.com/ua-parser/uap-core) based library for extracting browser, operating system, and device information from a raw useragent string.
+A [`ua-parser/uap-core`](https://github.com/ua-parser/uap-core) based Clojure library for extracting browser, operating system, and device information from a raw useragent string.
 
-This library is also used by an Apache Hadoop Hive Simple UDF, [`uap-clj-hiveudf`](https://github.com/russellwhitaker/uap-clj-hiveudf).
+This library is also used by an Apache Hadoop Hive Simple UDF, [`uap-clj-hiveudf`](https://github.com/russellwhitaker/uap-clj-hiveudf), and an Amazon AWS Lambda function, [`uap-clj-lambda`](https://github.com/russellwhitaker/uap-clj-lambda).
+
+For Java programmers, an API is provided as well, allowing direct use in native Java code (see below.)
+
+The canonical version of this project lives at [`russellwhitaker/uap-clj`](https://github.com/russellwhitaker/uap-clj) and is mirrored at [`ua-parser/uap-clj`](https://github.com/ua-parser/uap-clj).
 
 ## Setup
 
@@ -16,19 +20,35 @@ as well as on the test fixtures `test_ua.yaml`, `test_os.yaml`, and `test_device
 To generate your classes and .jar files:
 
 ```bash
-lein clean && lein uberjar
+→ lein clean && lein uberjar
+Compiling uap-clj.browser
+Compiling uap-clj.common
+Compiling uap-clj.core
+Compiling uap-clj.device
+Compiling uap-clj.java.api.browser
+Compiling uap-clj.java.api.device
+Compiling uap-clj.java.api.os
+Compiling uap-clj.os
+Created /Users/<username>/dev/uap-clj/target/uap-clj-1.1.1.jar
+Created /Users/<username>/dev/uap-clj/target/uap-clj-1.1.1-standalone.jar
 ```
 
-###Java dependencies
+### Java dependencies
 
-This code has been tested and shown to run under Java v1.7 (Mac OS X v10.9.5):
+This code has been tested and shown to run under Java v1.7 and v1.8:
 
 ```bash
 → java -version
 java version "1.7.0_51"
 Java(TM) SE Runtime Environment (build 1.7.0_51-b13)
 Java HotSpot(TM) 64-Bit Server VM (build 24.51-b03, mixed mode)
+
+→ java -version
+java version "1.8.0_66"
+Java(TM) SE Runtime Environment (build 1.8.0_66-b17)
+Java HotSpot(TM) 64-Bit Server VM (build 25.66-b17, mixed mode)
 ```
+
 ## Development
 ### Running the test suite
 
@@ -37,17 +57,17 @@ This project uses [`speclj`](http://speclj.com). The core test suite comprises a
 ```bash
 → lein spec --reporter=c
 
-Ran 53403 tests containing 53403 assertions.
+Ran 107336 tests containing 107336 assertions.
 0 failures, 0 errors.
 ```
-The test suite runs against all the browser, o/s, and device YAML fixtures in [`ua-parser/uap-core/tests`](https://github.com/ua-parser/uap-core/blob/master/tests).
+The test suite runs against all the browser, o/s, and device YAML fixtures in [`ua-parser/uap-core/tests`](https://github.com/ua-parser/uap-core/blob/master/tests), for both the native Clojure core library and the Java API.
 
 ## Use
 
-### commandline (CLI)
+### Commandline (CLI)
 
 ```bash
-/usr/bin/java -jar uap-clj-1.0.1-standalone.jar <input_filename> [<optional_out_filename>]
+/usr/bin/java -jar uap-clj-1.1.1-standalone.jar <input_filename> [<optional_out_filename>]
 ```
 
 This command takes as its first argument the name of a text file containing one useragent per line, and prints a TSV (tab-separated) file - defaulting to `useragent_lookup.tsv` - with this line format:
@@ -64,16 +84,16 @@ lein run <input_filename> [<optional_out_filename>]
 
 Note that these instructions assume you're using the standalone version of the project .jar file, for development & portability: this will get you running quickly, but it's almost always a better thing to use the mininal jarfile instead, since it _doesn't_ pull in 4Mb of dependencies. To enable this, you'll need to install prerequisite dependencies (specified in `project.clj`) on your classpath.
 
-### REPL
+### In a Clojure REPL
 
 If you'd like to explore useragent data interactively, and you have Leiningen installed, you can do this:
 
 ```clojure
 → lein repl
-nREPL server started on port 61174 on host 127.0.0.1 - nrepl://127.0.0.1:61174
-REPL-y 0.3.5, nREPL 0.2.6
-Clojure 1.6.0
-Java HotSpot(TM) 64-Bit Server VM 1.7.0_51-b13
+nREPL server started on port 52739 on host 127.0.0.1 - nrepl://127.0.0.1:52739
+REPL-y 0.3.7, nREPL 0.2.10
+Clojure 1.7.0
+Java HotSpot(TM) 64-Bit Server VM 1.8.0_66-b17
     Docs: (doc function-name-here)
           (find-doc "part-of-name-here")
   Source: (source function-name-here)
@@ -135,7 +155,7 @@ routes that look something like this:
        (route/not-found (slurp (io/resource "404.html")))))
 ```
 All you need to enable the use of the `lookup-useragent` function here is to add
-`[uap-clj "1.0.1"]` to the `:dependencies` vector in your Compojure app's `project.clj`,
+`[uap-clj "1.1.1"]` to the `:dependencies` vector in your Compojure app's `project.clj`,
 and `[uap-clj.core :refer [lookup-useragent]]` to the `:require` vector of your `web.clj`.
 Then you can do this type of thing after deployment:
 
@@ -144,9 +164,106 @@ Then you can do this type of thing after deployment:
 {:ua "AppleCoreMedia/1.0.0.12F69 (Apple TV; U; CPU OS 8_3 like Mac OS X; en_us)", :browser {:family "Other", :patch nil, :major nil, :minor nil}, :os {:family "ATV OS X", :major "", :minor "", :patch "", :patch_minor ""}, :device {:family "AppleTV", :brand "Apple", :model "AppleTV"}}
 ```
 
+### In native Java projects
+
+Add this repository to your `pom.xml`:
+
+```xml
+<repository>
+  <id>clojars</id>
+  <url>http://clojars.org/repo/</url>
+</repository>
+```
+
+Then add these dependencies to your `pom.xml`:
+
+```xml
+<dependency>
+  <groupId>org.clojure</groupId>
+  <artifactId>clojure</artifactId>
+  <version>1.7.0</version>
+</dependency>
+<dependency>
+  <groupId>uap-clj</groupId>
+  <artifactId>uap-clj</artifactId>
+  <version>1.1.1</version>
+</dependency>
+```
+
+Example usage:
+
+```java
+package useragent;
+
+import java.util.HashMap;
+
+// Java API for uap-clj Clojure implementation of useragent parser
+import uap_clj.java.api.*;
+
+public class Parser {
+  public Parser() {};
+
+  public static void main(String[] args) {
+    String ua = args[0];
+
+    HashMap b = Browser.lookup(ua);
+    HashMap o = OS.lookup(ua);
+    HashMap d = Device.lookup(ua);
+
+    System.out.println("Browser family: " + b.get("family"));
+    System.out.println("Browser major number: " + b.get("major"));
+    System.out.println("Browser minor number: " + b.get("minor"));
+    System.out.println("Browser patch number: " + b.get("patch"));
+
+    System.out.println("O/S family: " + o.get("family"));
+    System.out.println("O/S major number: " + o.get("major"));
+    System.out.println("O/S minor number: " + o.get("minor"));
+    System.out.println("O/S patch number: " + o.get("patch"));
+    System.out.println("O/S patch_minor number: " + o.get("patch_minor"));
+
+    System.out.println("Device family: " + d.get("family"));
+    System.out.println("Device brand: " + d.get("brand"));
+    System.out.println("Device model: " + d.get("model"));
+  }
+}
+```
+
+```bash
+→ mvn compile
+→ mvn exec:java -Dexec.mainClass="useragent.Parser" -Dexec.args="'Lenovo-A288t_TD/S100 Linux/2.6.35 Android/2.3.5 Release/02.29.2012 Browser/AppleWebkit533.1 Mobile Safari/533.1 FlyFlow/1.4'"
+[INFO] Scanning for projects...
+[INFO]
+[INFO] ------------------------------------------------------------------------
+[INFO] Building UapJavaWrapper 1.0-SNAPSHOT
+[INFO] ------------------------------------------------------------------------
+[INFO]
+[INFO] --- exec-maven-plugin:1.4.0:java (default-cli) @ UapJavaWrapper ---
+Browser family: Baidu Explorer
+Browser major number: 1
+Browser minor number: 4
+Browser patch number:
+O/S family: Android
+O/S major number: 2
+O/S minor number: 3
+O/S patch number: 5
+O/S patch_minor number:
+Device family: Lenovo A288t_TD
+Device brand: Lenovo
+Device model: A288t_TD
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 1.961 s
+[INFO] Finished at: 2015-11-03T14:39:45-08:00
+[INFO] Final Memory: 15M/301M
+[INFO] ------------------------------------------------------------------------
+```
+
 ## Future / Enhancements
 
-I have responded to issues posted to this repository with enhancements I rolled into the codebase, so I do welcome feedback from users. Also, pull requests will be very happily considered.
+Next up: break out browser, o/s, and device core native functions for separate execution.
+
+I respond to issues filed and will happily consider pull requests.
 
 __Maintained by Russell Whitaker__
 
