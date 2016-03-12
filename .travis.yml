@@ -1,5 +1,5 @@
 language: clojure
-script: JAVA_OPTS="-Xss512M" lein spec
+script: JAVA_OPTS="-Xms256M -Xmx512M -Xss512M" lein spec
 jdk:
   - oraclejdk8
 
