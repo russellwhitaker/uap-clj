@@ -261,7 +261,9 @@ Device model: A288t_TD
 
 ## Future / Enhancements
 
-Next up: break out browser, o/s, and device core native functions for separate execution.
+* break out browser, o/s, and device core native functions for separate execution
+* add option to source `regexes.yaml` from an S3 bucket
+* add 12factor-style management of configuration using `immuconf`
 
 I respond to issues filed and will happily consider pull requests.
 
