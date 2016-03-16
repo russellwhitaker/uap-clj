@@ -29,8 +29,8 @@ Compiling uap-clj.java.api.browser
 Compiling uap-clj.java.api.device
 Compiling uap-clj.java.api.os
 Compiling uap-clj.os
-Created /Users/<username>/dev/uap-clj/target/uap-clj-1.1.1.jar
-Created /Users/<username>/dev/uap-clj/target/uap-clj-1.1.1-standalone.jar
+Created /Users/<username>/dev/uap-clj/target/uap-clj-1.1.2.jar
+Created /Users/<username>/dev/uap-clj/target/uap-clj-1.1.2-standalone.jar
 ```
 
 ### Java dependencies
@@ -57,7 +57,7 @@ This project uses [`speclj`](http://speclj.com). The core test suite comprises a
 ```bash
 → lein spec --reporter=c
 
-Ran 107336 tests containing 107336 assertions.
+Ran 107392 tests containing 107392 assertions.
 0 failures, 0 errors.
 ```
 The test suite runs against all the browser, o/s, and device YAML fixtures in [`ua-parser/uap-core/tests`](https://github.com/ua-parser/uap-core/blob/master/tests), for both the native Clojure core library and the Java API.
@@ -261,7 +261,9 @@ Device model: A288t_TD
 
 ## Future / Enhancements
 
-Next up: break out browser, o/s, and device core native functions for separate execution.
+* break out browser, o/s, and device core native functions for separate execution
+* add option to source `regexes.yaml` from an S3 bucket
+* add 12factor-style management of configuration using `immuconf`
 
 I respond to issues filed and will happily consider pull requests.
 
