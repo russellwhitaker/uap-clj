@@ -8,9 +8,9 @@
   :dependencies [[org.clojure/clojure "1.8.0"]
                  [circleci/clj-yaml "0.5.5"]]
   :profiles {:dev
-              {:dependencies [[speclj "3.3.1"]
+              {:dependencies [[speclj "3.3.1"
+                                      :exclusions [org.clojure/clojure]]
                               [lein-git-deps "0.0.2"]]
-               :test-paths ["spec"]
                :jvm-opts ["-Xss256M"]}
              :uberjar {:aot :all
                        :uberjar-exclusions
@@ -22,5 +22,6 @@
             [speclj "3.3.1" :exclusions [org.clojure/clojure]]]
   :git-dependencies [["https://github.com/ua-parser/uap-core.git"]]
   :resource-paths [".lein-git-deps/uap-core"]
+  :test-paths ["spec"]
   :main uap-clj.core
   :aot :all)

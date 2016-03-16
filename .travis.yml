@@ -2,7 +2,6 @@ language: clojure
 jdk:
   - oraclejdk8
 script:
-  - export PROJ_BASE=`echo "${PWD##*/}"`
-  - lein eastwood "{:namespaces [${PROJ_BASE}.core]}"
+  - lein eastwood "{:namespaces [:source-paths]}"
   - lein ancient
   - JAVA_OPTS="-Xms256M -Xmx512M -Xss512M" lein spec
