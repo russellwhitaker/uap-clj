@@ -67,7 +67,7 @@ The test suite runs against all the browser, o/s, and device YAML fixtures in [`
 ### Commandline (CLI)
 
 ```bash
-/usr/bin/java -jar uap-clj-1.1.1-standalone.jar <input_filename> [<optional_out_filename>]
+/usr/bin/java -jar uap-clj-1.1.2-standalone.jar <input_filename> [<optional_out_filename>]
 ```
 
 This command takes as its first argument the name of a text file containing one useragent per line, and prints a TSV (tab-separated) file - defaulting to `useragent_lookup.tsv` - with this line format:
@@ -90,9 +90,9 @@ If you'd like to explore useragent data interactively, and you have Leiningen in
 
 ```clojure
 → lein repl
-nREPL server started on port 52739 on host 127.0.0.1 - nrepl://127.0.0.1:52739
-REPL-y 0.3.7, nREPL 0.2.10
-Clojure 1.7.0
+nREPL server started on port 51929 on host 127.0.0.1 - nrepl://127.0.0.1:51929
+REPL-y 0.3.7, nREPL 0.2.12
+Clojure 1.8.0
 Java HotSpot(TM) 64-Bit Server VM 1.8.0_66-b17
     Docs: (doc function-name-here)
           (find-doc "part-of-name-here")
