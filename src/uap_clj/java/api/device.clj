@@ -1,6 +1,6 @@
 (ns uap-clj.java.api.device
   "Java API wrapper for useragent device lookup"
-  (:require [uap-clj.device :refer [device-fields]]
+  (:require [uap-clj.device :refer [device]]
             [clojure.walk :refer [stringify-keys]])
   (:import [java.util HashMap])
   (:gen-class
@@ -10,4 +10,4 @@
 (defn -lookup
   [useragent]
   (HashMap.
-    (stringify-keys (device-fields useragent))))
+    (stringify-keys (device useragent))))

@@ -18,7 +18,7 @@
   [fixture]
   (let [line (:user_agent_string fixture)
         expected (select-keys fixture [:family :brand :model])
-        device (device-fields line)]
+        device (device line)]
   (do-template [family brand model]
                (describe
                  (format "a user agent '%s' in the '%s' Device family"
@@ -42,7 +42,7 @@
 ;;;   useragent string is encountered.
 ;;;
 (context "Unknown device"
-  (let [device (device-fields unknown-ua)]
+  (let [device (device unknown-ua)]
     (describe (format "An as-yet uncataloged device '%s'" unknown-ua)
       (it "is categorized as family 'Other'"
         (should= "Other" (str (:family device))))

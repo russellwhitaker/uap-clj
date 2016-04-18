@@ -18,7 +18,7 @@
   [fixture]
   (let [line (:user_agent_string fixture)
         expected (select-keys fixture [:family :major :minor :patch])
-        browser (browser-fields line)]
+        browser (browser line)]
   (do-template [family major minor patch]
                (describe
                  (format "a user agent '%s' in the '%s' browser family"
@@ -45,7 +45,7 @@
 ;;;   (i.e. not in regexes.yaml) useragent string is encountered.
 ;;;
 (context "Unknown browser"
-  (let [browser (browser-fields unknown-ua)]
+  (let [browser (browser unknown-ua)]
     (describe (format "An as-yet uncataloged browser '%s'" unknown-ua)
       (it "is categorized as family 'Other'"
         (should= "Other" (str (:family browser))))

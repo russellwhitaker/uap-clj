@@ -19,7 +19,7 @@
   (let [line (:user_agent_string fixture)
         expected (select-keys fixture
                    [:family :major :minor :patch :patch_minor])
-        os (os-fields line)]
+        os (os line)]
   (do-template [family major minor patch patch-minor]
                (describe
                  (format "a user agent '%s' in the '%s' O/S family"
@@ -50,7 +50,7 @@
 ;;;   an unfamiliar (i.e. not in regexes.yaml) useragent string is encountered.
 ;;;
 (context "Unknown o/s"
-  (let [os (os-fields unknown-ua)]
+  (let [os (os unknown-ua)]
     (describe (format "An as-yet uncataloged o/s '%s'" unknown-ua)
       (it "is categorized as family 'Other'"
         (should= "Other" (str (:family os))))

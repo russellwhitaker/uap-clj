@@ -118,7 +118,22 @@ uap-clj.core=> (pprint (useragent my-useragent))
  :device
  {:family "Lenovo A288t_TD", :brand "Lenovo", :model "A288t_TD"}}
 nil
+```
 
+If you only care about particular `browser`, `os`, or `device` values, you can look each of these separately:
+
+```clojure
+uap-clj.core=> (browser my-useragent)
+{:family "Baidu Explorer", :major "1", :minor "4", :patch ""}
+uap-clj.core=> (os my-useragent)
+{:family "Android", :major "2", :minor "3", :patch "5", :patch_minor ""}
+uap-clj.core=> (device my-useragent)
+{:family "Lenovo A288t_TD", :brand "Lenovo", :model "A288t_TD"}
+```
+
+Unknown useragents are classified "Other":
+
+```clojure
 uap-clj.core=> (pprint (useragent "Some crazy useragent we've not yet categorized/v0.2.0/yomama@yamama.co.jp"))
 {:ua
  "Some crazy useragent we've not yet categorized/v0.2.0/yomama@yamama.co.jp",
@@ -131,7 +146,6 @@ uap-clj.core=> (pprint (useragent "Some crazy useragent we've not yet categorize
   :minor nil},
  :device {:family "Other", :brand nil, :model nil}}
 nil
-
 uap-clj.core=>
 ```
 You can also use any other Clojure REPL for the same type of interactive data exploration.
@@ -150,7 +164,7 @@ routes that look something like this:
   (POST "/" {{ua :ua} :params}
        {:status 200
         :headers {"Content-Type" "text/plain"}
-        :body (pr-str (lookup-useragent ua))})
+        :body (pr-str (useragent ua))})
   (ANY "*" []
        (route/not-found (slurp (io/resource "404.html")))))
 ```
@@ -261,7 +275,6 @@ Device model: A288t_TD
 
 ## Future / Enhancements
 
-* break out browser, o/s, and device core native functions for separate execution
 * add option to source `regexes.yaml` from an S3 bucket
 * add 12factor-style management of configuration using `immuconf`
 
