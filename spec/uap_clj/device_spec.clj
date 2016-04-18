@@ -1,4 +1,5 @@
 (ns uap-clj.device-spec
+  "Test suite for device lookup functionality"
   (:require [speclj.core :refer :all]
             [uap-clj.device :refer :all]
             [uap-clj.common-spec :refer [unknown-ua]]
@@ -17,9 +18,11 @@
   [fixture]
   (let [line (:user_agent_string fixture)
         expected (select-keys fixture [:family :brand :model])
-        device (extract-device-fields line)]
+        device (device-fields line)]
   (do-template [family brand model]
-               (describe (format "a user agent '%s' in the '%s' Device family" line (str family))
+               (describe
+                 (format "a user agent '%s' in the '%s' Device family"
+                         line (str family))
                  (it (format "is in the '%s' Device family" (str family))
                    (should= (str family) (str (:family device))))
                  (it (format "has '%s' as its brand" (str brand))
@@ -39,7 +42,7 @@
 ;;;   useragent string is encountered.
 ;;;
 (context "Unknown device"
-  (let [device (extract-device-fields unknown-ua)]
+  (let [device (device-fields unknown-ua)]
     (describe (format "An as-yet uncataloged device '%s'" unknown-ua)
       (it "is categorized as family 'Other'"
         (should= "Other" (str (:family device))))

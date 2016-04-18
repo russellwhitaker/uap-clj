@@ -29,8 +29,8 @@ Compiling uap-clj.java.api.browser
 Compiling uap-clj.java.api.device
 Compiling uap-clj.java.api.os
 Compiling uap-clj.os
-Created /Users/<username>/dev/uap-clj/target/uap-clj-1.1.2.jar
-Created /Users/<username>/dev/uap-clj/target/uap-clj-1.1.2-standalone.jar
+Created /Users/<username>/dev/uap-clj/target/uap-clj-1.2.0.jar
+Created /Users/<username>/dev/uap-clj/target/uap-clj-1.2.0-standalone.jar
 ```
 
 ### Java dependencies
@@ -57,7 +57,7 @@ This project uses [`speclj`](http://speclj.com). The core test suite comprises a
 ```bash
 → lein spec --reporter=c
 
-Ran 107392 tests containing 107392 assertions.
+Ran 53748 tests containing 53748 assertions.
 0 failures, 0 errors.
 ```
 The test suite runs against all the browser, o/s, and device YAML fixtures in [`ua-parser/uap-core/tests`](https://github.com/ua-parser/uap-core/blob/master/tests), for both the native Clojure core library and the Java API.
@@ -67,7 +67,7 @@ The test suite runs against all the browser, o/s, and device YAML fixtures in [`
 ### Commandline (CLI)
 
 ```bash
-/usr/bin/java -jar uap-clj-1.1.2-standalone.jar <input_filename> [<optional_out_filename>]
+/usr/bin/java -jar uap-clj-1.2.0-standalone.jar <input_filename> [<optional_out_filename>]
 ```
 
 This command takes as its first argument the name of a text file containing one useragent per line, and prints a TSV (tab-separated) file - defaulting to `useragent_lookup.tsv` - with this line format:
@@ -104,7 +104,7 @@ Java HotSpot(TM) 64-Bit Server VM 1.8.0_66-b17
 uap-clj.core=> (def my-useragent "Lenovo-A288t_TD/S100 Linux/2.6.35 Android/2.3.5 Release/02.29.2012 Browser/AppleWebkit533.1 Mobile Safari/533.1 FlyFlow/1.4")
 #'uap-clj.core/my-useragent
 
-uap-clj.core=> (pprint (lookup-useragent my-useragent))
+uap-clj.core=> (pprint (useragent my-useragent))
 {:ua
  "Lenovo-A288t_TD/S100 Linux/2.6.35 Android/2.3.5 Release/02.29.2012 Browser/AppleWebkit533.1 Mobile Safari/533.1 FlyFlow/1.4",
  :browser
@@ -119,7 +119,7 @@ uap-clj.core=> (pprint (lookup-useragent my-useragent))
  {:family "Lenovo A288t_TD", :brand "Lenovo", :model "A288t_TD"}}
 nil
 
-uap-clj.core=> (pprint (lookup-useragent "Some crazy useragent we've not yet categorized/v0.2.0/yomama@yamama.co.jp"))
+uap-clj.core=> (pprint (useragent "Some crazy useragent we've not yet categorized/v0.2.0/yomama@yamama.co.jp"))
 {:ua
  "Some crazy useragent we've not yet categorized/v0.2.0/yomama@yamama.co.jp",
  :browser {:family "Other", :patch nil, :major nil, :minor nil},
@@ -155,7 +155,7 @@ routes that look something like this:
        (route/not-found (slurp (io/resource "404.html")))))
 ```
 All you need to enable the use of the `lookup-useragent` function here is to add
-`[uap-clj "1.1.1"]` to the `:dependencies` vector in your Compojure app's `project.clj`,
+`[uap-clj "1.2.0"]` to the `:dependencies` vector in your Compojure app's `project.clj`,
 and `[uap-clj.core :refer [lookup-useragent]]` to the `:require` vector of your `web.clj`.
 Then you can do this type of thing after deployment:
 
@@ -181,12 +181,12 @@ Then add these dependencies to your `pom.xml`:
 <dependency>
   <groupId>org.clojure</groupId>
   <artifactId>clojure</artifactId>
-  <version>1.7.0</version>
+  <version>1.8.0</version>
 </dependency>
 <dependency>
   <groupId>uap-clj</groupId>
   <artifactId>uap-clj</artifactId>
-  <version>1.1.1</version>
+  <version>1.2.0</version>
 </dependency>
 ```
 

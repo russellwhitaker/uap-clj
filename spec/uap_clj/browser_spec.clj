@@ -1,4 +1,5 @@
 (ns uap-clj.browser-spec
+  "Test suite for browser lookup functionality"
   (:require [speclj.core :refer :all]
             [uap-clj.browser :refer :all]
             [uap-clj.common-spec :refer [unknown-ua]]
@@ -17,9 +18,11 @@
   [fixture]
   (let [line (:user_agent_string fixture)
         expected (select-keys fixture [:family :major :minor :patch])
-        browser (extract-browser-fields line)]
+        browser (browser-fields line)]
   (do-template [family major minor patch]
-               (describe (format "a user agent '%s' in the '%s' browser family" line (str family))
+               (describe
+                 (format "a user agent '%s' in the '%s' browser family"
+                         line (str family))
                  (it (format "is in the '%s' browser family" (str family))
                    (should= (str family) (str (:family browser))))
                  (it (format "has '%s' as its major number" (str major))
@@ -42,7 +45,7 @@
 ;;;   (i.e. not in regexes.yaml) useragent string is encountered.
 ;;;
 (context "Unknown browser"
-  (let [browser (extract-browser-fields unknown-ua)]
+  (let [browser (browser-fields unknown-ua)]
     (describe (format "An as-yet uncataloged browser '%s'" unknown-ua)
       (it "is categorized as family 'Other'"
         (should= "Other" (str (:family browser))))

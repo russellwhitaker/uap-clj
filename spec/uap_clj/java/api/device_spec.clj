@@ -1,4 +1,5 @@
 (ns uap-clj.java.api.device-spec
+  "Test suite for Java API to device lookup functionality"
   (:require [speclj.core :refer :all]
             [uap-clj.java.api.device :refer [-lookup]]
             [uap-clj.common-spec :refer [unknown-ua]]
@@ -19,7 +20,9 @@
         expected (select-keys fixture [:family :brand :model])
         device (-lookup line)]
   (do-template [family brand model]
-               (describe (format "a user agent '%s' in the '%s' Device family" line (str family))
+               (describe
+                 (format "a user agent '%s' in the '%s' Device family"
+                         line (str family))
                  (it (format "is in the '%s' Device family" (str family))
                    (should= (str family) (str (.get device "family"))))
                  (it (format "has '%s' as its brand" (str brand))

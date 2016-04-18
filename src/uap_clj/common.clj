@@ -1,8 +1,8 @@
 (ns uap-clj.common
+  "Common functions for field matching"
   (:require [clj-yaml.core :refer [parse-string]]
             [clojure.java.io :as io :refer [resource]]
-            [clojure.string :as s :refer [join trim]])
-  (:gen-class))
+            [clojure.string :as s :refer [join trim]]))
 
 (def regexes-all (parse-string (slurp (io/resource "regexes.yaml"))))
 
@@ -27,14 +27,11 @@
    later is used as the 'family' replacement for each of the types.
   "
   [ua regexes]
-  (or (loop [rs regexes]
-        (when (seq rs)
-          (let [rgx (first rs)
-                result (match-with-context ua rgx)]
-            (if (not (nil? (:result result)))
-              result
-              (recur (next rs))))))
-      {:ua ua :result "Other"}))
+  (or
+    (first
+      (filter #(not (nil? (:result %)))
+              (map #(match-with-context ua %) regexes)))
+    {:ua ua :result "Other"}))
 
 (defn lookup-field
   "Extract individual type field or supply an alternate substitute
@@ -49,4 +46,3 @@
             match-pattern
             (get regex field
               (str (nth result index-of-alternate "")))))))
-

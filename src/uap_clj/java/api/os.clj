@@ -1,5 +1,6 @@
 (ns uap-clj.java.api.os
-  (:require [uap-clj.os :refer [extract-os-fields]]
+  "Java API wrapper for useragent o/s lookup"
+  (:require [uap-clj.os :refer [os-fields]]
             [clojure.walk :refer [stringify-keys]])
   (:import [java.util HashMap])
   (:gen-class
@@ -9,4 +10,4 @@
 (defn -lookup
   [useragent]
   (HashMap.
-    (stringify-keys (extract-os-fields useragent))))
+    (stringify-keys (os-fields useragent))))
