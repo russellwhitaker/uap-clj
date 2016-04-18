@@ -151,15 +151,14 @@ You can also use any other Clojure REPL for the same type of interactive data ex
 
 ### In a RESTful API
 
-If you have an Heroku account, [you can easily deploy a Compojure app there](https://devcenter.heroku.com/articles/getting-started-with-clojure) using GET and POST
-routes that look something like this:
+If you have an Heroku account, [you can easily deploy a Compojure app there](https://devcenter.heroku.com/articles/getting-started-with-clojure) using GET and POST routes that look something like this:
 
 ```clojure
 (defroutes app
   (GET "/ua" {{input :input} :params}
        {:status 200
         :headers {"Content-Type" "text/plain"}
-        :body (pr-str (lookup-useragent input))})
+        :body (pr-str (useragent input))})
   (POST "/" {{ua :ua} :params}
        {:status 200
         :headers {"Content-Type" "text/plain"}
@@ -167,14 +166,10 @@ routes that look something like this:
   (ANY "*" []
        (route/not-found (slurp (io/resource "404.html")))))
 ```
-All you need to enable the use of the `lookup-useragent` function here is to add
-`[uap-clj "1.2.0"]` to the `:dependencies` vector in your Compojure app's `project.clj`,
-and `[uap-clj.core :refer [lookup-useragent]]` to the `:require` vector of your `web.clj`.
-Then you can do this type of thing after deployment:
+All you need to enable the use of the `lookup-useragent` function here is to add `[uap-clj "1.2.0"]` to the `:dependencies` vector in your Compojure app's `project.clj`, and `[uap-clj.core :refer [lookup-useragent]]` to the `:require` vector of your `web.clj`. Then you can do this type of thing after deployment:
 
 ```bash
-→ curl --data "ua=AppleCoreMedia/1.0.0.12F69 (Apple TV; U; CPU OS 8_3 like Mac OS X; en_us)" http://<your_app>.herokuapp.com
-{:ua "AppleCoreMedia/1.0.0.12F69 (Apple TV; U; CPU OS 8_3 like Mac OS X; en_us)", :browser {:family "Other", :patch nil, :major nil, :minor nil}, :os {:family "ATV OS X", :major "", :minor "", :patch "", :patch_minor ""}, :device {:family "AppleTV", :brand "Apple", :model "AppleTV"}}
+→ curl --data "ua=AppleCoreMedia/1.0.0.12F69 (Apple TV; U; CPU OS 8_3 like Mac OS X; en_us)" http://<your_app>.herokuapp.com {:ua "AppleCoreMedia/1.0.0.12F69 (Apple TV; U; CPU OS 8_3 like Mac OS X; en_us)", :browser {:family "Other", :patch nil, :major nil, :minor nil}, :os {:family "ATV OS X", :major "", :minor "", :patch "", :patch_minor ""}, :device {:family "AppleTV", :brand "Apple", :model "AppleTV"}}
 ```
 
 ### In native Java projects
@@ -275,9 +270,6 @@ Device model: A288t_TD
 ## Future / Enhancements
 
 * add option to source `regexes.yaml` from an S3 bucket
-* add 12factor-style management of configuration using `immuconf`
-
-I respond to issues filed and will happily consider pull requests.
 
 __Maintained by Russell Whitaker__
 
@@ -285,10 +277,9 @@ __Maintained by Russell Whitaker__
 
 The MIT License (MIT)
 
-Copyright (c) 2015 Russell Whitaker
+Copyright (c) 2015-2016 Russell Whitaker
 
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
