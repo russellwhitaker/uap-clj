@@ -1,0 +1,15 @@
+{:output-filename "./useragent_lookup.tsv"
+ :output-columns
+   [[:ua]
+    [:browser :family]
+    [:browser :major]
+    [:browser :minor]
+    [:browser :patch]
+    [:os :family]
+    [:os :major]
+    [:os :minor]
+    [:os :patch]
+    [:os :patch_minor]
+    [:device :family]
+    [:device :brand]
+    [:device :model]]}

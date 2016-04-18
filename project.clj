@@ -5,11 +5,12 @@
             :url "http://www.opensource.org/licenses/mit-license.php"}
   :scm {:name "git"
         :url "https://github.com/russellwhitaker/uap-clj"}
-  :dependencies [[org.clojure/clojure "1.8.0"]
-                 [circleci/clj-yaml "0.5.5"]]
+  :dependencies [[org.clojure/clojure      "1.8.0"]
+                 [russellwhitaker/immuconf "0.2.2"]
+                 [circleci/clj-yaml        "0.5.5"]]
   :profiles {:dev
               {:dependencies [[criterium "0.4.4"]
-                              [speclj "3.3.2"
+                              [speclj    "3.3.2"
                                       :exclusions [org.clojure/clojure]]]
                :jvm-opts ["-Xss256M"]
                :test-paths ["spec"]}
