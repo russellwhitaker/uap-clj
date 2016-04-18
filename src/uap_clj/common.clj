@@ -33,10 +33,10 @@
               (map #(match-with-context ua %) regexes)))
     {:ua ua :result "Other"}))
 
-(defn lookup-field
+(defn field
   "Extract individual type field or supply an alternate substitute
   "
-  [match field index-of-alternate]
+  [match f index-of-alternate]
   (let [result (flatten (vector (:result match)))
         matched-substring (first result)
         regex (:regex match)
@@ -44,5 +44,5 @@
     (trim (clojure.string/replace
             matched-substring
             match-pattern
-            (get regex field
+            (get regex f
               (str (nth result index-of-alternate "")))))))

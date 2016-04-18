@@ -1,9 +1,9 @@
 (ns uap-clj.core
   "Core library with entrypoint main function"
   (:require [uap-clj.common :as common :refer :all]
-            [uap-clj.browser :refer [browser-fields]]
-            [uap-clj.os :refer [os-fields]]
-            [uap-clj.device :refer [device-fields]]
+            [uap-clj.browser :refer [browser]]
+            [uap-clj.os :refer [os]]
+            [uap-clj.device :refer [device]]
             [clj-yaml.core :refer [parse-string]]
             [clojure.java.io :as io :refer [resource]]
             [clojure.string :as s :refer [join trim]]))
@@ -12,10 +12,10 @@
   (memoize
     (fn
       [line]
-      (let [browser (browser-fields line)
-        os (os-fields line)
-        device (device-fields line)]
-        {:ua line :browser browser :os os :device device}))))
+      {:ua line
+       :browser (browser line)
+       :os (os line)
+       :device (device line)})))
 
 ;;;
 ;;; 'columns' and 'header' are used only for the commandline

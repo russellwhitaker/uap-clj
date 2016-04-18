@@ -1,6 +1,6 @@
 (ns uap-clj.java.api.browser
   "Java API wrapper for useragent browser lookup"
-  (:require [uap-clj.browser :refer [browser-fields]]
+  (:require [uap-clj.browser :refer [browser]]
             [clojure.walk :refer [stringify-keys]])
   (:import [java.util HashMap])
   (:gen-class
@@ -10,4 +10,4 @@
 (defn -lookup
   [useragent]
   (HashMap.
-    (stringify-keys (browser-fields useragent))))
+    (stringify-keys (browser useragent))))
