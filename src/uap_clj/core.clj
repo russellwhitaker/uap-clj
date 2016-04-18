@@ -1,22 +1,21 @@
 (ns uap-clj.core
+  "Core library with entrypoint main function"
   (:require [uap-clj.common :as common :refer :all]
-            [uap-clj.browser :refer [extract-browser-fields]]
-            [uap-clj.os :refer [extract-os-fields]]
-            [uap-clj.device :refer [extract-device-fields]]
+            [uap-clj.browser :refer [browser-fields]]
+            [uap-clj.os :refer [os-fields]]
+            [uap-clj.device :refer [device-fields]]
             [clj-yaml.core :refer [parse-string]]
             [clojure.java.io :as io :refer [resource]]
-            [clojure.string :as s :refer [join trim]])
-  (:gen-class))
+            [clojure.string :as s :refer [join trim]]))
 
-(defn lookup-useragent
-  "Takes a line with a raw useragent string and does
-   browser, O/S, and device lookup
-  "
-  [line]
-  (let [browser (extract-browser-fields line)
-        os (extract-os-fields line)
-        device (extract-device-fields line)]
-    {:ua line :browser browser :os os :device device}))
+(def useragent
+  (memoize
+    (fn
+      [line]
+      (let [browser (browser-fields line)
+        os (os-fields line)
+        device (device-fields line)]
+        {:ua line :browser browser :os os :device device}))))
 
 ;;;
 ;;; 'columns' and 'header' are used only for the commandline
@@ -42,7 +41,7 @@
   (with-open [rdr (clojure.java.io/reader in-filename)]
     (let [out-filename (or (first optional-args) "./useragent_lookup.tsv")
           results (doall
-                    (map lookup-useragent (line-seq rdr)))]
+                    (map useragent (line-seq rdr)))]
       (with-open [wtr (clojure.java.io/writer out-filename :append false)]
         (.write wtr header)
         (doseq [ua results]

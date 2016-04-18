@@ -1,4 +1,5 @@
 (ns uap-clj.os-spec
+  "Test suite for o/s lookup functionality"
   (:require [speclj.core :refer :all]
             [uap-clj.os :refer :all]
             [uap-clj.common-spec :refer [unknown-ua]]
@@ -16,10 +17,13 @@
   "
   [fixture]
   (let [line (:user_agent_string fixture)
-        expected (select-keys fixture [:family :major :minor :patch :patch_minor])
-        os (extract-os-fields line)]
+        expected (select-keys fixture
+                   [:family :major :minor :patch :patch_minor])
+        os (os-fields line)]
   (do-template [family major minor patch patch-minor]
-               (describe (format "a user agent '%s' in the '%s' O/S family" line (str family))
+               (describe
+                 (format "a user agent '%s' in the '%s' O/S family"
+                         line (str family))
                  (it (format "is in the '%s' O/S family" (str family))
                    (should= (str family) (str (:family os))))
                  (it (format "has '%s' as its major number" (str major))
@@ -28,7 +32,8 @@
                    (should= (str minor) (str (:minor os))))
                  (it (format "has '%s' as its patch number" (str patch))
                    (should= (str patch) (str (:patch os))))
-                 (it (format "has '%s' as its patch_minor number" (str patch-minor))
+                 (it (format "has '%s' as its patch_minor number"
+                             (str patch-minor))
                    (should= (str patch-minor) (str (:patch_minor os)))))
                (get expected :family "")
                (get expected :major "")
@@ -41,11 +46,11 @@
 
 ;;;
 ;;; The ua-parser core specification requires setting o/s family to "Other"
-;;;   and major, minor, patch, and patch minor numbers to nothing if an unfamiliar
-;;;   (i.e. not in regexes.yaml) useragent string is encountered.
+;;;   and major, minor, patch, and patch minor numbers to nothing if
+;;;   an unfamiliar (i.e. not in regexes.yaml) useragent string is encountered.
 ;;;
 (context "Unknown o/s"
-  (let [os (extract-os-fields unknown-ua)]
+  (let [os (os-fields unknown-ua)]
     (describe (format "An as-yet uncataloged o/s '%s'" unknown-ua)
       (it "is categorized as family 'Other'"
         (should= "Other" (str (:family os))))

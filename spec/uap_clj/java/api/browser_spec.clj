@@ -1,4 +1,5 @@
 (ns uap-clj.java.api.browser-spec
+  "Test suite for Java API to browser lookup functionality"
   (:require [speclj.core :refer :all]
             [uap-clj.java.api.browser :refer [-lookup]]
             [uap-clj.common-spec :refer [unknown-ua]]
@@ -19,7 +20,10 @@
         expected (select-keys fixture [:family :major :minor :patch])
         browser (-lookup line)]
   (do-template [family major minor patch]
-               (describe (format "a user agent '%s' in the '%s' browser family" line (str family))
+               (describe
+                 (format
+                   "a user agent '%s' in the '%s' browser family"
+                   line (str family))
                  (it (format "is in the '%s' browser family" (str family))
                    (should= (str family) (str (.get browser "family"))))
                  (it (format "has '%s' as its major number" (str major))
