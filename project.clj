@@ -10,18 +10,17 @@
                  [circleci/clj-yaml        "0.5.5"]]
   :profiles {:dev
               {:dependencies [[criterium "0.4.4"]
-                              [speclj    "3.3.2"
-                                      :exclusions [org.clojure/clojure]]]
+                              [speclj    "3.3.2"]]
                :jvm-opts ["-Xss256M"]
                :test-paths ["spec"]}
              :uberjar {:aot :all
                        :uberjar-exclusions
                          [#"dev_resources|^test$|test_resources|docs|\.md|LICENSE"]}}
-  :plugins [[lein-git-deps "0.0.2"]
-            [lein-ancient "0.6.10" :exclusions [org.clojure/clojure]]
-            [lein-bikeshed "0.3.0" :exclusions [org.clojure/clojure]]
-            [jonase/eastwood "0.2.3" :exclusions [org.clojure/clojure]]
-            [speclj "3.3.2" :exclusions [org.clojure/clojure]]]
+  :plugins [[lein-git-deps   "0.0.2"]
+            [lein-ancient    "0.6.10"]
+            [lein-bikeshed   "0.3.0"]
+            [jonase/eastwood "0.2.3"]
+            [speclj          "3.3.2"]]
   :git-dependencies [["https://github.com/ua-parser/uap-core.git"]]
   :resource-paths [".lein-git-deps/uap-core"]
   :main uap-clj.core)
