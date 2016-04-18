@@ -2,6 +2,8 @@
   "Core library with entrypoint main function"
   (:refer-clojure :exclude [load])
   (:require [immuconf.config :as conf :refer [load]]
+            [uap-clj.conf :refer [base-config
+                                  local-config]]
             [uap-clj.common :as common :refer :all]
             [uap-clj.browser :refer [browser]]
             [uap-clj.os :refer [os]]
@@ -10,7 +12,15 @@
             [clojure.java.io :as io :refer [resource]]
             [clojure.string :as s :refer [join trim]]))
 
-(def config (conf/load ["resources/config.edn"]))
+(defn config
+  "Load & merge configuration from a path of configuration file
+   sources.
+  "
+  []
+  (apply conf/load
+         (filter (partial not= nil)
+                 [(base-config)
+                  (local-config)])))
 
 (def useragent
   (memoize
@@ -21,7 +31,8 @@
        :os (os line)
        :device (device line)})))
 
-(def columns (:output-columns config))
+(def cfg (config))
+(def columns (:output-columns cfg))
 (def header
   (str
     (s/join \tab
@@ -40,7 +51,7 @@
   [in-file & opt-args]
   (with-open [rdr (clojure.java.io/reader in-file)]
     (let [out-file (or (first opt-args)
-                       (:output-filename config))
+                       (:output-filename cfg))
           results (doall
                     (map useragent (line-seq rdr)))]
       (with-open
@@ -49,5 +60,5 @@
         (doseq [ua results]
           (.write wtr
             (str (s/join \tab
-                         (map #(get-in ua %) columns)
+                         (map #(get-in ua %) columns))
                  \newline)))))))
