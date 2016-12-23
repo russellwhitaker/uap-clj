@@ -39,6 +39,12 @@
 (context "Known Browsers:"
   (map #(run-browser-fixture %) tests))
 
+(context "nil input"
+  (describe "graceful handling"
+    (it "returns default map with nil values"
+      (should= {:family nil :major nil :minor nil :patch nil}
+               (browser nil)))))
+
 ;;;
 ;;; The ua-parser core specification requires setting browser family to "Other"
 ;;;   and major, minor, & patch numbers to nothing if an unfamiliar
