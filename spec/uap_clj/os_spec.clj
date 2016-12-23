@@ -44,6 +44,12 @@
 (context "Known O/S:"
   (map #(run-os-fixture %) tests))
 
+(context "nil input"
+  (describe "graceful handling"
+    (it "returns default map with nil values"
+      (should= {:family nil :major nil :minor nil :patch nil :patch_minor nil}
+               (os nil)))))
+
 ;;;
 ;;; The ua-parser core specification requires setting o/s family to "Other"
 ;;;   and major, minor, patch, and patch minor numbers to nothing if

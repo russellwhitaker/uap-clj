@@ -36,6 +36,12 @@
 (context "Known Device:"
   (map #(run-device-fixture %) tests))
 
+(context "nil input"
+  (describe "graceful handling"
+    (it "returns default map with nil values"
+      (should= {:family nil :brand nil :model nil}
+               (device nil)))))
+
 ;;;
 ;;; The ua-parser core specification requires setting device family to "Other"
 ;;;   and brand & model to nothing if an unfamiliar (i.e. not in regexes.yaml)

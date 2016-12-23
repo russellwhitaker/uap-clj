@@ -22,14 +22,21 @@
                  [(base-config)
                   (local-config)])))
 
-(def useragent
-  (memoize
-    (fn
-      [line]
-      {:ua line
-       :browser (browser line)
-       :os (os line)
-       :device (device line)})))
+(defn useragent
+  "Look up all 3 sets of fields for:
+   - browser
+   - o/s
+   - device
+  "
+  [ua]
+  {:ua ua
+   :browser (browser ua)
+   :os (os ua)
+   :device (device ua)})
+
+; For use in production settings where speed may be preferred
+;  in exchange for the tradeoff of increased memory bloat:
+(def useragent-memoized (memoize useragent))
 
 (def cfg (config))
 (def columns (:output-columns cfg))

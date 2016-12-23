@@ -28,8 +28,8 @@ Compiling uap-clj.java.api.browser
 Compiling uap-clj.java.api.device
 Compiling uap-clj.java.api.os
 Compiling uap-clj.os
-Created /Users/<username>/dev/uap-clj/target/uap-clj-1.2.2.jar
-Created /Users/<username>/dev/uap-clj/target/uap-clj-1.2.2-standalone.jar
+Created /Users/<username>/dev/uap-clj/target/uap-clj-1.3.0.jar
+Created /Users/<username>/dev/uap-clj/target/uap-clj-1.3.0-standalone.jar
 ```
 
 ### Java dependencies
@@ -43,9 +43,9 @@ Java(TM) SE Runtime Environment (build 1.7.0_51-b13)
 Java HotSpot(TM) 64-Bit Server VM (build 24.51-b03, mixed mode)
 
 → java -version
-java version "1.8.0_66"
-Java(TM) SE Runtime Environment (build 1.8.0_66-b17)
-Java HotSpot(TM) 64-Bit Server VM (build 25.66-b17, mixed mode)
+java version "1.8.0_102"
+Java(TM) SE Runtime Environment (build 1.8.0_102-b14)
+Java HotSpot(TM) 64-Bit Server VM (build 25.102-b14, mixed mode)
 ```
 
 ## Development
@@ -56,17 +56,19 @@ This project uses [`speclj`](http://speclj.com). The core test suite comprises a
 ```bash
 → lein test
 
-Ran 53842 tests containing 53842 assertions.
-0 failures, 0 errors.
+Finished in 0.29424 seconds
+108349 examples, 0 failures
 ```
 The test suite runs against all the browser, o/s, and device YAML fixtures in [`ua-parser/uap-core/tests`](https://github.com/ua-parser/uap-core/blob/master/tests), for both the native Clojure core library and the Java API.
 
-## Use
+## Use / Production
+
+The basic utility functions of this library comprise `useragent`, `browser`, `os`, and `device`; memoized versions of the same functions are provided as conveniences for production environments where a requirement for low latency response from large numbers of rapidly repeated requests is worth the memory penalty incurred by the need to maintain a growing cache of input/output value mappings. Accordingly, these functions are named `useragent-memoized`, `browser-memoized`, `os-memoized`, and `device-memoized`.
 
 ### Commandline (CLI)
 
 ```bash
-/usr/bin/java -jar uap-clj-1.2.2-standalone.jar <input_filename> [<optional_out_filename>]
+/usr/bin/java -jar uap-clj-1.3.0-standalone.jar <input_filename> [<optional_out_filename>]
 ```
 
 This command takes as its first argument the name of a text file containing one useragent per line, and prints a TSV (tab-separated) file - defaulting to `useragent_lookup.tsv` - with this line format:
@@ -92,7 +94,7 @@ If you'd like to explore useragent data interactively, and you have Leiningen in
 nREPL server started on port 51929 on host 127.0.0.1 - nrepl://127.0.0.1:51929
 REPL-y 0.3.7, nREPL 0.2.12
 Clojure 1.8.0
-Java HotSpot(TM) 64-Bit Server VM 1.8.0_66-b17
+Java HotSpot(TM) 64-Bit Server VM 1.8.0_102-b14
     Docs: (doc function-name-here)
           (find-doc "part-of-name-here")
   Source: (source function-name-here)
@@ -166,7 +168,7 @@ If you have an Heroku account, [you can easily deploy a Compojure app there](htt
   (ANY "*" []
        (route/not-found (slurp (io/resource "404.html")))))
 ```
-All you need to enable the use of the `lookup-useragent` function here is to add `[uap-clj "1.2.2"]` to the `:dependencies` vector in your Compojure app's `project.clj`, and `[uap-clj.core :refer [lookup-useragent]]` to the `:require` vector of your `web.clj`. Then you can do this type of thing after deployment:
+All you need to enable the use of the `lookup-useragent` function here is to add `[uap-clj "1.3.0"]` to the `:dependencies` vector in your Compojure app's `project.clj`, and `[uap-clj.core :refer [lookup-useragent]]` to the `:require` vector of your `web.clj`. Then you can do this type of thing after deployment:
 
 ```bash
 → curl --data "ua=AppleCoreMedia/1.0.0.12F69 (Apple TV; U; CPU OS 8_3 like Mac OS X; en_us)" http://<your_app>.herokuapp.com {:ua "AppleCoreMedia/1.0.0.12F69 (Apple TV; U; CPU OS 8_3 like Mac OS X; en_us)", :browser {:family "Other", :patch nil, :major nil, :minor nil}, :os {:family "ATV OS X", :major "", :minor "", :patch "", :patch_minor ""}, :device {:family "AppleTV", :brand "Apple", :model "AppleTV"}}
@@ -194,7 +196,7 @@ Then add these dependencies to your `pom.xml`:
 <dependency>
   <groupId>uap-clj</groupId>
   <artifactId>uap-clj</artifactId>
-  <version>1.2.2</version>
+  <version>1.3.0</version>
 </dependency>
 ```
 

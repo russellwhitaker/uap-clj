@@ -11,12 +11,15 @@
    along with original useragent string
   "
   [line regex]
-  (let [regex-case-insensitive? (get regex :regex_flag nil)
-        re (if regex-case-insensitive?
-             (str "(?i)" (:regex regex))
-             (:regex regex))
-        result (re-find (re-pattern re) line)]
-    {:ua line :result result :regex (merge regex {:regex re})}))
+  (try
+    (let [regex-case-insensitive? (get regex :regex_flag nil)
+          re (if regex-case-insensitive?
+               (str "(?i)" (:regex regex))
+               (:regex regex))
+          result (re-find (re-pattern re) line)]
+      {:ua line :result result :regex (merge regex {:regex re})})
+  (catch java.lang.NullPointerException e
+    {:ua line :result {} :regex (merge regex {:regex nil})})))
 
 (defn first-match
   "The uaparser/core specification indicates that for each type
@@ -37,12 +40,14 @@
   "Extract individual type field or supply an alternate substitute
   "
   [match f index-of-alternate]
-  (let [result (flatten (vector (:result match)))
-        matched-substring (first result)
-        regex (:regex match)
-        match-pattern (re-pattern (:regex regex))]
-    (trim (clojure.string/replace
-            matched-substring
-            match-pattern
-            (get regex f
-              (str (nth result index-of-alternate "")))))))
+  (try
+    (let [result (flatten (vector (:result match)))
+          matched-substring (first result)
+          regex (:regex match)
+          match-pattern (re-pattern (:regex regex))]
+      (trim (clojure.string/replace
+              matched-substring
+              match-pattern
+              (get regex f
+                (str (nth result index-of-alternate ""))))))
+  (catch java.lang.NullPointerException e nil)))
