@@ -8,7 +8,7 @@ For Java programmers, an API is provided as well, allowing direct use in native 
 
 The canonical version of this project lives at [`russellwhitaker/uap-clj`](https://github.com/russellwhitaker/uap-clj) and is mirrored at [`ua-parser/uap-clj`](https://github.com/ua-parser/uap-clj).
 
-[![Build Status](https://travis-ci.org/russellwhitaker/uap-clj-hiveudf.svg?branch=master)](https://travis-ci.org/russellwhitaker/uap-clj-hiveudf)
+[![Build Status](https://travis-ci.org/russellwhitaker/uap-clj.svg?branch=master)](https://travis-ci.org/russellwhitaker/uap-clj)
 
 ## Setup
 
