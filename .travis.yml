@@ -1,7 +1,0 @@
-language: clojure
-jdk:
-  - oraclejdk8
-script:
-  - lein eastwood "{:namespaces [:source-paths]}"
-  - lein ancient
-  - JAVA_OPTS="-Xms256M -Xmx512M -Xss512M" lein spec --reporter=c

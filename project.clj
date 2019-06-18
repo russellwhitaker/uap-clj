@@ -1,15 +1,15 @@
-(defproject uap-clj "1.3.3"
+(defproject uap-clj "1.3.4"
   :description "Clojure language implementation of ua-parser"
   :url "https://github.com/russellwhitaker/uap-clj"
   :license {:name "The MIT License (MIT)"
             :url "http://www.opensource.org/licenses/mit-license.php"}
   :scm {:name "git"
         :url "https://github.com/russellwhitaker/uap-clj"}
-  :dependencies [[org.clojure/clojure      "1.10.0"]
+  :dependencies [[org.clojure/clojure      "1.10.1"]
                  [russellwhitaker/immuconf "0.3.0"]
-                 [clj-commons/clj-yaml     "0.6.0"]]
+                 [clj-commons/clj-yaml     "0.7.0"]]
   :profiles {:dev
-              {:dependencies [[criterium "0.4.4"]
+              {:dependencies [[criterium "0.4.5"]
                               [speclj    "3.3.2"]]
                :jvm-opts ["-Xss256M"]
                :test-paths ["spec"]}
