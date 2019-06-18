@@ -1,6 +1,6 @@
 language: clojure
 jdk:
-  - oraclejdk8
+  - oraclejdk9
 script:
   - lein eastwood "{:namespaces [:source-paths]}"
   - lein ancient
