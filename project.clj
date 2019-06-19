@@ -16,12 +16,10 @@
              :uberjar {:aot :all
                        :uberjar-exclusions
                          [#"dev_resources|^test$|test_resources|docs|\.md|LICENSE"]}}
-  :plugins [[lein-git-deps   "0.0.2"]
-            [lein-ancient    "0.6.14"]
-            [lein-bikeshed   "0.4.1"]
-            [jonase/eastwood "0.2.3"]
-            [speclj          "3.3.2"]]
-  :git-dependencies [["https://github.com/ua-parser/uap-core.git"]]
+  :plugins [[lein-git-deps "0.0.2"]
+            [lein-ancient  "0.6.15"]
+            [speclj        "3.3.2"]]
+  :git-dependencies [["https://github.com/russellwhitaker/uap-core.git" "rew/fix_test_ua_yaml_tab"]]
   :resource-paths [".lein-git-deps/uap-core"]
   :main uap-clj.core
   :aot :all
