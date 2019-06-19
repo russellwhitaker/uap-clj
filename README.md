@@ -10,8 +10,6 @@ For Java programmers, an API is provided as well, allowing direct use in native 
 
 The canonical version of this project lives at [`russellwhitaker/uap-clj`](https://github.com/russellwhitaker/uap-clj) and is mirrored at [`ua-parser/uap-clj`](https://github.com/ua-parser/uap-clj).
 
-[![Build Status](https://travis-ci.org/russellwhitaker/uap-clj.svg?branch=master)](https://travis-ci.org/russellwhitaker/uap-clj)
-
 ## Setup
 
 Add this to the `:dependencies` stanza of your `project.clj`:
@@ -32,8 +30,8 @@ Compiling uap-clj.java.api.browser
 Compiling uap-clj.java.api.device
 Compiling uap-clj.java.api.os
 Compiling uap-clj.os
-Created /Users/<username>/dev/uap-clj/target/uap-clj-1.3.4.jar
-Created /Users/<username>/dev/uap-clj/target/uap-clj-1.3.4-standalone.jar
+Created /Users/<username>/dev/uap-clj/target/uap-clj-1.3.5.jar
+Created /Users/<username>/dev/uap-clj/target/uap-clj-1.3.5-standalone.jar
 ```
 
 ### Java dependencies
@@ -67,7 +65,7 @@ The basic utility functions of this library comprise `useragent`, `browser`, `os
 ### Commandline (CLI)
 
 ```bash
-/usr/bin/java -jar uap-clj-1.3.4-standalone.jar <input_filename> [<optional_out_filename>]
+/usr/bin/java -jar uap-clj-1.3.5-standalone.jar <input_filename> [<optional_out_filename>]
 ```
 
 This command takes as its first argument the name of a text file containing one useragent per line, and prints a TSV (tab-separated) file - defaulting to `useragent_lookup.tsv` - with this line format:
@@ -167,7 +165,7 @@ If you have an Heroku account, [you can easily deploy a Compojure app there](htt
   (ANY "*" []
        (route/not-found (slurp (io/resource "404.html")))))
 ```
-All you need to enable the use of the `lookup-useragent` function here is to add `[uap-clj "1.3.4"]` to the `:dependencies` vector in your Compojure app's `project.clj`, and `[uap-clj.core :refer [lookup-useragent]]` to the `:require` vector of your `web.clj`. Then you can do this type of thing after deployment:
+All you need to enable the use of the `lookup-useragent` function here is to add `[uap-clj "1.3.5"]` to the `:dependencies` vector in your Compojure app's `project.clj`, and `[uap-clj.core :refer [lookup-useragent]]` to the `:require` vector of your `web.clj`. Then you can do this type of thing after deployment:
 
 ```bash
 → curl --data "ua=AppleCoreMedia/1.0.0.12F69 (Apple TV; U; CPU OS 8_3 like Mac OS X; en_us)" http://<your_app>.herokuapp.com {:ua "AppleCoreMedia/1.0.0.12F69 (Apple TV; U; CPU OS 8_3 like Mac OS X; en_us)", :browser {:family "Other", :patch nil, :major nil, :minor nil}, :os {:family "ATV OS X", :major "", :minor "", :patch "", :patch_minor ""}, :device {:family "AppleTV", :brand "Apple", :model "AppleTV"}}
@@ -195,7 +193,7 @@ Then add these dependencies to your `pom.xml`:
 <dependency>
   <groupId>uap-clj</groupId>
   <artifactId>uap-clj</artifactId>
-  <version>1.3.4</version>
+  <version>1.3.5</version>
 </dependency>
 ```
 
@@ -271,6 +269,8 @@ Device model: A288t_TD
 ## Future / Enhancements
 
 * add option to source `regexes.yaml` from an S3 bucket
+* replace `speclj` with `clojure.test`
+* add `clojure.spec`
 
 __Maintained by Russell Whitaker__
 
