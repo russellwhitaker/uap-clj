@@ -1,4 +1,4 @@
-(defproject uap-clj "1.3.5"
+(defproject uap-clj "1.3.6"
   :description "Clojure language implementation of ua-parser"
   :url "https://github.com/russellwhitaker/uap-clj"
   :license {:name "The MIT License (MIT)"
@@ -21,7 +21,7 @@
   :plugins [[lein-git-deps "0.0.2"]
             [lein-ancient  "0.6.15"]
             [speclj        "3.3.2"]]
-  :git-dependencies [["https://github.com/russellwhitaker/uap-core.git" "rew/fix_test_ua_yaml_tab"]]
+  :git-dependencies [["https://github.com/ua-parser/uap-core.git"]]
   :resource-paths [".lein-git-deps/uap-core"]
   :main ^:skip-aot uap-clj.core
   :aliases {"test"  ["do" ["clean"] ["spec" "--reporter=d"]]

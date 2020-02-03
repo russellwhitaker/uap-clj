@@ -16,7 +16,7 @@ Add this to the `:dependencies` stanza of your `project.clj`:
 
 [![Clojars Project](http://clojars.org/uap-clj/latest-version.svg)](http://clojars.org/uap-clj)
 
-`uap-clj` depends on the file `regexes.yaml` actively maintained in the public [`ua-parser/uap-core`](https://github.com/ua-parser/uap-core) repository, as well as on the test fixtures `test_ua.yaml`, `test_os.yaml`, and `test_device.yaml` contained therein. Be sure to run `lein deps` after cloning this code repository, and re-run on occasion to pull in changes committed to those `uap-core` assets.
+`uap-clj` depends on the file `regexes.yaml` actively maintained in the public [`ua-parser/uap-core`](https://github.com/ua-parser/uap-core) repository, as well as on the test fixtures `test_ua.yaml`, `test_os.yaml`, and `test_device.yaml` contained therein. Be sure to run `rm -rf .lein-get-deps && lein git-deps && lein deps` after cloning this code repository, and re-run on occasion to pull in changes committed to those `uap-core` assets.
 
 To generate your classes and .jar files:
 
@@ -30,13 +30,13 @@ Compiling uap-clj.java.api.browser
 Compiling uap-clj.java.api.device
 Compiling uap-clj.java.api.os
 Compiling uap-clj.os
-Created /Users/<username>/dev/uap-clj/target/uap-clj-1.3.5.jar
-Created /Users/<username>/dev/uap-clj/target/uap-clj-1.3.5-standalone.jar
+Created /Users/<username>/dev/uap-clj/target/uap-clj-1.3.6.jar
+Created /Users/<username>/dev/uap-clj/target/uap-clj-1.3.6-standalone.jar
 ```
 
 ### Java dependencies
 
-This code was originally tested and shown to run under Java 7 & 8, and recently 11 (so likely works in 9 and 10, though these haven't been explicitly tested):
+This code was originally tested and shown to run under Java 7 & 8, and 11 (so likely works in 9, 10, and 12, though these haven't been explicitly tested):
 
 ```bash
 → java -version
@@ -53,8 +53,8 @@ This project uses [`speclj`](http://speclj.com). The core test suite comprises a
 ```bash
 → lein test
 
-Finished in 0.43404 seconds
-110653 examples, 0 failures
+Finished in 0.24713 seconds
+111147 examples, 0 failures
 ```
 The test suite runs against all the browser, o/s, and device YAML fixtures in [`ua-parser/uap-core/tests`](https://github.com/ua-parser/uap-core/blob/master/tests), for both the native Clojure core library and the Java API.
 
@@ -65,7 +65,7 @@ The basic utility functions of this library comprise `useragent`, `browser`, `os
 ### Commandline (CLI)
 
 ```bash
-/usr/bin/java -jar uap-clj-1.3.5-standalone.jar <input_filename> [<optional_out_filename>]
+/usr/bin/java -jar uap-clj-1.3.6-standalone.jar <input_filename> [<optional_out_filename>]
 ```
 
 This command takes as its first argument the name of a text file containing one useragent per line, and prints a TSV (tab-separated) file - defaulting to `useragent_lookup.tsv` - with this line format:
@@ -132,9 +132,9 @@ uap-clj.core=> (device my-useragent)
 Unknown useragents are classified "Other":
 
 ```clojure
-uap-clj.core=> (pprint (useragent "Some crazy useragent we've not yet categorized/v0.2.0/yomama@yamama.co.jp"))
+uap-clj.core=> (pprint (useragent "Some unknown useragent we've not yet categorized/v0.2.0/yomama@yamama.co.jp"))
 {:ua
- "Some crazy useragent we've not yet categorized/v0.2.0/yomama@yamama.co.jp",
+ "Some unknown useragent we've not yet categorized/v0.2.0/yomama@yamama.co.jp",
  :browser {:family "Other", :patch nil, :major nil, :minor nil},
  :os
  {:patch_minor nil,
@@ -165,7 +165,7 @@ If you have an Heroku account, [you can easily deploy a Compojure app there](htt
   (ANY "*" []
        (route/not-found (slurp (io/resource "404.html")))))
 ```
-All you need to enable the use of the `lookup-useragent` function here is to add `[uap-clj "1.3.5"]` to the `:dependencies` vector in your Compojure app's `project.clj`, and `[uap-clj.core :refer [lookup-useragent]]` to the `:require` vector of your `web.clj`. Then you can do this type of thing after deployment:
+All you need to enable the use of the `lookup-useragent` function here is to add `[uap-clj "1.3.6"]` to the `:dependencies` vector in your Compojure app's `project.clj`, and `[uap-clj.core :refer [lookup-useragent]]` to the `:require` vector of your `web.clj`. Then you can do this type of thing after deployment:
 
 ```bash
 → curl --data "ua=AppleCoreMedia/1.0.0.12F69 (Apple TV; U; CPU OS 8_3 like Mac OS X; en_us)" http://<your_app>.herokuapp.com {:ua "AppleCoreMedia/1.0.0.12F69 (Apple TV; U; CPU OS 8_3 like Mac OS X; en_us)", :browser {:family "Other", :patch nil, :major nil, :minor nil}, :os {:family "ATV OS X", :major "", :minor "", :patch "", :patch_minor ""}, :device {:family "AppleTV", :brand "Apple", :model "AppleTV"}}
@@ -193,7 +193,7 @@ Then add these dependencies to your `pom.xml`:
 <dependency>
   <groupId>uap-clj</groupId>
   <artifactId>uap-clj</artifactId>
-  <version>1.3.5</version>
+  <version>1.3.6</version>
 </dependency>
 ```
 
@@ -278,7 +278,7 @@ __Maintained by Russell Whitaker__
 
 The MIT License (MIT)
 
-Copyright (c) 2015-2019 Russell Whitaker
+Copyright (c) 2015-2020 Russell Whitaker
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 

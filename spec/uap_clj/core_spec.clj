@@ -32,7 +32,7 @@
 (context "Unknown useragent"
  (describe "graceful handling"
    (it "returns default map with 'Other' classification"
-     (should= {:ua "Crazy new useragent in the wild/v0.1.0"
+     (should= {:ua "Unknown new useragent in the wild/v0.1.0"
                :browser
                  {:family "Other"
                   :major nil
