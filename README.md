@@ -30,19 +30,19 @@ Compiling uap-clj.java.api.browser
 Compiling uap-clj.java.api.device
 Compiling uap-clj.java.api.os
 Compiling uap-clj.os
-Created /Users/<username>/dev/uap-clj/target/uap-clj-1.3.6.jar
-Created /Users/<username>/dev/uap-clj/target/uap-clj-1.3.6-standalone.jar
+Created /Users/whitaker/dev/ua-parser/uap-clj/target/uap-clj-1.4.0.jar
+Created /Users/whitaker/dev/ua-parser/uap-clj/target/uap-clj-1.4.0-standalone.jars
 ```
 
 ### Java dependencies
 
-This code was originally tested and shown to run under Java 7 & 8, and 11 (so likely works in 9, 10, and 12, though these haven't been explicitly tested):
+This code was originally tested and shown to run under Java 7, and hasn't broken yet through Java 16:
 
 ```bash
 → java -version
-openjdk version "11.0.2" 2019-01-15
-OpenJDK Runtime Environment AdoptOpenJDK (build 11.0.2+9)
-OpenJDK 64-Bit Server VM AdoptOpenJDK (build 11.0.2+9, mixed mode)
+openjdk version "16.0.2" 2021-07-20
+OpenJDK Runtime Environment (build 16.0.2+7-67)
+OpenJDK 64-Bit Server VM (build 16.0.2+7-67, mixed mode, sharing)
 ```
 
 ## Development
@@ -53,10 +53,10 @@ This project uses [`speclj`](http://speclj.com). The core test suite comprises a
 ```bash
 → lein test
 
-Finished in 0.24713 seconds
-111147 examples, 0 failures
+Finished in 0.24831 seconds
+112439 examples, 0 failures
 ```
-The test suite runs against all the browser, o/s, and device YAML fixtures in [`ua-parser/uap-core/tests`](https://github.com/ua-parser/uap-core/blob/master/tests), for both the native Clojure core library and the Java API.
+The test suite runs against all the browser, o/s, and device YAML fixtures in [`ua-parser/uap-core/tests`](https://github.com/ua-parser/uap-core/blob/master/tests), for both the native Clojure core library and the Java API. The `clojars` artifact is compiled with these fixtures linked as a git submodule dependency.s
 
 ## Use / Production
 
@@ -65,7 +65,7 @@ The basic utility functions of this library comprise `useragent`, `browser`, `os
 ### Commandline (CLI)
 
 ```bash
-/usr/bin/java -jar uap-clj-1.3.6-standalone.jar <input_filename> [<optional_out_filename>]
+/usr/bin/java -jar uap-clj-1.4.0-standalone.jar <input_filename> [<optional_out_filename>]
 ```
 
 This command takes as its first argument the name of a text file containing one useragent per line, and prints a TSV (tab-separated) file - defaulting to `useragent_lookup.tsv` - with this line format:
@@ -88,10 +88,10 @@ If you'd like to explore useragent data interactively, and you have Leiningen in
 
 ```clojure
 → lein repl
-nREPL server started on port 51929 on host 127.0.0.1 - nrepl://127.0.0.1:51929
-REPL-y 0.4.3, nREPL 0.6.0
-Clojure 1.10.1
-OpenJDK 64-Bit Server VM 11.0.2+9
+nREPL server started on port 49487 on host 127.0.0.1 - nrepl://127.0.0.1:49487
+REPL-y 0.4.4, nREPL 0.8.3
+Clojure 1.11.1
+OpenJDK 64-Bit Server VM 16.0.2+7-67
     Docs: (doc function-name-here)
           (find-doc "part-of-name-here")
   Source: (source function-name-here)
@@ -165,7 +165,7 @@ If you have an Heroku account, [you can easily deploy a Compojure app there](htt
   (ANY "*" []
        (route/not-found (slurp (io/resource "404.html")))))
 ```
-All you need to enable the use of the `lookup-useragent` function here is to add `[uap-clj "1.3.6"]` to the `:dependencies` vector in your Compojure app's `project.clj`, and `[uap-clj.core :refer [lookup-useragent]]` to the `:require` vector of your `web.clj`. Then you can do this type of thing after deployment:
+All you need to enable the use of the `lookup-useragent` function here is to add `[uap-clj "1.4.0"]` to the `:dependencies` vector in your Compojure app's `project.clj`, and `[uap-clj.core :refer [lookup-useragent]]` to the `:require` vector of your `web.clj`. Then you can do this type of thing after deployment:
 
 ```bash
 → curl --data "ua=AppleCoreMedia/1.0.0.12F69 (Apple TV; U; CPU OS 8_3 like Mac OS X; en_us)" http://<your_app>.herokuapp.com {:ua "AppleCoreMedia/1.0.0.12F69 (Apple TV; U; CPU OS 8_3 like Mac OS X; en_us)", :browser {:family "Other", :patch nil, :major nil, :minor nil}, :os {:family "ATV OS X", :major "", :minor "", :patch "", :patch_minor ""}, :device {:family "AppleTV", :brand "Apple", :model "AppleTV"}}
@@ -188,12 +188,12 @@ Then add these dependencies to your `pom.xml`:
 <dependency>
   <groupId>org.clojure</groupId>
   <artifactId>clojure</artifactId>
-  <version>1.10.1</version>
+  <version>1.11.1</version>
 </dependency>
 <dependency>
   <groupId>uap-clj</groupId>
   <artifactId>uap-clj</artifactId>
-  <version>1.3.6</version>
+  <version>1.4.0</version>
 </dependency>
 ```
 
@@ -278,7 +278,7 @@ __Maintained by Russell Whitaker__
 
 The MIT License (MIT)
 
-Copyright (c) 2015-2020 Russell Whitaker
+Copyright (c) 2015-2022 Russell Whitaker
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
