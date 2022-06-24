@@ -8,7 +8,7 @@
             [clojure.template :refer [do-template]]))
 
 (def tests (:test_cases (parse-string
-                          (slurp (io/resource "tests/test_os.yaml")))))
+                          (slurp (io/resource "test_os.yaml")))))
 
 (defn run-os-fixture
   "Assert match between fixture test data:
