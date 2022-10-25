@@ -2,13 +2,10 @@
   "Test suite for device lookup functionality"
   (:require [speclj.core :refer :all]
             [uap-clj.device :refer :all]
-            [uap-clj.common-spec :refer [unknown-ua]]
-            [clj-yaml.core :refer [parse-string]]
-            [clojure.java.io :as io :refer [resource]]
+            [uap-clj.common-spec :refer [unknown-ua load-fixture]]
             [clojure.template :refer [do-template]]))
 
-(def tests (:test_cases (parse-string
-                          (slurp (io/resource "test_device.yaml")))))
+(def tests (load-fixture "test_device.yaml"))
 
 (defn run-device-fixture
   "Assert match between fixture test data:

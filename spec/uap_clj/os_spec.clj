@@ -2,13 +2,10 @@
   "Test suite for o/s lookup functionality"
   (:require [speclj.core :refer :all]
             [uap-clj.os :refer :all]
-            [uap-clj.common-spec :refer [unknown-ua]]
-            [clj-yaml.core :refer [parse-string]]
-            [clojure.java.io :as io :refer [resource]]
+            [uap-clj.common-spec :refer [unknown-ua load-fixture]]
             [clojure.template :refer [do-template]]))
 
-(def tests (:test_cases (parse-string
-                          (slurp (io/resource "test_os.yaml")))))
+(def tests (load-fixture "test_os.yaml"))
 
 (defn run-os-fixture
   "Assert match between fixture test data:
