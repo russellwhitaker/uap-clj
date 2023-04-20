@@ -45,8 +45,8 @@ Compiling uap-clj.java.api.browser
 Compiling uap-clj.java.api.device
 Compiling uap-clj.java.api.os
 Compiling uap-clj.os
-Created /Users/whitaker/dev/ua-parser/uap-clj/target/uap-clj-1.6.2.jar
-Created /Users/whitaker/dev/ua-parser/uap-clj/target/uap-clj-1.6.2-standalone.jars
+Created /Users/whitaker/dev/ua-parser/uap-clj/target/uap-clj-1.7.0.jar
+Created /Users/whitaker/dev/ua-parser/uap-clj/target/uap-clj-1.7.0-standalone.jars
 ```
 
 ### Java dependencies
@@ -55,9 +55,9 @@ This code was originally tested and shown to run under Java 7, and hasn't broken
 
 ```bash
 → java -version
-openjdk version "16.0.2" 2021-07-20
-OpenJDK Runtime Environment (build 16.0.2+7-67)
-OpenJDK 64-Bit Server VM (build 16.0.2+7-67, mixed mode, sharing)
+openjdk version "17.0.7" 2023-04-18
+OpenJDK Runtime Environment Temurin-17.0.7+7 (build 17.0.7+7)
+OpenJDK 64-Bit Server VM Temurin-17.0.7+7 (build 17.0.7+7, mixed mode, sharing)s
 ```
 
 ## Development
@@ -80,7 +80,7 @@ The basic utility functions of this library comprise `useragent`, `browser`, `os
 ### Commandline (CLI)
 
 ```bash
-/usr/bin/java -jar uap-clj-1.6.2-standalone.jar <input_filename> [<optional_out_filename>]
+/usr/bin/java -jar uap-clj-1.7.0-standalone.jar <input_filename> [<optional_out_filename>]
 ```
 
 This command takes as its first argument the name of a text file containing one useragent per line, and prints a TSV (tab-separated) file - defaulting to `useragent_lookup.tsv` - with this line format:
@@ -102,11 +102,11 @@ Note that these instructions assume you're using the standalone version of the p
 If you'd like to explore useragent data interactively, and you have Leiningen installed, you can do this:
 
 ```clojure
-→ lein repl
-nREPL server started on port 49487 on host 127.0.0.1 - nrepl://127.0.0.1:49487
+$ lein repl
+nREPL server started on port 54100 on host 127.0.0.1 - nrepl://127.0.0.1:54100
 REPL-y 0.4.4, nREPL 0.8.3
 Clojure 1.11.1
-OpenJDK 64-Bit Server VM 16.0.2+7-67
+OpenJDK 64-Bit Server VM 17.0.7+7
     Docs: (doc function-name-here)
           (find-doc "part-of-name-here")
   Source: (source function-name-here)
@@ -114,10 +114,11 @@ OpenJDK 64-Bit Server VM 16.0.2+7-67
     Exit: Control+D or (exit) or (quit)
  Results: Stored in vars *1, *2, *3, an exception in *e
 
-uap-clj.core=> (def my-useragent "Lenovo-A288t_TD/S100 Linux/2.6.35 Android/2.3.5 Release/02.29.2012 Browser/AppleWebkit533.1 Mobile Safari/533.1 FlyFlow/1.4")
-#'uap-clj.core/my-useragent
-
-uap-clj.core=> (pprint (useragent my-useragent))
+my-project.core=> (require `[uap-clj.core :as u])
+nil
+my-project.core=> (def my-useragent "Lenovo-A288t_TD/S100 Linux/2.6.35 Android/2.3.5 Release/02.29.2012 Browser/AppleWebkit533.1 Mobile Safari/533.1 FlyFlow/1.4")
+#'my-project.core/my-useragent
+my-project.core=> (pprint (u/useragent my-useragent))
 {:ua
  "Lenovo-A288t_TD/S100 Linux/2.6.35 Android/2.3.5 Release/02.29.2012 Browser/AppleWebkit533.1 Mobile Safari/533.1 FlyFlow/1.4",
  :browser
@@ -180,7 +181,7 @@ If you have an Heroku account, [you can easily deploy a Compojure app there](htt
   (ANY "*" []
        (route/not-found (slurp (io/resource "404.html")))))
 ```
-All you need to enable the use of the `lookup-useragent` function here is to add `[uap-clj "1.6.2"]` to the `:dependencies` vector in your Compojure app's `project.clj`, and `[uap-clj.core :refer [lookup-useragent]]` to the `:require` vector of your `web.clj`. Then you can do this type of thing after deployment:
+All you need to enable the use of the `lookup-useragent` function here is to add `[uap-clj "1.7.0"]` to the `:dependencies` vector in your Compojure app's `project.clj` (or a similar entry to `deps.edn` if you're using a more modern `tools-deps` toolchain), and `[uap-clj.core :refer [lookup-useragent]]` to the `:require` vector of your `web.clj`. Then you can do this type of thing after deployment:
 
 ```bash
 → curl --data "ua=AppleCoreMedia/1.0.0.12F69 (Apple TV; U; CPU OS 8_3 like Mac OS X; en_us)" http://<your_app>.herokuapp.com {:ua "AppleCoreMedia/1.0.0.12F69 (Apple TV; U; CPU OS 8_3 like Mac OS X; en_us)", :browser {:family "Other", :patch nil, :major nil, :minor nil}, :os {:family "ATV OS X", :major "", :minor "", :patch "", :patch_minor ""}, :device {:family "AppleTV", :brand "Apple", :model "AppleTV"}}
@@ -208,7 +209,7 @@ Then add these dependencies to your `pom.xml`:
 <dependency>
   <groupId>uap-clj</groupId>
   <artifactId>uap-clj</artifactId>
-  <version>1.6.2</version>
+  <version>1.7.0</version>
 </dependency>
 ```
 
@@ -259,7 +260,7 @@ public class Parser {
 [INFO] Building UapJavaWrapper 1.0-SNAPSHOT
 [INFO] ------------------------------------------------------------------------
 [INFO]
-[INFO] --- exec-maven-plugin:1.6.2:java (default-cli) @ UapJavaWrapper ---
+[INFO] --- exec-maven-plugin:1.7.0:java (default-cli) @ UapJavaWrapper ---
 Browser family: Baidu Explorer
 Browser major number: 1
 Browser minor number: 4
@@ -276,7 +277,7 @@ Device model: A288t_TD
 [INFO] BUILD SUCCESS
 [INFO] ------------------------------------------------------------------------
 [INFO] Total time: 1.961 s
-[INFO] Finished at: 2019-06-19T14:39:45-08:00
+[INFO] Finished at: 2023-04-10T14:39:45-08:00
 [INFO] Final Memory: 15M/301M
 [INFO] ------------------------------------------------------------------------
 ```
@@ -293,7 +294,7 @@ __Maintained by Russell Whitaker__
 
 The MIT License (MIT)
 
-Copyright (c) 2015-2022 Russell Whitaker
+Copyright (c) 2015-2023 Russell Whitaker
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
