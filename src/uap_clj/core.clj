@@ -1,14 +1,12 @@
 (ns uap-clj.core
   "Core library with entrypoint main function"
-  (:refer-clojure :exclude [load])
-  (:require [immuconf.config :as conf :refer [load]]
+  (:require [immuconf.config :as conf]
             [uap-clj.conf :refer [base-config
                                   local-config]]
             [uap-clj.common :as common :refer :all]
             [uap-clj.browser :refer [browser]]
             [uap-clj.os :refer [os]]
             [uap-clj.device :refer [device]]
-            [clj-yaml.core :refer [parse-string]]
             [clojure.java.io :as io :refer [resource]]
             [clojure.string :as s :refer [join trim]]))
 

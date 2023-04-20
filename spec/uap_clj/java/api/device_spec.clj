@@ -5,7 +5,7 @@
             [uap-clj.common-spec :refer [unknown-ua load-fixture]]
             [clojure.template :refer [do-template]]))
 
-(def tests (load-fixture "tests/test_device.yaml"))
+(def tests (load-fixture "test_device.yaml"))
 
 (defn run-device-fixture
   "Assert match between fixture test data:

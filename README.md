@@ -18,6 +18,21 @@ Add this to the `:dependencies` stanza of your `project.clj`:
 
 `uap-clj` depends on the file `regexes.yaml` actively maintained in the public [`ua-parser/uap-core`](https://github.com/ua-parser/uap-core) repository, as well as on the test fixtures `test_ua.yaml`, `test_os.yaml`, and `test_device.yaml` contained therein. Be sure to run `rm -rf .lein-get-deps && lein git-deps && lein deps` after cloning this code repository, and re-run on occasion to pull in changes committed to those `uap-core` assets.
 
+`uap-clj` needs `regexes.yaml` in `edn` format. One way do this conversion is to run:
+
+``` bash
+uap-clj$ cat src/resources/submodules/regexes.yaml | jet -i yaml -o edn -k > resources/regexes.edn
+```
+
+Install [jet](https://github.com/borkdude/jet) CLI:
+
+``` bash
+
+brew install borkdude/brew/jet
+```
+
+Converting the regexes.yaml file to native Clojure EDN data format removes the runtime clj-yaml dependency.
+
 To generate your classes and .jar files:
 
 ```bash

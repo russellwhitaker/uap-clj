@@ -1,10 +1,11 @@
 (ns uap-clj.common
   "Common functions for field matching"
-  (:require [clj-yaml.core :refer [parse-string]]
+  (:require [clojure.edn :as edn]
             [clojure.java.io :as io :refer [resource]]
             [clojure.string :as s :refer [join trim]]))
 
-(def regexes-all (parse-string (slurp (io/resource "regexes.yaml"))))
+(def regexes-all (edn/read-string {:reader {'ordered/map sorted-map}}
+                                  (slurp (io/resource "regexes.edn"))))
 
 (defn match-with-context
   "Return match result with match groups & regex replacement map,

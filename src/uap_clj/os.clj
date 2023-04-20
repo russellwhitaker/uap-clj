@@ -1,7 +1,6 @@
 (ns uap-clj.os
   "Useragent o/s lookup"
   (:require [uap-clj.common :refer [regexes-all first-match field]]
-            [clj-yaml.core :refer [parse-string]]
             [clojure.java.io :as io :refer [resource]]
             [clojure.string :as s :refer [join trim]]))
 
