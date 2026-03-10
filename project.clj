@@ -9,14 +9,14 @@
                  [levand/immuconf "0.1.0"]]
   :jar-exclusions [#"dev_resources|submodules|^test$|test_resources|tests|docs|\.md|LICENSE|package.json"]
   :profiles {:dev
-              {:dependencies [[criterium "0.4.6"]
-                              [speclj "3.12.1"]
-                              [clj-commons/clj-yaml "1.0.29"]]
-               :jvm-opts ["-Xss512M"]
-               :test-paths ["spec"]
-               :resource-paths ["resources" "src/resources/submodules/tests"]}
+             {:dependencies [[criterium "0.4.6"]
+                             [speclj "3.12.1"]
+                             [clj-commons/clj-yaml "1.0.29"]]
+              :jvm-opts ["-Xss512M"]
+              :test-paths ["spec"]
+              :resource-paths ["resources" "src/resources/submodules/tests"]}
              :uberjar {:uberjar-exclusions
-                        [#"dev_resources|submodules|^test$|test_resources|tests|docs|\.md|LICENSE|package.json"]
+                       [#"dev_resources|submodules|^test$|test_resources|tests|docs|\.md|LICENSE|package.json"]
                        :resource-paths ["resources"]}}
   :plugins [[com.github.liquidz/antq "RELEASE"]
             [speclj "3.12.1"]]

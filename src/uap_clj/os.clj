@@ -22,13 +22,13 @@
            :major major
            :minor minor
            :patch patch
-          :patch_minor patch-minor})))
-  (catch java.lang.IndexOutOfBoundsException e
-    {:family "Other"
-     :major nil
-     :minor nil
-     :patch nil
-     :patch_minor nil})))
+           :patch_minor patch-minor})))
+    (catch java.lang.IndexOutOfBoundsException e
+      {:family "Other"
+       :major nil
+       :minor nil
+       :patch nil
+       :patch_minor nil})))
 
 ; For use in production settings where speed may be preferred
 ;  in exchange for the tradeoff of increased memory bloat:

@@ -17,9 +17,9 @@
               brand (field match :brand_replacement 2)
               model (field match :model_replacement 1)]
           {:family family :brand brand :model model})))
-  (catch java.lang.IndexOutOfBoundsException e
-    {:family "Other" :brand nil :model nil})))
+    (catch java.lang.IndexOutOfBoundsException e
+      {:family "Other" :brand nil :model nil})))
 
-; For use in production settings where speed may be preferred
-;  in exchange for the tradeoff of increased memory bloat:
+;; For use in production settings where speed may be preferred
+;; in exchange for the tradeoff of increased memory bloat:
 (def device-memoized (memoize device))

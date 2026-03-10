@@ -16,22 +16,22 @@
   (let [line (:user_agent_string fixture)
         expected (select-keys fixture [:family :major :minor :patch])
         browser (browser line)]
-  (do-template [family major minor patch]
-               (describe
-                 (format "a user agent '%s' in the '%s' browser family"
-                         line (str family))
-                 (it (format "is in the '%s' browser family" (str family))
-                   (should= (str family) (str (:family browser))))
-                 (it (format "has '%s' as its major number" (str major))
-                   (should= (str major) (str (:major browser))))
-                 (it (format "has '%s' as its minor number" (str minor))
-                   (should= (str minor) (str (:minor browser))))
-                 (it (format "has '%s' as its patch number" (str patch))
-                   (should= (str patch) (str (:patch browser)))))
-               (get expected :family "")
-               (get expected :major "")
-               (get expected :minor "")
-               (get expected :patch ""))))
+    (do-template [family major minor patch]
+                 (describe
+                     (format "a user agent '%s' in the '%s' browser family"
+                             line (str family))
+                   (it (format "is in the '%s' browser family" (str family))
+                     (should= (str family) (str (:family browser))))
+                   (it (format "has '%s' as its major number" (str major))
+                     (should= (str major) (str (:major browser))))
+                   (it (format "has '%s' as its minor number" (str minor))
+                     (should= (str minor) (str (:minor browser))))
+                   (it (format "has '%s' as its patch number" (str patch))
+                     (should= (str patch) (str (:patch browser)))))
+                 (get expected :family "")
+                 (get expected :major "")
+                 (get expected :minor "")
+                 (get expected :patch ""))))
 
 (context "Known Browsers:"
   (map #(run-browser-fixture %) tests))

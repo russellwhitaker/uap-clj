@@ -16,19 +16,19 @@
   (let [line (:user_agent_string fixture)
         expected (select-keys fixture [:family :brand :model])
         device (device line)]
-  (do-template [family brand model]
-               (describe
-                 (format "a user agent '%s' in the '%s' Device family"
-                         line (str family))
-                 (it (format "is in the '%s' Device family" (str family))
-                   (should= (str family) (str (:family device))))
-                 (it (format "has '%s' as its brand" (str brand))
-                   (should= (str brand) (str (:brand device))))
-                 (it (format "has '%s' as its model" (str model))
-                   (should= (str model) (str (:model device)))))
-               (get expected :family "")
-               (get expected :brand "")
-               (get expected :model ""))))
+    (do-template [family brand model]
+                 (describe
+                     (format "a user agent '%s' in the '%s' Device family"
+                             line (str family))
+                   (it (format "is in the '%s' Device family" (str family))
+                       (should= (str family) (str (:family device))))
+                   (it (format "has '%s' as its brand" (str brand))
+                       (should= (str brand) (str (:brand device))))
+                   (it (format "has '%s' as its model" (str model))
+                       (should= (str model) (str (:model device)))))
+                 (get expected :family "")
+                 (get expected :brand "")
+                 (get expected :model ""))))
 
 (context "Known Device:"
   (map #(run-device-fixture %) tests))
@@ -48,8 +48,8 @@
   (let [device (device unknown-ua)]
     (describe (format "An as-yet uncataloged device '%s'" unknown-ua)
       (it "is categorized as family 'Other'"
-        (should= "Other" (str (:family device))))
+          (should= "Other" (str (:family device))))
       (it "has '' as its brand"
-        (should= "" (str (:brand device))))
+          (should= "" (str (:brand device))))
       (it "has '' as its model"
-        (should= "" (str (:model device)))))))
+          (should= "" (str (:model device)))))))
