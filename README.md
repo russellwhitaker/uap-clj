@@ -35,26 +35,18 @@ Converting the regexes.yaml file to native Clojure EDN data format removes the r
 
 To generate your classes and .jar files:
 
-```bash
-→ lein build
-Compiling uap-clj.browser
-Compiling uap-clj.common
-Compiling uap-clj.core
-Compiling uap-clj.device
-Compiling uap-clj.java.api.browser
-Compiling uap-clj.java.api.device
-Compiling uap-clj.java.api.os
-Compiling uap-clj.os
-Created /Users/whitaker/dev/ua-parser/uap-clj/target/uap-clj-1.7.0.jar
-Created /Users/whitaker/dev/ua-parser/uap-clj/target/uap-clj-1.7.0-standalone.jars
+```console
+$ lein build
+Created [...]/uap-clj/target/uap-clj-1.7.1.jar
+Created [...]/uap-clj/target/uap-clj-1.7.1-standalone.jar
 ```
 
 ### Java dependencies
 
 This code was originally tested and shown to run under Java 7, and hasn't broken yet through Java 16:
 
-```bash
-→ java -version
+```console
+$ java -version
 openjdk version "17.0.7" 2023-04-18
 OpenJDK Runtime Environment Temurin-17.0.7+7 (build 17.0.7+7)
 OpenJDK 64-Bit Server VM Temurin-17.0.7+7 (build 17.0.7+7, mixed mode, sharing)s
@@ -65,11 +57,11 @@ OpenJDK 64-Bit Server VM Temurin-17.0.7+7 (build 17.0.7+7, mixed mode, sharing)s
 
 This project uses [`speclj`](http://speclj.com). The core test suite comprises almost entirely test generators built from reading in test fixtures from the [`ua-parser/uap-core`](https://github.com/ua-parser/uap-core) repository, which themselves are pulled into the local workspace as dependencies using [`tobyhede/lein-git-deps`](https://github.com/tobyhede/lein-git-deps).
 
-```bash
-→ lein test
-
+```console
+$ lein test
+[...]
 Finished in 0.26248 seconds
-112663 examples, 0 failuress
+112663 examples, 0 failuress, 112663 assertions
 ```
 The test suite runs against all the browser, o/s, and device YAML fixtures in [`ua-parser/uap-core/tests`](https://github.com/ua-parser/uap-core/blob/master/tests), for both the native Clojure core library and the Java API. The `clojars` artifact is compiled with these fixtures linked as a git submodule dependency.
 
@@ -80,7 +72,7 @@ The basic utility functions of this library comprise `useragent`, `browser`, `os
 ### Commandline (CLI)
 
 ```bash
-/usr/bin/java -jar uap-clj-1.7.0-standalone.jar <input_filename> [<optional_out_filename>]
+/usr/bin/java -jar uap-clj-1.7.1-standalone.jar <input_filename> [<optional_out_filename>]
 ```
 
 This command takes as its first argument the name of a text file containing one useragent per line, and prints a TSV (tab-separated) file - defaulting to `useragent_lookup.tsv` - with this line format:
@@ -181,7 +173,7 @@ If you have an Heroku account, [you can easily deploy a Compojure app there](htt
   (ANY "*" []
        (route/not-found (slurp (io/resource "404.html")))))
 ```
-All you need to enable the use of the `lookup-useragent` function here is to add `[uap-clj "1.7.0"]` to the `:dependencies` vector in your Compojure app's `project.clj` (or a similar entry to `deps.edn` if you're using a more modern `tools-deps` toolchain), and `[uap-clj.core :refer [lookup-useragent]]` to the `:require` vector of your `web.clj`. Then you can do this type of thing after deployment:
+All you need to enable the use of the `lookup-useragent` function here is to add `[uap-clj "1.7.1"]` to the `:dependencies` vector in your Compojure app's `project.clj` (or a similar entry to `deps.edn` if you're using a more modern `tools-deps` toolchain), and `[uap-clj.core :refer [lookup-useragent]]` to the `:require` vector of your `web.clj`. Then you can do this type of thing after deployment:
 
 ```bash
 → curl --data "ua=AppleCoreMedia/1.0.0.12F69 (Apple TV; U; CPU OS 8_3 like Mac OS X; en_us)" http://<your_app>.herokuapp.com {:ua "AppleCoreMedia/1.0.0.12F69 (Apple TV; U; CPU OS 8_3 like Mac OS X; en_us)", :browser {:family "Other", :patch nil, :major nil, :minor nil}, :os {:family "ATV OS X", :major "", :minor "", :patch "", :patch_minor ""}, :device {:family "AppleTV", :brand "Apple", :model "AppleTV"}}
@@ -204,12 +196,12 @@ Then add these dependencies to your `pom.xml`:
 <dependency>
   <groupId>org.clojure</groupId>
   <artifactId>clojure</artifactId>
-  <version>1.11.1</version>
+  <version>1.12.4</version>
 </dependency>
 <dependency>
   <groupId>uap-clj</groupId>
   <artifactId>uap-clj</artifactId>
-  <version>1.7.0</version>
+  <version>1.7.1</version>
 </dependency>
 ```
 
