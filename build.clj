@@ -130,39 +130,44 @@
    Requires CLOJARS_USERNAME and CLOJARS_PASSWORD env vars, and gh CLI.
    Usage: clojure -T:build release"
   [_]
-  (let [release-tag (str "v" version)
-        check (b/process {:command-args ["git" "rev-parse" "-q" "--verify"
-                                         (str "refs/tags/" release-tag)]
-                          :dir "."})]
-    (when (zero? (:exit check))
-      (throw (ex-info (str "Tag " release-tag " already exists; aborting release before deploy.")
-                       check))))
-  (deploy nil)
-  (tag nil)
-  (let [release-tag (str "v" version)
-        push (b/process {:command-args ["git" "push" "origin" release-tag]
+  (let [release-tag (str "v" version)]
+    ;; Pre-flight: check tag doesn't exist locally or on remote
+    (b/process {:command-args ["git" "fetch" "--tags" "origin"]
+                :dir "."})
+    (let [check (b/process {:command-args ["git" "rev-parse" "-q" "--verify"
+                                           (str "refs/tags/" release-tag)]
+                            :dir "."})]
+      (when (zero? (:exit check))
+        (throw (ex-info (str "Tag " release-tag " already exists; aborting release before deploy.")
+                         check))))
+    ;; Deploy to Clojars and create local tag
+    (deploy nil)
+    (tag nil)
+    ;; Push tag to origin
+    (let [push (b/process {:command-args ["git" "push" "origin" release-tag]
+                           :dir "."
+                           :inherit true})]
+      (when-not (zero? (:exit push))
+        (throw (ex-info (str "Failed to push tag " release-tag) push))))
+    ;; Create GitHub Release
+    (let [prev-tag-proc (b/process {:command-args ["git" "describe" "--tags" "--abbrev=0"
+                                                   (str release-tag "^")]
+                                    :dir "."})
+          body (if (zero? (:exit prev-tag-proc))
+                 (let [prev-tag (str/trim (:out prev-tag-proc))]
+                   (str "**Full Changelog**: https://github.com/russellwhitaker/uap-clj/compare/"
+                        prev-tag "..." release-tag))
+                 (str "Release " release-tag))
+          gh (b/process {:command-args ["gh" "api" "repos/russellwhitaker/uap-clj/releases"
+                                        "-X" "POST"
+                                        "-f" (str "tag_name=" release-tag)
+                                        "-f" (str "name=" release-tag)
+                                        "-f" (str "body=" body)]
                          :dir "."
                          :inherit true})]
-    (when-not (zero? (:exit push))
-      (throw (ex-info (str "Failed to push tag " release-tag) push))))
-  (let [release-tag (str "v" version)
-        prev-tag (-> (b/process {:command-args ["git" "describe" "--tags" "--abbrev=0"
-                                                (str release-tag "^")]
-                                 :dir "."})
-                     :out
-                     str/trim)
-        body (str "**Full Changelog**: https://github.com/russellwhitaker/uap-clj/compare/"
-                  prev-tag "..." release-tag)
-        gh (b/process {:command-args ["gh" "api" "repos/russellwhitaker/uap-clj/releases"
-                                      "-X" "POST"
-                                      "-f" (str "tag_name=" release-tag)
-                                      "-f" (str "name=" release-tag)
-                                      "-f" (str "body=" body)]
-                       :dir "."
-                       :inherit true})]
-    (when-not (zero? (:exit gh))
-      (throw (ex-info "Failed to create GitHub Release" gh))))
-  (println (str "\nRelease " version " complete.")))
+      (when-not (zero? (:exit gh))
+        (throw (ex-info "Failed to create GitHub Release" gh))))
+    (println (str "\nRelease " version " complete."))))
 
 (defn outdated
   "Check for outdated dependencies. Wraps antq.
