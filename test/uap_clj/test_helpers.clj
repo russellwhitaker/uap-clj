@@ -1,5 +1,5 @@
-(ns uap-clj.common-spec
-  (:require [clojure.java.io :as io :refer [resource]]
+(ns uap-clj.test-helpers
+  (:require [clojure.java.io :as io]
             [clj-yaml.core :refer [parse-string]])
   (:import [org.yaml.snakeyaml LoaderOptions]))
 

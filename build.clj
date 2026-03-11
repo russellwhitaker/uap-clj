@@ -102,7 +102,7 @@
     :sign-releases? false}))
 
 (defn test
-  "Run the speclj test suite.
+  "Run the clojure.test suite via Cognitect test-runner.
    Usage: clojure -T:build test"
   [_]
   (let [proc (-> (ProcessBuilder. ["clojure" "-M:test"])
