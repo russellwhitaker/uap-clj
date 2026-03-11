@@ -1,0 +1,17 @@
+{:paths ["src" "resources"]
+
+ :deps {org.clojure/clojure {:mvn/version "1.12.4"}
+        levand/immuconf     {:mvn/version "0.1.0"}}
+
+ :aliases
+ {:dev
+  {:extra-paths ["spec" "src/resources/submodules/tests"]
+   :extra-deps  {criterium/criterium       {:mvn/version "0.4.6"}
+                 speclj/speclj             {:mvn/version "3.12.1"}
+                 clj-commons/clj-yaml      {:mvn/version "1.0.29"}}
+   :jvm-opts    ["-Xss512M"]}
+
+  :build
+  {:deps {io.github.clojure/tools.build {:mvn/version "0.10.12"}
+          com.github.liquidz/antq       {:mvn/version "2.11.1276"}}
+   :ns-default build}}}

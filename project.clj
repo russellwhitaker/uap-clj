@@ -1,4 +1,4 @@
-(defproject uap-clj "1.7.1"
+(defproject uap-clj "1.8.0"
   :description "Clojure language implementation of ua-parser"
   :url "https://github.com/russellwhitaker/uap-clj"
   :license {:name "The MIT License (MIT)"
@@ -18,8 +18,8 @@
              :uberjar {:uberjar-exclusions
                        [#"dev_resources|submodules|^test$|test_resources|tests|docs|\.md|LICENSE|package.json"]
                        :resource-paths ["resources"]}}
-  :plugins [[com.github.liquidz/antq "RELEASE"]
-            [lein-git-deps "0.0.2-SNAPSHOT"]
+  :plugins [[com.github.liquidz/antq "2.11.1276"]
+            [lein-git-deps "0.0.2"]
             [speclj "3.12.1"]]
   :git-dependencies [["https://github.com/ua-parser/uap-core.git"]]
   :main ^:skip-aot uap-clj.core

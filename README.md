@@ -50,8 +50,8 @@ To generate your classes and .jar files:
 
 ```console
 $ lein build
-Created [...]/uap-clj/target/uap-clj-1.7.1.jar
-Created [...]/uap-clj/target/uap-clj-1.7.1-standalone.jar
+Created [...]/uap-clj/target/uap-clj-1.8.0.jar
+Created [...]/uap-clj/target/uap-clj-1.8.0-standalone.jar
 ```
 
 ### Java dependencies
@@ -85,7 +85,7 @@ The basic utility functions of this library comprise `useragent`, `browser`, `os
 ### Commandline (CLI)
 
 ```bash
-/usr/bin/java -jar uap-clj-1.7.1-standalone.jar <input_filename> [<optional_out_filename>]
+/usr/bin/java -jar uap-clj-1.8.0-standalone.jar <input_filename> [<optional_out_filename>]
 ```
 
 This command takes as its first argument the name of a text file containing one useragent per line, and prints a TSV (tab-separated) file - defaulting to `useragent_lookup.tsv` - with this line format:
@@ -108,10 +108,10 @@ If you'd like to explore useragent data interactively, and you have Leiningen in
 
 ```clojure
 $ lein repl
-nREPL server started on port 54100 on host 127.0.0.1 - nrepl://127.0.0.1:54100
-REPL-y 0.4.4, nREPL 0.8.3
-Clojure 1.11.1
-OpenJDK 64-Bit Server VM 17.0.7+7
+nREPL server started on port 62340 on host 127.0.0.1 - nrepl://127.0.0.1:62340
+REPL-y 0.5.1, nREPL 1.0.0
+Clojure 1.12.4
+OpenJDK 64-Bit Server VM 21+35-LTS
     Docs: (doc function-name-here)
           (find-doc "part-of-name-here")
   Source: (source function-name-here)
@@ -119,11 +119,11 @@ OpenJDK 64-Bit Server VM 17.0.7+7
     Exit: Control+D or (exit) or (quit)
  Results: Stored in vars *1, *2, *3, an exception in *e
 
-my-project.core=> (require `[uap-clj.core :as u])
+uap-clj.core=> (require `[uap-clj.core :as u])
 nil
-my-project.core=> (def my-useragent "Lenovo-A288t_TD/S100 Linux/2.6.35 Android/2.3.5 Release/02.29.2012 Browser/AppleWebkit533.1 Mobile Safari/533.1 FlyFlow/1.4")
-#'my-project.core/my-useragent
-my-project.core=> (pprint (u/useragent my-useragent))
+uap-clj.core=> (def my-useragent "Lenovo-A288t_TD/S100 Linux/2.6.35 Android/2.3.5 Release/02.29.2012 Browser/AppleWebkit533.1 Mobile Safari/533.1 FlyFlow/1.4")
+#'uap-clj.core/my-useragent
+uap-clj.core=> (pprint (uap-clj.core/useragent my-useragent))
 {:ua
  "Lenovo-A288t_TD/S100 Linux/2.6.35 Android/2.3.5 Release/02.29.2012 Browser/AppleWebkit533.1 Mobile Safari/533.1 FlyFlow/1.4",
  :browser
@@ -186,7 +186,7 @@ If you have an Heroku account, [you can easily deploy a Compojure app there](htt
   (ANY "*" []
        (route/not-found (slurp (io/resource "404.html")))))
 ```
-All you need to enable the use of the `lookup-useragent` function here is to add `[uap-clj "1.7.1"]` to the `:dependencies` vector in your Compojure app's `project.clj` (or a similar entry to `deps.edn` if you're using a more modern `tools-deps` toolchain), and `[uap-clj.core :refer [lookup-useragent]]` to the `:require` vector of your `web.clj`. Then you can do this type of thing after deployment:
+All you need to enable the use of the `lookup-useragent` function here is to add `[uap-clj "1.8.0"]` to the `:dependencies` vector in your Compojure app's `project.clj` (or a similar entry to `deps.edn` if you're using a more modern `tools-deps` toolchain), and `[uap-clj.core :refer [lookup-useragent]]` to the `:require` vector of your `web.clj`. Then you can do this type of thing after deployment:
 
 ```bash
 → curl --data "ua=AppleCoreMedia/1.0.0.12F69 (Apple TV; U; CPU OS 8_3 like Mac OS X; en_us)" http://<your_app>.herokuapp.com {:ua "AppleCoreMedia/1.0.0.12F69 (Apple TV; U; CPU OS 8_3 like Mac OS X; en_us)", :browser {:family "Other", :patch nil, :major nil, :minor nil}, :os {:family "ATV OS X", :major "", :minor "", :patch "", :patch_minor ""}, :device {:family "AppleTV", :brand "Apple", :model "AppleTV"}}
@@ -214,7 +214,7 @@ Then add these dependencies to your `pom.xml`:
 <dependency>
   <groupId>uap-clj</groupId>
   <artifactId>uap-clj</artifactId>
-  <version>1.7.1</version>
+  <version>1.8.0</version>
 </dependency>
 ```
 
