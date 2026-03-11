@@ -125,15 +125,29 @@
       (throw (ex-info (str "Failed to create tag " tag) result)))
     (println "Created tag" tag)))
 
+(defn- github-repo
+  "Derive owner/repo from the origin remote URL."
+  []
+  (let [result (b/process {:command-args ["git" "remote" "get-url" "origin"]
+                           :dir "."})]
+    (when-not (zero? (:exit result))
+      (throw (ex-info "Failed to get origin remote URL" result)))
+    (let [url (str/trim (:out result))]
+      (second (re-find #"github\.com[:/](.+?)(?:\.git)?$" url)))))
+
 (defn release
   "Build, deploy to Clojars, create a git tag, push it, and create a GitHub Release.
    Requires CLOJARS_USERNAME and CLOJARS_PASSWORD env vars, and gh CLI.
    Usage: clojure -T:build release"
   [_]
-  (let [release-tag (str "v" version)]
-    ;; Pre-flight: check tag doesn't exist locally or on remote
-    (b/process {:command-args ["git" "fetch" "--tags" "origin"]
-                :dir "."})
+  (let [release-tag (str "v" version)
+        repo (github-repo)]
+    ;; Pre-flight: fetch remote tags and check tag doesn't exist
+    (let [fetch (b/process {:command-args ["git" "fetch" "--tags" "origin"]
+                            :dir "."})]
+      (when-not (zero? (:exit fetch))
+        (throw (ex-info "Failed to fetch tags from origin; aborting release before deploy."
+                         fetch))))
     (let [check (b/process {:command-args ["git" "rev-parse" "-q" "--verify"
                                            (str "refs/tags/" release-tag)]
                             :dir "."})]
@@ -155,10 +169,10 @@
                                     :dir "."})
           body (if (zero? (:exit prev-tag-proc))
                  (let [prev-tag (str/trim (:out prev-tag-proc))]
-                   (str "**Full Changelog**: https://github.com/russellwhitaker/uap-clj/compare/"
+                   (str "**Full Changelog**: https://github.com/" repo "/compare/"
                         prev-tag "..." release-tag))
                  (str "Release " release-tag))
-          gh (b/process {:command-args ["gh" "api" "repos/russellwhitaker/uap-clj/releases"
+          gh (b/process {:command-args ["gh" "api" (str "repos/" repo "/releases")
                                         "-X" "POST"
                                         "-f" (str "tag_name=" release-tag)
                                         "-f" (str "name=" release-tag)
