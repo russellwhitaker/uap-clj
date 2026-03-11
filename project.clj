@@ -18,7 +18,7 @@
              :uberjar {:uberjar-exclusions
                        [#"dev_resources|submodules|^test$|test_resources|tests|docs|\.md|LICENSE|package.json"]
                        :resource-paths ["resources"]}}
-  :plugins [[com.github.liquidz/antq "RELEASE"]
+  :plugins [[com.github.liquidz/antq "2.11.1276"]
             [lein-git-deps "0.0.2"]
             [speclj "3.12.1"]]
   :git-dependencies [["https://github.com/ua-parser/uap-core.git"]]
