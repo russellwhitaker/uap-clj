@@ -119,11 +119,11 @@ OpenJDK 64-Bit Server VM 21+35-LTS
     Exit: Control+D or (exit) or (quit)
  Results: Stored in vars *1, *2, *3, an exception in *e
 
-uap-clj.core=> (require '[uap-clj.core :as u])
+uap-clj.core=> (require `[uap-clj.core :as u])
 nil
 uap-clj.core=> (def my-useragent "Lenovo-A288t_TD/S100 Linux/2.6.35 Android/2.3.5 Release/02.29.2012 Browser/AppleWebkit533.1 Mobile Safari/533.1 FlyFlow/1.4")
 #'uap-clj.core/my-useragent
-uap-clj.core=> (pprint (u/useragent my-useragent))
+uap-clj.core=> (pprint (uap-clj.core/useragent my-useragent))
 {:ua
  "Lenovo-A288t_TD/S100 Linux/2.6.35 Android/2.3.5 Release/02.29.2012 Browser/AppleWebkit533.1 Mobile Safari/533.1 FlyFlow/1.4",
  :browser
