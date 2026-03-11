@@ -1,5 +1,115 @@
 (ns build
-  (:require [clojure.tools.build.api :as b]))
+  (:require [clojure.tools.build.api :as b])
+  (:refer-clojure :exclude [test]))
+
+(def lib 'uap-clj/uap-clj)
+(def version "1.8.0")
+(def class-dir "target/classes")
+(def jar-file (format "target/%s-%s.jar" (name lib) version))
+(def uber-file (format "target/%s-%s-standalone.jar" (name lib) version))
+
+(def basis (delay (b/create-basis {:project "deps.edn"})))
+
+(def pom-data
+  [[:description "Clojure language implementation of ua-parser"]
+   [:url "https://github.com/russellwhitaker/uap-clj"]
+   [:licenses
+    [:license
+     [:name "The MIT License (MIT)"]
+     [:url "http://www.opensource.org/licenses/mit-license.php"]]]
+   [:scm
+    [:url "https://github.com/russellwhitaker/uap-clj"]
+    [:connection "scm:git:https://github.com/russellwhitaker/uap-clj.git"]
+    [:developerConnection "scm:git:ssh://git@github.com/russellwhitaker/uap-clj.git"]
+    [:tag (str "v" version)]]])
+
+(defn clean
+  "Delete the target directory.
+   Usage: clojure -T:build clean"
+  [_]
+  (b/delete {:path "target"}))
+
+(defn compile-java
+  "AOT compile gen-class namespaces for the Java API.
+   Usage: clojure -T:build compile-java"
+  [_]
+  (b/compile-clj {:basis @basis
+                  :src-dirs ["src"]
+                  :class-dir class-dir
+                  :ns-compile ['uap-clj.java.api.browser
+                               'uap-clj.java.api.device
+                               'uap-clj.java.api.os]}))
+
+(defn jar
+  "Build the library JAR for deployment to Clojars.
+   Usage: clojure -T:build jar"
+  [_]
+  (clean nil)
+  (compile-java nil)
+  (b/write-pom {:class-dir class-dir
+                :lib lib
+                :version version
+                :basis @basis
+                :src-dirs ["src"]
+                :pom-data pom-data})
+  (b/copy-dir {:src-dirs ["src"]
+               :target-dir class-dir
+               :include "**/*.{clj,cljc}"})
+  (b/copy-dir {:src-dirs ["resources"]
+               :target-dir class-dir
+               :include "**.edn"})
+  (b/copy-dir {:src-dirs ["src/resources"]
+               :target-dir (str class-dir "/resources")
+               :include "**.edn"})
+  (b/jar {:class-dir class-dir
+          :jar-file jar-file})
+  (println "Built" jar-file))
+
+(defn uber
+  "Build a standalone uberjar.
+   Usage: clojure -T:build uber"
+  [_]
+  (clean nil)
+  (compile-java nil)
+  (b/copy-dir {:src-dirs ["src"]
+               :target-dir class-dir
+               :include "**/*.{clj,cljc}"})
+  (b/copy-dir {:src-dirs ["resources"]
+               :target-dir class-dir
+               :include "**.edn"})
+  (b/copy-dir {:src-dirs ["src/resources"]
+               :target-dir (str class-dir "/resources")
+               :include "**.edn"})
+  (b/compile-clj {:basis @basis
+                  :src-dirs ["src"]
+                  :class-dir class-dir})
+  (b/uber {:class-dir class-dir
+           :uber-file uber-file
+           :basis @basis
+           :main 'uap-clj.core})
+  (println "Built" uber-file))
+
+(defn deploy
+  "Deploy the library JAR to Clojars.
+   Requires CLOJARS_USERNAME and CLOJARS_PASSWORD env vars.
+   Usage: clojure -T:build deploy"
+  [_]
+  (jar nil)
+  ((requiring-resolve 'deps-deploy.deps-deploy/deploy)
+   {:installer :remote
+    :artifact (b/resolve-path jar-file)
+    :pom-file (b/pom-path {:lib lib :class-dir class-dir})
+    :sign-releases? false}))
+
+(defn test
+  "Run the speclj test suite.
+   Usage: clojure -T:build test"
+  [_]
+  (let [proc (-> (ProcessBuilder. ["clojure" "-M:test"])
+                 (.inheritIO)
+                 (.start))]
+    (when-not (zero? (.waitFor proc))
+      (throw (ex-info "Tests failed" {:exit (.exitValue proc)})))))
 
 (defn outdated
   "Check for outdated dependencies. Wraps antq.
