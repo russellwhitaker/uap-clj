@@ -18,8 +18,6 @@ Add this to your `deps.edn`:
 uap-clj/uap-clj {:mvn/version "1.8.0"}
 ```
 
-Or, if using Leiningen, add to the `:dependencies` stanza of your `project.clj`:
-
 [![Clojars Project](http://clojars.org/uap-clj/latest-version.svg)](http://clojars.org/uap-clj)
 
 `uap-clj` depends on the file `regexes.yaml` actively maintained in the public [`ua-parser/uap-core`](https://github.com/ua-parser/uap-core) repository, as well as on the test fixtures `test_ua.yaml`, `test_os.yaml`, and `test_device.yaml` contained therein. After cloning this code repository, initialize the git submodules and fetch dependencies:
@@ -190,7 +188,7 @@ If you have an Heroku account, [you can easily deploy a Compojure app there](htt
   (ANY "*" []
        (route/not-found (slurp (io/resource "404.html")))))
 ```
-All you need to enable the use of the `lookup-useragent` function here is to add `uap-clj/uap-clj {:mvn/version "1.8.0"}` to your `deps.edn` (or `[uap-clj "1.8.0"]` to the `:dependencies` vector in your `project.clj`), and `[uap-clj.core :refer [lookup-useragent]]` to the `:require` vector of your `web.clj`. Then you can do this type of thing after deployment:
+All you need to enable the use of the `lookup-useragent` function here is to add `uap-clj/uap-clj {:mvn/version "1.8.0"}` to your `deps.edn` and `[uap-clj.core :refer [lookup-useragent]]` to the `:require` vector of your `web.clj`. Then you can do this type of thing after deployment:
 
 ```bash
 → curl --data "ua=AppleCoreMedia/1.0.0.12F69 (Apple TV; U; CPU OS 8_3 like Mac OS X; en_us)" http://<your_app>.herokuapp.com {:ua "AppleCoreMedia/1.0.0.12F69 (Apple TV; U; CPU OS 8_3 like Mac OS X; en_us)", :browser {:family "Other", :patch nil, :major nil, :minor nil}, :os {:family "ATV OS X", :major "", :minor "", :patch "", :patch_minor ""}, :device {:family "AppleTV", :brand "Apple", :model "AppleTV"}}
@@ -296,7 +294,6 @@ Device model: A288t_TD
 * add option to source `regexes.yaml` from an S3 bucket
 * replace `speclj` with `clojure.test`
 * add `clojure.spec`
-* complete removal of `project.clj` (Leiningen)
 
 __Maintained by Russell Whitaker__
 
