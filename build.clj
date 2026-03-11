@@ -1,5 +1,6 @@
 (ns build
-  (:require [clojure.tools.build.api :as b])
+  (:require [clojure.tools.build.api :as b]
+            [clojure.string :as str])
   (:refer-clojure :exclude [test]))
 
 (def lib 'uap-clj/uap-clj)
@@ -124,23 +125,63 @@
       (throw (ex-info (str "Failed to create tag " tag) result)))
     (println "Created tag" tag)))
 
+(defn- github-repo
+  "Derive owner/repo from the origin remote URL."
+  []
+  (let [result (b/process {:command-args ["git" "remote" "get-url" "origin"]
+                           :dir "."})]
+    (when-not (zero? (:exit result))
+      (throw (ex-info "Failed to get origin remote URL" result)))
+    (let [url (str/trim (:out result))]
+      (second (re-find #"github\.com[:/](.+?)(?:\.git)?$" url)))))
+
 (defn release
-  "Build, deploy to Clojars, and create a git tag.
-   Requires CLOJARS_USERNAME and CLOJARS_PASSWORD env vars.
-   After running, push the tag with: git push origin v<version>
+  "Build, deploy to Clojars, create a git tag, push it, and create a GitHub Release.
+   Requires CLOJARS_USERNAME and CLOJARS_PASSWORD env vars, and gh CLI.
    Usage: clojure -T:build release"
   [_]
   (let [release-tag (str "v" version)
-        check (b/process {:command-args ["git" "rev-parse" "-q" "--verify"
-                                         (str "refs/tags/" release-tag)]
-                          :dir "."})]
-    (when (zero? (:exit check))
-      (throw (ex-info (str "Tag " release-tag " already exists; aborting release before deploy.")
-                       check))))
-  (deploy nil)
-  (tag nil)
-  (println (str "\nRelease " version " complete."
-                "\nPush the tag with: git push origin v" version)))
+        repo (github-repo)]
+    ;; Pre-flight: fetch remote tags and check tag doesn't exist
+    (let [fetch (b/process {:command-args ["git" "fetch" "--tags" "origin"]
+                            :dir "."})]
+      (when-not (zero? (:exit fetch))
+        (throw (ex-info "Failed to fetch tags from origin; aborting release before deploy."
+                         fetch))))
+    (let [check (b/process {:command-args ["git" "rev-parse" "-q" "--verify"
+                                           (str "refs/tags/" release-tag)]
+                            :dir "."})]
+      (when (zero? (:exit check))
+        (throw (ex-info (str "Tag " release-tag " already exists; aborting release before deploy.")
+                         check))))
+    ;; Deploy to Clojars and create local tag
+    (deploy nil)
+    (tag nil)
+    ;; Push tag to origin
+    (let [push (b/process {:command-args ["git" "push" "origin" release-tag]
+                           :dir "."
+                           :inherit true})]
+      (when-not (zero? (:exit push))
+        (throw (ex-info (str "Failed to push tag " release-tag) push))))
+    ;; Create GitHub Release
+    (let [prev-tag-proc (b/process {:command-args ["git" "describe" "--tags" "--abbrev=0"
+                                                   (str release-tag "^")]
+                                    :dir "."})
+          body (if (zero? (:exit prev-tag-proc))
+                 (let [prev-tag (str/trim (:out prev-tag-proc))]
+                   (str "**Full Changelog**: https://github.com/" repo "/compare/"
+                        prev-tag "..." release-tag))
+                 (str "Release " release-tag))
+          gh (b/process {:command-args ["gh" "api" (str "repos/" repo "/releases")
+                                        "-X" "POST"
+                                        "-f" (str "tag_name=" release-tag)
+                                        "-f" (str "name=" release-tag)
+                                        "-f" (str "body=" body)]
+                         :dir "."
+                         :inherit true})]
+      (when-not (zero? (:exit gh))
+        (throw (ex-info "Failed to create GitHub Release" gh))))
+    (println (str "\nRelease " version " complete."))))
 
 (defn outdated
   "Check for outdated dependencies. Wraps antq.
