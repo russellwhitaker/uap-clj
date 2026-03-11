@@ -5,7 +5,7 @@
             [uap-clj.browser :refer [browser]]
             [uap-clj.os :refer [os]]
             [uap-clj.device :refer [device]]
-            [clojure.java.io :as io :refer [resource]]
+            [clojure.java.io :as io]
             [clojure.string :as s :refer [join trim]]))
 
 (def cfg (load-config))

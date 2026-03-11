@@ -2,7 +2,7 @@
   "Configuration setup for uap-clj.core
   "
   (:require [clojure.edn :as edn]
-            [clojure.java.io :as io :refer [resource as-file]]))
+            [clojure.java.io :as io :refer [resource]]))
 
 (defn load-edn
   "Read and parse an EDN file from a path, URL, or resource.
