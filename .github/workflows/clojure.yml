@@ -17,6 +17,10 @@ jobs:
     - uses: actions/checkout@v6.0.2
       with:
         submodules: recursive
+    - name: Install Clojure Tools
+      uses: DeLaGuardo/setup-clojure@13.5.2
+      with:
+        cli: latest
     - name: Check for outdated dependencies
       run: clojure -T:build outdated
     - name: Install dependencies
