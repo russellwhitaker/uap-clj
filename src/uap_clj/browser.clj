@@ -18,9 +18,9 @@
               minor (field match :v2_replacement 3)
               patch (field match :v3_replacement 4)]
           {:family family :major major :minor minor :patch patch})))
-  (catch java.lang.IndexOutOfBoundsException e
-    {:family "Other" :major nil :minor nil :patch nil})))
+    (catch java.lang.IndexOutOfBoundsException e
+      {:family "Other" :major nil :minor nil :patch nil})))
 
-; For use in production settings where speed may be preferred
-;  in exchange for the tradeoff of increased memory bloat:
+;; For use in production settings where speed may be preferred
+;; in exchange for the tradeoff of increased memory bloat:
 (def browser-memoized (memoize browser))

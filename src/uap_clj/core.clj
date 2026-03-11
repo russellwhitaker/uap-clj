@@ -32,8 +32,8 @@
    :os (os ua)
    :device (device ua)})
 
-; For use in production settings where speed may be preferred
-;  in exchange for the tradeoff of increased memory bloat:
+;; For use in production settings where speed may be preferred
+;; in exchange for the tradeoff of increased memory bloat:
 (def useragent-memoized (memoize useragent))
 
 (def cfg (config))
@@ -64,6 +64,6 @@
         (.write wtr header)
         (doseq [ua results]
           (.write wtr
-            (str (s/join \tab
-                         (map #(get-in ua %) columns))
-                 \newline)))))))
+                  (str (s/join \tab
+                               (map #(get-in ua %) columns))
+                       \newline)))))))

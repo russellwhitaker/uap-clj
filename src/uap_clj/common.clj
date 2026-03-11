@@ -19,8 +19,8 @@
                (:regex regex))
           result (re-find (re-pattern re) line)]
       {:ua line :result result :regex (merge regex {:regex re})})
-  (catch java.lang.NullPointerException e
-    {:ua line :result {} :regex (merge regex {:regex nil})})))
+    (catch java.lang.NullPointerException e
+      {:ua line :result {} :regex (merge regex {:regex nil})})))
 
 (defn first-match
   "The uaparser/core specification indicates that for each type
@@ -47,8 +47,8 @@
           regex (:regex match)
           match-pattern (re-pattern (:regex regex))]
       (trim (clojure.string/replace
-              matched-substring
-              match-pattern
-              (get regex f
-                (str (nth result index-of-alternate ""))))))
-  (catch java.lang.NullPointerException e nil)))
+             matched-substring
+             match-pattern
+             (get regex f
+                  (str (nth result index-of-alternate ""))))))
+    (catch java.lang.NullPointerException e nil)))
