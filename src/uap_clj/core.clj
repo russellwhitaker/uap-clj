@@ -1,24 +1,14 @@
 (ns uap-clj.core
   "Core library with entrypoint main function"
-  (:require [immuconf.config :as conf]
-            [uap-clj.conf :refer [base-config
-                                  local-config]]
+  (:require [uap-clj.conf :refer [load-config]]
             [uap-clj.common :as common :refer :all]
             [uap-clj.browser :refer [browser]]
             [uap-clj.os :refer [os]]
             [uap-clj.device :refer [device]]
-            [clojure.java.io :as io :refer [resource]]
+            [clojure.java.io :as io]
             [clojure.string :as s :refer [join trim]]))
 
-(defn config
-  "Load & merge configuration from a path of configuration file
-   sources.
-  "
-  []
-  (apply conf/load
-         (filter (partial not= nil)
-                 [(base-config)
-                  (local-config)])))
+(def cfg (load-config))
 
 (defn useragent
   "Look up all 3 sets of fields for:
@@ -36,7 +26,6 @@
 ;; in exchange for the tradeoff of increased memory bloat:
 (def useragent-memoized (memoize useragent))
 
-(def cfg (config))
 (def columns (:output-columns cfg))
 (def header
   (str

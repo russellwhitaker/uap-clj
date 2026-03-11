@@ -1,7 +1,6 @@
 {:paths ["src" "resources"]
 
- :deps {org.clojure/clojure {:mvn/version "1.12.4"}
-        levand/immuconf     {:mvn/version "0.1.0"}}
+ :deps {org.clojure/clojure {:mvn/version "1.12.4"}}
 
  :aliases
  {:dev
