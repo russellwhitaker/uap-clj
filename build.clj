@@ -3,7 +3,7 @@
   (:refer-clojure :exclude [test]))
 
 (def lib 'uap-clj/uap-clj)
-(def version "1.8.0")
+(def version "1.8.1")
 (def class-dir "target/classes")
 (def jar-file (format "target/%s-%s.jar" (name lib) version))
 (def uber-file (format "target/%s-%s-standalone.jar" (name lib) version))
@@ -110,6 +110,29 @@
                  (.start))]
     (when-not (zero? (.waitFor proc))
       (throw (ex-info "Tests failed" {:exit (.exitValue proc)})))))
+
+(defn tag
+  "Create a git tag for the current version (e.g. v1.8.1).
+   Fails if the tag already exists.
+   Usage: clojure -T:build tag"
+  [_]
+  (let [tag (str "v" version)
+        result (b/process {:command-args ["git" "tag" "-a" tag "-m" (str "Release " tag)]
+                           :dir "."})]
+    (when-not (zero? (:exit result))
+      (throw (ex-info (str "Failed to create tag " tag) result)))
+    (println "Created tag" tag)))
+
+(defn release
+  "Build, deploy to Clojars, and create a git tag.
+   Requires CLOJARS_USERNAME and CLOJARS_PASSWORD env vars.
+   After running, push the tag with: git push origin v<version>
+   Usage: clojure -T:build release"
+  [_]
+  (deploy nil)
+  (tag nil)
+  (println (str "\nRelease " version " complete."
+                "\nPush the tag with: git push origin v" version)))
 
 (defn outdated
   "Check for outdated dependencies. Wraps antq.
