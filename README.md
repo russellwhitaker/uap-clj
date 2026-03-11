@@ -112,14 +112,14 @@ A Clojure CLI-based run option is available as well, which is particularly conve
 clojure -M -m uap-clj.core <input_filename> [<optional_out_filename>]
 ```
 
-Note that these instructions assume you're using the standalone version of the project .jar file, for development & portability: this will get you running quickly, but it's almost always a better thing to use the mininal jarfile instead, since it _doesn't_ pull in 4Mb of dependencies. To enable this, you'll need to install prerequisite dependencies (specified in `deps.edn`) on your classpath.
+Note that these instructions assume you're using the standalone version of the project .jar file, for development & portability: this will get you running quickly, but it's almost always a better thing to use the minimal jar file instead, since it _doesn't_ pull in 4Mb of dependencies. To enable this, you'll need to install prerequisite dependencies (specified in `deps.edn`) on your classpath.
 
 ### In a Clojure REPL
 
 If you'd like to explore useragent data interactively, you can start a REPL:
 
 ```clojure
-$ clj -A:dev
+$ clj -M:dev
 Clojure 1.12.4
 user=> (require '[uap-clj.core :as u])
 nil
