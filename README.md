@@ -80,13 +80,13 @@ OpenJDK 64-Bit Server VM Temurin-21+35 (build 21+35-LTS, mixed mode, sharing)
 ## Development
 ### Running the test suite
 
-This project uses [`speclj`](http://speclj.com). The core test suite comprises almost entirely test generators built from reading in test fixtures from the [`ua-parser/uap-core`](https://github.com/ua-parser/uap-core) repository, which themselves are pulled into the local workspace as a git submodule.
+This project uses `clojure.test` with the [Cognitect test-runner](https://github.com/cognitect-labs/test-runner). The core test suite comprises almost entirely test generators built from reading in test fixtures from the [`ua-parser/uap-core`](https://github.com/ua-parser/uap-core) repository, which themselves are pulled into the local workspace as a git submodule.
 
 ```console
 $ clojure -M:test
 [...]
-Finished in 0.41278 seconds
-113861 examples, 0 failures, 113861 assertions
+Ran 17 tests containing 113861 assertions.
+0 failures, 0 errors.
 ```
 The test suite runs against all the browser, o/s, and device YAML fixtures in [`ua-parser/uap-core/tests`](https://github.com/ua-parser/uap-core/blob/master/tests), for both the native Clojure core library and the Java API. The `clojars` artifact is compiled with these fixtures linked as a git submodule dependency.
 
@@ -292,7 +292,6 @@ Device model: A288t_TD
 ## Future / Enhancements
 
 * add option to source `regexes.yaml` from an S3 bucket
-* replace `speclj` with `clojure.test`
 * add `clojure.spec`
 
 __Maintained by Russell Whitaker__
