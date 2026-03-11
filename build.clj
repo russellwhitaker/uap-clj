@@ -118,7 +118,8 @@
   [_]
   (let [tag (str "v" version)
         result (b/process {:command-args ["git" "tag" "-a" tag "-m" (str "Release " tag)]
-                           :dir "."})]
+                           :dir "."
+                           :inherit true})]
     (when-not (zero? (:exit result))
       (throw (ex-info (str "Failed to create tag " tag) result)))
     (println "Created tag" tag)))
@@ -129,6 +130,13 @@
    After running, push the tag with: git push origin v<version>
    Usage: clojure -T:build release"
   [_]
+  (let [release-tag (str "v" version)
+        check (b/process {:command-args ["git" "rev-parse" "-q" "--verify"
+                                         (str "refs/tags/" release-tag)]
+                          :dir "."})]
+    (when (zero? (:exit check))
+      (throw (ex-info (str "Tag " release-tag " already exists; aborting release before deploy.")
+                       check))))
   (deploy nil)
   (tag nil)
   (println (str "\nRelease " version " complete."
