@@ -1,5 +1,6 @@
 (ns build
-  (:require [clojure.tools.build.api :as b])
+  (:require [clojure.tools.build.api :as b]
+            [clojure.string :as str])
   (:refer-clojure :exclude [test]))
 
 (def lib 'uap-clj/uap-clj)
@@ -125,9 +126,8 @@
     (println "Created tag" tag)))
 
 (defn release
-  "Build, deploy to Clojars, and create a git tag.
-   Requires CLOJARS_USERNAME and CLOJARS_PASSWORD env vars.
-   After running, push the tag with: git push origin v<version>
+  "Build, deploy to Clojars, create a git tag, push it, and create a GitHub Release.
+   Requires CLOJARS_USERNAME and CLOJARS_PASSWORD env vars, and gh CLI.
    Usage: clojure -T:build release"
   [_]
   (let [release-tag (str "v" version)
@@ -139,8 +139,30 @@
                        check))))
   (deploy nil)
   (tag nil)
-  (println (str "\nRelease " version " complete."
-                "\nPush the tag with: git push origin v" version)))
+  (let [release-tag (str "v" version)
+        push (b/process {:command-args ["git" "push" "origin" release-tag]
+                         :dir "."
+                         :inherit true})]
+    (when-not (zero? (:exit push))
+      (throw (ex-info (str "Failed to push tag " release-tag) push))))
+  (let [release-tag (str "v" version)
+        prev-tag (-> (b/process {:command-args ["git" "describe" "--tags" "--abbrev=0"
+                                                (str release-tag "^")]
+                                 :dir "."})
+                     :out
+                     str/trim)
+        body (str "**Full Changelog**: https://github.com/russellwhitaker/uap-clj/compare/"
+                  prev-tag "..." release-tag)
+        gh (b/process {:command-args ["gh" "api" "repos/russellwhitaker/uap-clj/releases"
+                                      "-X" "POST"
+                                      "-f" (str "tag_name=" release-tag)
+                                      "-f" (str "name=" release-tag)
+                                      "-f" (str "body=" body)]
+                       :dir "."
+                       :inherit true})]
+    (when-not (zero? (:exit gh))
+      (throw (ex-info "Failed to create GitHub Release" gh))))
+  (println (str "\nRelease " version " complete.")))
 
 (defn outdated
   "Check for outdated dependencies. Wraps antq.
