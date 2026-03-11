@@ -48,6 +48,8 @@
                        :family_replacement "PingdomBot"}
                       {:regex "(PingdomTMS)/(\\d+)\\.(\\d+)\\.(\\d+)",
                        :family_replacement "PingdomBot"}
+                      {:regex "(PingdomPageSpeed)/(\\d+)\\.(\\d+)",
+                       :family_replacement "PingdomBot"}
                       {:regex " (PTST)/(\\d+)(?:\\.(\\d+)|)$",
                        :family_replacement "WebPageTest.org bot"}
                       {:regex "X11; (Datanyze); Linux"}
@@ -78,8 +80,8 @@
                       {:regex "(Google-HTTP-Java-Client|Apache-HttpClient|PostmanRuntime|Go-http-client|scalaj-http|http%20client|Python-urllib|HttpMonitor|TLSProber|WinHTTP|JNLP|okhttp|aihttp|reqwest|axios|unirest-(?:java|python|ruby|nodejs|php|net))(?:[ /](\\d+)(?:\\.(\\d+)|)(?:\\.(\\d+)|)|)"}
                       {:regex "(Pinterest(?:bot|))/(\\d+)(?:\\.(\\d+)|)(?:\\.(\\d+)|)[;\\s(]+\\+https://www.pinterest.com/bot.html",
                        :family_replacement "Pinterestbot"}
-                      {:regex "(CSimpleSpider|Cityreview Robot|CrawlDaddy|CrawlFire|Finderbots|Index crawler|Job Roboter|KiwiStatus Spider|Lijit Crawler|QuerySeekerSpider|ScollSpider|Trends Crawler|USyd-NLP-Spider|SiteCat Webbot|BotName\\/\\$BotVersion|123metaspider-Bot|1470\\.net crawler|50\\.nu|8bo Crawler Bot|Aboundex|Accoona-[A-z]{1,30}-Agent|AdsBot-Google(?:-[a-z]{1,30}|)|altavista|AppEngine-Google|archive.{0,30}\\.org_bot|archiver|Ask Jeeves|[Bb]ai[Dd]u[Ss]pider(?:-[A-Za-z]{1,30})(?:-[A-Za-z]{1,30}|)|bingbot|BingPreview|blitzbot|BlogBridge|Bloglovin|BoardReader Blog Indexer|BoardReader Favicon Fetcher|boitho.com-dc|BotSeer|BUbiNG|\\b\\w{0,30}favicon\\w{0,30}\\b|\\bYeti(?:-[a-z]{1,30}|)|Catchpoint(?: bot|)|[Cc]harlotte|Checklinks|clumboot|Comodo HTTP\\(S\\) Crawler|Comodo-Webinspector-Crawler|ConveraCrawler|CRAWL-E|CrawlConvera|Daumoa(?:-feedfetcher|)|Feed Seeker Bot|Feedbin|findlinks|Flamingo_SearchEngine|FollowSite Bot|furlbot|Genieo|gigabot|GomezAgent|gonzo1|(?:[a-zA-Z]{1,30}-|)Googlebot(?:-[a-zA-Z]{1,30}|)|Google SketchUp|grub-client|gsa-crawler|heritrix|HiddenMarket|holmes|HooWWWer|htdig|ia_archiver|ICC-Crawler|Icarus6j|ichiro(?:/mobile|)|IconSurf|IlTrovatore(?:-Setaccio|)|InfuzApp|Innovazion Crawler|InternetArchive|IP2[a-z]{1,30}Bot|jbot\\b|KaloogaBot|Kraken|Kurzor|larbin|LEIA|LesnikBot|Linguee Bot|LinkAider|LinkedInBot|Lite Bot|Llaut|lycos|Mail\\.RU_Bot|masscan|masidani_bot|Mediapartners-Google|Microsoft .{0,30} Bot|mogimogi|mozDex|MJ12bot|msnbot(?:-media {0,2}|)|msrbot|Mtps Feed Aggregation System|netresearch|Netvibes|NewsGator[^/]{0,30}|^NING|Nutch[^/]{0,30}|Nymesis|ObjectsSearch|OgScrper|Orbiter|OOZBOT|PagePeeker|PagesInventory|PaxleFramework|Peeplo Screenshot Bot|PHPCrawl|PlantyNet_WebRobot|Pompos|Qwantify|Read%20Later|Reaper|RedCarpet|Retreiver|Riddler|Rival IQ|scooter|Scrapy|Scrubby|searchsight|seekbot|semanticdiscovery|SemrushBot|Simpy|SimplePie|SEOstats|SimpleRSS|SiteCon|Slackbot-LinkExpanding|Slack-ImgProxy|Slurp|snappy|Speedy Spider|Squrl Java|Stringer|TheUsefulbot|ThumbShotsBot|Thumbshots\\.ru|Tiny Tiny RSS|Twitterbot|WhatsApp|URL2PNG|Vagabondo|VoilaBot|^vortex|Votay bot|^voyager|WASALive.Bot|Web-sniffer|WebThumb|WeSEE:[A-z]{1,30}|WhatWeb|WIRE|WordPress|Wotbox|www\\.almaden\\.ibm\\.com|Xenu(?:.s|) Link Sleuth|Xerka [A-z]{1,30}Bot|yacy(?:bot|)|YahooSeeker|Yahoo! Slurp|Yandex\\w{1,30}|YodaoBot(?:-[A-z]{1,30}|)|YottaaMonitor|Yowedo|^Zao|^Zao-Crawler|ZeBot_www\\.ze\\.bz|ZooShot|ZyBorg|ArcGIS Hub Indexer)(?:[ /]v?(\\d+)(?:\\.(\\d+)(?:\\.(\\d+)|)|)|)"}
-                      {:regex "\\b(Boto3?|JetS3t|aws-(?:cli|sdk-(?:cpp|go|java|nodejs|ruby2?|dotnet-(?:\\d{1,2}|core)))|s3fs)/(\\d+)\\.(\\d+)(?:\\.(\\d+)|)"}
+                      {:regex "(CSimpleSpider|Cityreview Robot|CrawlDaddy|CrawlFire|Finderbots|Index crawler|Job Roboter|KiwiStatus Spider|Lijit Crawler|QuerySeekerSpider|ScollSpider|Trends Crawler|USyd-NLP-Spider|SiteCat Webbot|BotName\\/\\$BotVersion|123metaspider-Bot|1470\\.net crawler|50\\.nu|8bo Crawler Bot|Aboundex|Accoona-[A-z]{1,30}-Agent|AdsBot-Google(?:-[a-z]{1,30}|)|altavista|AppEngine-Google|archive.{0,30}\\.org_bot|archiver|Ask Jeeves|[Bb]ai[Dd]u[Ss]pider(?:-[A-Za-z]{1,30})(?:-[A-Za-z]{1,30}|)|bingbot|BingPreview|blitzbot|BlogBridge|Bloglovin|BoardReader Blog Indexer|BoardReader Favicon Fetcher|boitho.com-dc|BotSeer|BUbiNG|\\b\\w{0,30}favicon\\w{0,30}\\b|\\bYeti(?:-[a-z]{1,30}|)|Catchpoint(?: bot|)|[Cc]harlotte|Checklinks|clumboot|Comodo HTTP\\(S\\) Crawler|Comodo-Webinspector-Crawler|ConveraCrawler|CRAWL-E|CrawlConvera|Daumoa(?:-feedfetcher|)|Feed Seeker Bot|Feedbin|findlinks|Flamingo_SearchEngine|FollowSite Bot|furlbot|Genieo|gigabot|GomezAgent|gonzo1|(?:[a-zA-Z]{1,30}-|)Googlebot(?:-[a-zA-Z]{1,30}|)|GoogleOther|Google SketchUp|grub-client|gsa-crawler|heritrix|HiddenMarket|holmes|HooWWWer|htdig|ia_archiver|ICC-Crawler|Icarus6j|ichiro(?:/mobile|)|IconSurf|IlTrovatore(?:-Setaccio|)|InfuzApp|Innovazion Crawler|InternetArchive|IP2[a-z]{1,30}Bot|jbot\\b|KaloogaBot|Kraken|Kurzor|larbin|LEIA|LesnikBot|Linguee Bot|LinkAider|LinkedInBot|Lite Bot|Llaut|lycos|Mail\\.RU_Bot|masscan|masidani_bot|Mediapartners-Google|Microsoft .{0,30} Bot|mogimogi|mozDex|MJ12bot|msnbot(?:-media {0,2}|)|msrbot|Mtps Feed Aggregation System|netresearch|Netvibes|NewsGator[^/]{0,30}|^NING|Nutch[^/]{0,30}|Nymesis|ObjectsSearch|OgScrper|Orbiter|OOZBOT|PagePeeker|PagesInventory|PaxleFramework|Peeplo Screenshot Bot|PHPCrawl|PlantyNet_WebRobot|Pompos|Qwantify|Read%20Later|Reaper|RedCarpet|Retreiver|Riddler|Rival IQ|scooter|Scrapy|Scrubby|searchsight|seekbot|semanticdiscovery|SemrushBot|Simpy|SimplePie|SEOstats|SimpleRSS|SiteCon|Slackbot-LinkExpanding|Slack-ImgProxy|Slurp|snappy|Speedy Spider|Squrl Java|Stringer|TheUsefulbot|ThumbShotsBot|Thumbshots\\.ru|Tiny Tiny RSS|Twitterbot|WhatsApp|URL2PNG|Vagabondo|VoilaBot|^vortex|Votay bot|^voyager|WASALive.Bot|Web-sniffer|WebThumb|WeSEE:[A-z]{1,30}|WhatWeb|WIRE|WordPress|Wotbox|www\\.almaden\\.ibm\\.com|Xenu(?:.s|) Link Sleuth|Xerka [A-z]{1,30}Bot|yacy(?:bot|)|YahooSeeker|Yahoo! Slurp|Yandex\\w{1,30}|YodaoBot(?:-[A-z]{1,30}|)|YottaaMonitor|Yowedo|^Zao|^Zao-Crawler|ZeBot_www\\.ze\\.bz|ZooShot|ZyBorg|ArcGIS Hub Indexer|GPTBot|Google-InspectionTool)(?:[ /]v?(\\d+)(?:\\.(\\d+)(?:\\.(\\d+)|)|)|)"}
+                      {:regex "\\b(Boto3?|JetS3t|aws-(?:cli|sdk-(?:cpp|go|go-v\\d|java|nodejs|ruby2?|dotnet-(?:\\d{1,2}|core)))|s3fs)/(\\d+)\\.(\\d+)(?:\\.(\\d+)|)"}
                       {:regex "(FME)\\/(\\d+\\.\\d+)\\.(\\d+)\\.(\\d+)"}
                       {:regex "(QGIS)\\/(\\d)\\.?0?(\\d{1,2})\\.?0?(\\d{1,2})"}
                       {:regex "(JOSM)/(\\d+)\\.(\\d+)"}
@@ -90,6 +92,7 @@
                        :family_replacement "Facebook"}
                       {:regex "\\[FB.{0,300};",
                        :family_replacement "Facebook"}
+                      {:regex "(RecipeRadar)/(\\d+)\\.(\\d+)(?:\\.(\\d+)|)"}
                       {:regex "^.{0,200}?(?:\\/[A-Za-z0-9\\.]{0,50}|) {0,2}([A-Za-z0-9 \\-_\\!\\[\\]:]{0,50}(?:[Aa]rchiver|[Ii]ndexer|[Ss]craper|[Bb]ot|[Ss]pider|[Cc]rawl[a-z]{0,50}))[/ ](\\d+)(?:\\.(\\d+)(?:\\.(\\d+)|)|)"}
                       {:regex "^.{0,200}?((?:[A-Za-z][A-Za-z0-9 -]{0,50}|)[^C][^Uu][Bb]ot)\\b(?:(?:[ /]| v)(\\d+)(?:\\.(\\d+)|)(?:\\.(\\d+)|)|)"}
                       {:regex "^.{0,200}?((?:[A-z0-9]{1,50}|[A-z\\-]{1,50} ?|)(?: the |)(?:[Ss][Pp][Ii][Dd][Ee][Rr]|[Ss]crape|[Cc][Rr][Aa][Ww][Ll])[A-z0-9]{0,50})(?:(?:[ /]| v)(\\d+)(?:\\.(\\d+)|)(?:\\.(\\d+)|)|)"}
@@ -106,11 +109,19 @@
                       {:regex "(Snapchat)\\/(\\d+)\\.(\\d+)\\.(\\d+)\\.(\\d+)"}
                       {:regex "(Twitter for (?:iPhone|iPad)|TwitterAndroid)(?:\\/(\\d+)\\.(\\d+)|)",
                        :family_replacement "Twitter"}
-                      {:regex "Mozilla.{1,200}Mobile.{1,100}(Phantom\\/ios|android).(\\d+)\\.(\\d+)\\.(\\d+)",
+                      {:regex "(musical_ly) app_version\\/(\\d+)\\.(\\d+)\\.(\\d+)",
+                       :family_replacement "TikTok"}
+                      {:regex "(musical_ly_)(\\d+)\\.(\\d+)\\.(\\d+)",
+                       :family_replacement "TikTok"}
+                      {:regex "(BytedanceWebview)\\/[a-z0-9]+",
+                       :family_replacement "TikTok"}
+                      {:regex "Mozilla.{1,200}Mobile.{1,100}(KAKAOTALK)/(\\d+)\\.(\\d+)\\.(\\d+)",
+                       :family_replacement "KakaoTalk"}
+                      {:regex "Mozilla.{1,200}Mobile.{1,100}(Phantom\\/ios|Phantom\\/android).(\\d+)\\.(\\d+)\\.(\\d+)",
                        :family_replacement "Phantom"}
-                      {:regex "Mozilla.{1,100}Mobile.{1,100}AspiegelBot",
+                      {:regex "Mozilla.{1,100}Mobile.{1,100}(AspiegelBot|PetalBot)",
                        :family_replacement "Spider"}
-                      {:regex "AspiegelBot",
+                      {:regex "AspiegelBot|PetalBot",
                        :family_replacement "Spider"}
                       {:regex "(Firefox)/(\\d+)\\.(\\d+) Basilisk/(\\d+)",
                        :family_replacement "Basilisk"}
@@ -207,23 +218,34 @@
                        :family_replacement "NetFront NX"}
                       {:regex "(Nintendo 3DS)",
                        :family_replacement "NetFront NX"}
+                      {:regex "(HuaweiBrowser)/(\\d+)\\.(\\d+)\\.(\\d+)\\.\\d+",
+                       :family_replacement "Huawei Browser"}
+                      {:regex "(AVG)/(\\d+)\\.(\\d+)\\.(\\d+)\\.\\d+",
+                       :family_replacement "AVG"}
+                      {:regex "(AvastSecureBrowser|Avast)/(\\d+)\\.(\\d+)\\.(\\d+)",
+                       :family_replacement "Avast Secure Browser"}
+                      {:regex "(Instabridge)/(\\d+)(?:\\.(\\d+)|)(?:\\.(\\d+)|)"}
+                      {:regex "(AlohaBrowser|ABB)/(\\d+)\\.(\\d+)\\.(\\d+)(?:\\.(\\d+)|)",
+                       :family_replacement "Aloha Browser"}
+                      {:regex "((?:B|b)rave(?:\\sChrome)?)/(\\d+)(?:\\.(\\d+)|)(?:\\.(\\d+)|)(?:\\.(\\d+)|)",
+                       :family_replacement "Brave"}
+                      {:regex "(?:\\()?Brave(?:\\))?\\s*$",
+                       :family_replacement "Brave"}
                       {:regex "(Silk)/(\\d+)\\.(\\d+)(?:\\.([0-9\\-]+)|)",
                        :family_replacement "Amazon Silk"}
                       {:regex "(Puffin)/(\\d+)\\.(\\d+)(?:\\.(\\d+)|)"}
                       {:regex "Windows Phone .{0,200}(Edge)/(\\d+)\\.(\\d+)",
                        :family_replacement "Edge Mobile"}
-                      {:regex "(EdgiOS|EdgA)/(\\d+)\\.(\\d+)\\.(\\d+)(?:\\.(\\d+)|)",
+                      {:regex "(EdgiOS|EdgA)/(\\d+)(?:\\.(\\d+)|)(?:\\.(\\d+)|)(?:\\.(\\d+)|)",
                        :family_replacement "Edge Mobile"}
+                      {:regex "(OculusBrowser)/(\\d+)\\.(\\d+)(?:\\.([0-9\\-]+)|)",
+                       :family_replacement "Oculus Browser"}
                       {:regex "(SamsungBrowser)/(\\d+)\\.(\\d+)",
                        :family_replacement "Samsung Internet"}
                       {:regex "(SznProhlizec)/(\\d+)\\.(\\d+)(?:\\.(\\d+)|)",
                        :family_replacement "Seznam prohlížeč"}
                       {:regex "(coc_coc_browser)/(\\d+)\\.(\\d+)(?:\\.(\\d+)|)",
                        :family_replacement "Coc Coc"}
-                      {:regex "(baidubrowser)[/\\s](\\d+)(?:\\.(\\d+)|)(?:\\.(\\d+)|)",
-                       :family_replacement "Baidu Browser"}
-                      {:regex "(FlyFlow)/(\\d+)\\.(\\d+)",
-                       :family_replacement "Baidu Explorer"}
                       {:regex "(MxBrowser)/(\\d+)\\.(\\d+)(?:\\.(\\d+)|)",
                        :family_replacement "Maxthon"}
                       {:regex "(Crosswalk)/(\\d+)\\.(\\d+)\\.(\\d+)\\.(\\d+)"}
@@ -237,23 +259,52 @@
                        :family_replacement "TopBuzz"}
                       {:regex "Mozilla.{1,200}Android.{1,200}(GSA)/(\\d+)\\.(\\d+)\\.(\\d+)",
                        :family_replacement "Google"}
+                      {:regex "(baidubrowser)[/\\s](\\d+)(?:\\.(\\d+)|)(?:\\.(\\d+)|)",
+                       :family_replacement "Baidu Browser"}
+                      {:regex "(FlyFlow|flyflow|baiduboxapp)/(\\d+)\\.(\\d+)(?:\\.(\\d+)|)(?:\\.(\\d+)|)",
+                       :family_replacement "Baidu Explorer"}
                       {:regex "(MQQBrowser/Mini)(?:(\\d+)(?:\\.(\\d+)|)(?:\\.(\\d+)|)|)",
                        :family_replacement "QQ Browser Mini"}
                       {:regex "(MQQBrowser)(?:/(\\d+)(?:\\.(\\d+)|)(?:\\.(\\d+)|)|)",
                        :family_replacement "QQ Browser Mobile"}
                       {:regex "(QQBrowser)(?:/(\\d+)(?:\\.(\\d+)\\.(\\d+)(?:\\.(\\d+)|)|)|)",
                        :family_replacement "QQ Browser"}
-                      {:regex "Mobile.{0,200}(DuckDuckGo)/(\\d+)",
+                      {:regex "Mozilla.{1,200}Mobile.{1,100}(DuckDuckGo)/(\\d+)",
                        :family_replacement "DuckDuckGo Mobile"}
+                      {:regex "Mozilla.{1,200}(DuckDuckGo)/(\\d+)",
+                       :family_replacement "DuckDuckGo"}
+                      {:regex "Mozilla.{1,200}Mobile.{1,100}(Ddg)/(\\d+)(?:\\.(\\d+)|)",
+                       :family_replacement "DuckDuckGo Mobile"}
+                      {:regex "Mozilla.{1,200}(Ddg)/(\\d+)(?:\\.(\\d+)|)",
+                       :family_replacement "DuckDuckGo"}
                       {:regex "(Tenta/)(\\d+)\\.(\\d+)\\.(\\d+)",
                        :family_replacement "Tenta Browser"}
+                      {:regex "(Ecosia) ios@(\\d+)(?:\\.(\\d+)|)(?:\\.(\\d+)|)(?:\\.(\\d+)|)",
+                       :family_replacement "Ecosia iOS"}
+                      {:regex "(Ecosia) android@(\\d+)(?:\\.(\\d+)|)(?:\\.(\\d+)|)(?:\\.(\\d+)|)",
+                       :family_replacement "Ecosia Android"}
+                      {:regex "(VivoBrowser)\\/(\\d+)\\.(\\d+)\\.(\\d+)(?:\\.(\\d+)|)"}
+                      {:regex "(H[Ii]Browser)\\/v(\\d+)\\.(\\d+)\\.(\\d+)\\.(\\d+)",
+                       :family_replacement "HiBrowser"}
+                      {:regex "(HonorBrowser)/(\\d+)\\.(\\d+)\\.(\\d+)\\.(\\d+)",
+                       :family_replacement "Honor Browser"}
+                      {:regex "(bdhonorbrowser)/(\\d+)\\.(\\d+)\\.(\\d+)\\.(\\d+)",
+                       :family_replacement "Honor Browser"}
+                      {:regex "(HeyTapBrowser)/(\\d+)\\.(\\d+)\\.(\\d+)\\.(\\d+)",
+                       :family_replacement "HeyTap Browser"}
+                      {:regex "(weibo)__(\\d+)\\.(\\d+)\\.(\\d+)",
+                       :family_replacement "Weibo"}
+                      {:regex "(WeiboliteiOS|WeiboIntliOS)",
+                       :family_replacement "Weibo"}
+                      {:regex "(PHX)/(\\d+)\\.(\\d+)",
+                       :family_replacement "Phoenix Browser"}
                       {:regex "Version/.{1,300}(Chrome)/(\\d+)\\.(\\d+)\\.(\\d+)\\.(\\d+)",
                        :family_replacement "Chrome Mobile WebView"}
                       {:regex "; wv\\).{1,300}(Chrome)/(\\d+)\\.(\\d+)\\.(\\d+)\\.(\\d+)",
                        :family_replacement "Chrome Mobile WebView"}
                       {:regex "(CrMo)/(\\d+)\\.(\\d+)\\.(\\d+)\\.(\\d+)",
                        :family_replacement "Chrome Mobile"}
-                      {:regex "(CriOS)/(\\d+)\\.(\\d+)\\.(\\d+)\\.(\\d+)",
+                      {:regex "(CriOS)/(\\d+)(?:\\.(\\d+)|)(?:\\.(\\d+)|)(?:\\.(\\d+)|)",
                        :family_replacement "Chrome Mobile iOS"}
                       {:regex "(Chrome)/(\\d+)\\.(\\d+)\\.(\\d+)\\.(\\d+) Mobile(?:[ /]|$)",
                        :family_replacement "Chrome Mobile"}
@@ -271,6 +322,8 @@
                       {:regex "(PyAMF)/(\\d+)\\.(\\d+)\\.(\\d+)"}
                       {:regex "(YaBrowser)/(\\d+)\\.(\\d+)\\.(\\d+)",
                        :family_replacement "Yandex Browser"}
+                      {:regex "(YaSearchBrowser)/(\\d+)\\.(\\d+)\\.(\\d+)",
+                       :family_replacement "Yandex Browser"}
                       {:regex "(Chrome)/(\\d+)\\.(\\d+)\\.(\\d+).{0,100} MRCHROME",
                        :family_replacement "Mail.ru Chromium Browser"}
                       {:regex "(AOL) (\\d+)\\.(\\d+); AOLBuild (\\d+)"}
@@ -285,6 +338,62 @@
                       {:regex "PAN (GlobalProtect)/(\\d+)\\.(\\d+)\\.(\\d+) .{1,100} \\(X11; Linux x86_64\\)"}
                       {:regex "^(surveyon)/(\\d+)\\.(\\d+)\\.(\\d+)",
                        :family_replacement "Surveyon"}
+                      {:regex "(115Browser)/(\\d+)\\.(\\d+)\\.(\\d+)\\.(\\d+)",
+                       :family_replacement "115 Browser"}
+                      {:regex "(Avira)/(\\d+)\\.(\\d+)\\.(\\d+)\\.(\\d+)",
+                       :family_replacement "Avira"}
+                      {:regex "(CCleaner)/(\\d+)\\.(\\d+)\\.(\\d+)\\.(\\d+)",
+                       :family_replacement "CCleaner"}
+                      {:regex "(Norton)/(\\d+)\\.(\\d+)\\.(\\d+)\\.(\\d+)",
+                       :family_replacement "Norton"}
+                      {:regex "(Quark)/(\\d+)\\.(\\d+)\\.(\\d+)",
+                       :family_replacement "Quark"}
+                      {:regex "(QuarkPC)/(\\d+)\\.(\\d+)\\.(\\d+)",
+                       :family_replacement "Quark PC"}
+                      {:regex "(SLBrowser)/(\\d+)\\.(\\d+)\\.(\\d+)\\.(\\d+) SLBChan/(\\d+)",
+                       :family_replacement "Smart Lenovo Browser"}
+                      {:regex "(Atom)/(\\d+)\\.(\\d+)\\.(\\d+)\\.(\\d+)",
+                       :family_replacement "Atom Browser"}
+                      {:regex "(Chrome)/\\d+\\.\\d+\\.\\d+\\.\\d+ .* QIHU 360(?:SEi18n|ENT)",
+                       :family_replacement "360 Secure Browser"}
+                      {:regex "(Decentr)",
+                       :family_replacement "Decentr Web3 Browser"}
+                      {:regex "(Sparrow)",
+                       :family_replacement "Sparrow Browser"}
+                      {:regex "(Chromium GOST)",
+                       :family_replacement "Chromium GOST Browser"}
+                      {:regex "(AOLShield)/(\\d+)\\.(\\d+)\\.(\\d+)\\.(\\d+)",
+                       :family_replacement "AOL Shield Browser"}
+                      {:regex "(Hola)/(\\d+)\\.(\\d+)\\.(\\d+)",
+                       :family_replacement "Hola Browser"}
+                      {:regex "(CravingExplorer)/(\\d+)\\.(\\d+)\\.(\\d+)",
+                       :family_replacement "Craving Explorer Browser"}
+                      {:regex "(Talon)",
+                       :family_replacement "Talon Cyber Security Browser"}
+                      {:regex "(Qaxbrowser)",
+                       :family_replacement "QAX Browser"}
+                      {:regex "(ADG)/(\\d+)\\.(\\d+)\\.(\\d+)",
+                       :family_replacement "AOL Desktop Gold Browser"}
+                      {:regex "(SberBrowser)/(\\d+)\\.(\\d+)\\.(\\d+)\\.(\\d+)",
+                       :family_replacement "Sber Browser"}
+                      {:regex "(JiSu)/(\\d+)\\.(\\d+)\\.(\\d+)",
+                       :family_replacement "JiSu Browser"}
+                      {:regex "(Wolvic)/(\\d+)\\.(\\d+)\\.(\\d+)",
+                       :family_replacement "Wolvic Browser"}
+                      {:regex "(Thano)/(\\d+)\\.(\\d+)",
+                       :family_replacement "SmartTV WebBrowser"}
+                      {:regex "(MicroMessenger)/(\\d+)\\.(\\d+)\\.(\\d+)",
+                       :family_replacement "WeChat Browser"}
+                      {:regex "(Odin)/(\\d+)\\.(\\d+)\\.(\\d+)\\.(\\d+)",
+                       :family_replacement "Odin"}
+                      {:regex "(Colt)/(\\d+)\\.(\\d+)",
+                       :family_replacement "NetCast Smart TV"}
+                      {:regex "(Lite Browser)/(\\d+)\\.(\\d+)",
+                       :family_replacement "Lite Browser"}
+                      {:regex "(OMI)/(\\d+)\\.(\\d+)\\.(\\d+)",
+                       :family_replacement "Vewd Browser"}
+                      {:regex "(Mypal)/(\\d+)\\.(\\d+)\\.(\\d+)",
+                       :family_replacement "Mypal Browser"}
                       {:regex "(Slack_SSB)/(\\d+)\\.(\\d+)\\.(\\d+)",
                        :family_replacement "Slack Desktop Client"}
                       {:regex "(HipChat)/?(\\d+|)",
@@ -316,11 +425,9 @@
                        :family_replacement "Lotus Notes"}
                       {:regex "Superhuman",
                        :family_replacement "Superhuman"}
-                      {:regex "(Vivaldi)/(\\d+)\\.(\\d+)\\.(\\d+)"}
+                      {:regex "(Vivaldi)/(\\d+)(?:\\.(\\d+)|)(?:\\.(\\d+)|)"}
                       {:regex "(Edge?)/(\\d+)(?:\\.(\\d+)|)(?:\\.(\\d+)|)(?:\\.(\\d+)|)",
                        :family_replacement "Edge"}
-                      {:regex "(brave)/(\\d+)\\.(\\d+)\\.(\\d+) Chrome",
-                       :family_replacement "Brave"}
                       {:regex "(Chrome)/(\\d+)\\.(\\d+)\\.(\\d+)[\\d.]{0,100} Iron[^/]",
                        :family_replacement "Iron"}
                       {:regex "\\b(Dolphin)(?: |HDCN/|/INT\\-)(\\d+)\\.(\\d+)(?:\\.(\\d+)|)"}
@@ -517,13 +624,13 @@
                       {:regex "(Espial)/(\\d+)(?:\\.(\\d+)|)(?:\\.(\\d+)|)"}
                       {:regex "(AppleWebKit)/(\\d+)\\.(\\d+)\\.(\\d+)",
                        :family_replacement "Apple Mail"}
-                      {:regex "(Firefox)/(\\d+)\\.(\\d+)\\.(\\d+)"}
+                      {:regex "(Firefox)/(\\d+)\\.(\\d+)(?:\\.(\\d+)|$)"}
                       {:regex "(Firefox)/(\\d+)\\.(\\d+)(pre|[ab]\\d+[a-z]*|)"}
                       {:regex "([MS]?IE) (\\d+)\\.(\\d+)",
                        :family_replacement "IE"}
                       {:regex "(python-requests)/(\\d+)\\.(\\d+)",
                        :family_replacement "Python Requests"}
-                      {:regex "\\b(Windows-Update-Agent|WindowsPowerShell|Microsoft-CryptoAPI|SophosUpdateManager|SophosAgent|Debian APT-HTTP|Ubuntu APT-HTTP|libcurl-agent|libwww-perl|urlgrabber|curl|PycURL|Wget|wget2|aria2|Axel|OpenBSD ftp|lftp|jupdate|insomnia|fetch libfetch|akka-http|got|CloudCockpitBackend|ReactorNetty|axios|Jersey|Vert.x-WebClient|Apache-CXF|Go-CF-client|go-resty|AHC)(?:[ /](\\d+)(?:\\.(\\d+)|)(?:\\.(\\d+)|)|)"}
+                      {:regex "\\b(Windows-Update-Agent|WindowsPowerShell|Microsoft-CryptoAPI|SophosUpdateManager|SophosAgent|Debian APT-HTTP|Ubuntu APT-HTTP|libcurl-agent|libwww-perl|urlgrabber|curl|PycURL|Wget|wget2|aria2|Axel|OpenBSD ftp|lftp|jupdate|insomnia|fetch libfetch|akka-http|got|CloudCockpitBackend|ReactorNetty|axios|Jersey|Vert.x-WebClient|Apache-CXF|Go-CF-client|go-resty|AHC|HTTPie)(?:[ /](\\d+)(?:\\.(\\d+)|)(?:\\.(\\d+)|)|)"}
                       {:regex "^(cf)\\/(\\d+)\\.(\\d+)\\.(\\S+)",
                        :family_replacement "CloudFoundry"}
                       {:regex "^(sap-leonardo-iot-sdk-nodejs) \\/ (\\d+)\\.(\\d+)\\.(\\d+)"}
@@ -535,7 +642,8 @@
                       {:regex "^(ping-service|sap xsuaa|Node-oauth|Site24x7|SAP CPI|JAEGER_SECURITY)"}
                       {:regex "(Python/3\\.\\d{1,3} aiohttp)/(\\d+)\\.(\\d+)\\.(\\d+)",
                        :family_replacement "Python aiohttp"}
-                      {:regex "(Java)[/ ]?\\d+\\.(\\d+)\\.(\\d+)[_-]*([a-zA-Z0-9]+|)"}
+                      {:regex "(Java)[/ ]?\\d{1}\\.(\\d+)\\.(\\d+)[_-]*([a-zA-Z0-9]+|)"}
+                      {:regex "(Java)[/ ]?(\\d+)\\.(\\d+)\\.(\\d+)"}
                       {:regex "(minio-go)/v(\\d+)\\.(\\d+)\\.(\\d+)"}
                       {:regex "^(ureq)[/ ](\\d+)\\.(\\d+).(\\d+)"}
                       {:regex "^(http\\.rb)/(\\d+)\\.(\\d+).(\\d+)"}
@@ -556,8 +664,8 @@
                       {:regex "(Transmit)/(\\d+)\\.(\\d+)\\.(\\d+)"}
                       {:regex "(Download Master)"}
                       {:regex "\\b(HTTrack) (\\d+)\\.(\\d+)(?:[\\.\\-](\\d+)|)"}
-                      {:regex "SerenityOS",
-                       :family_replacement "SerenityOS Browser"}],
+                      {:regex "(Ladybird)\\/(\\d+)\\.(\\d+)"}
+                      {:regex "(MullvadBrowser)/(\\d+)(?:\\.(\\d+)|)(?:\\.(\\d+)|)"}],
  :os_parsers [{:regex "HbbTV/\\d+\\.\\d+\\.\\d+ \\( ;(LG)E ;NetCast 4.0",
                :os_v1_replacement "2013"}
               {:regex "HbbTV/\\d+\\.\\d+\\.\\d+ \\( ;(LG)E ;NetCast 3.0",
@@ -578,12 +686,20 @@
               {:regex "HbbTV/\\d+\\.\\d+\\.\\d+.{0,100}(firetv)-firefox-plugin (\\d+).(\\d+).(\\d+)",
                :os_replacement "FireHbbTV"}
               {:regex "HbbTV/\\d+\\.\\d+\\.\\d+ \\(.{0,30}; ?([a-zA-Z]+) ?;.{0,30}(201[1-9]).{0,30}\\)"}
-              {:regex "AspiegelBot", :os_replacement "Other"}
+              {:regex "AspiegelBot|PetalBot", :os_replacement "Other"}
               {:regex "(Windows Phone) (?:OS[ /])?(\\d+)\\.(\\d+)"}
               {:regex "(CPU[ +]OS|iPhone[ +]OS|CPU[ +]iPhone)[ +]+(\\d+)[_\\.](\\d+)(?:[_\\.](\\d+)|).{0,100}Outlook-iOS-Android",
                :os_replacement "iOS"}
               {:regex "ArcGIS\\.?(iOS|Android)-\\d+\\.\\d+(?:\\.\\d+|)(?:[^\\/]{1,50}|)\\/(\\d+)(?:\\.(\\d+)(?:\\.(\\d+)|)|)"}
               {:regex "ArcGISRuntime-(?:Android|iOS)\\/\\d+\\.\\d+(?:\\.\\d+|) \\((Android|iOS) (\\d+)(?:\\.(\\d+)(?:\\.(\\d+)|)|);"}
+              {:regex "(Android) (\\d+)(?:\\.(\\d+)).*CrKey",
+               :os_replacement "Chromecast Android"}
+              {:regex "Fuchsia.*(CrKey)(?:[/](\\d+)\\.(\\d+)(?:\\.(\\d+)|)|)",
+               :os_replacement "Chromecast Fuchsia"}
+              {:regex "Linux.*(CrKey)(?:[/](\\d+)\\.(\\d+)(?:\\.(\\d+)|)|).*DeviceType/SmartSpeaker",
+               :os_replacement "Chromecast SmartSpeaker"}
+              {:regex "Linux.*(CrKey)(?:[/](\\d+)\\.(\\d+)(?:\\.(\\d+)|)|)",
+               :os_replacement "Chromecast Linux"}
               {:regex "(Android)[ \\-/](\\d+)(?:\\.(\\d+)|)(?:[.\\-]([a-z0-9]+)|)"}
               {:regex "(Android) Donut",
                :os_v1_replacement "1",
@@ -610,6 +726,7 @@
                :os_replacement "Android"}
               {:regex "(android)\\s(?:mobile\\/)(\\d+)(?:\\.(\\d+)(?:\\.(\\d+)|)|)",
                :os_replacement "Android"}
+              {:regex "Quest", :os_replacement "Android"}
               {:regex "(Silk-Accelerated=[a-z]{4,5})",
                :os_replacement "Android"}
               {:regex "(x86_64|aarch64)\\ (\\d+)\\.(\\d+)\\.(\\d+).{0,100}Chrome.{0,100}(?:CitrixChromeApp)$",
@@ -674,6 +791,8 @@
                :os_replacement "Windows",
                :os_v1_replacement "$1"}
               {:regex "(Tizen)[/ ](\\d+)\\.(\\d+)"}
+              {:regex "Intel Mac OS X.+(CriOS|EdgiOS)/\\d+",
+               :os_replacement "iOS"}
               {:regex "((?:Mac[ +]?|; )OS[ +]X)[\\s+/](?:(\\d+)[_.](\\d+)(?:[_.](\\d+)|)|Mach-O)",
                :os_replacement "Mac OS X"}
               {:regex "Mac OS X\\s.{1,50}\\s(\\d+).(\\d+).(\\d+)",
@@ -705,6 +824,7 @@
               {:regex "(?:PPC|Intel) (Mac OS X)"}
               {:regex "^Box.{0,200};(Darwin)/(10)\\.(1\\d)(?:\\.(\\d+)|)",
                :os_replacement "Mac OS X"}
+              {:regex "darwin; arm64", :os_replacement "Mac OS X"}
               {:regex "(Apple\\s?TV)(?:/(\\d+)\\.(\\d+)|)",
                :os_replacement "ATV OS X"}
               {:regex "(CPU[ +]OS|iPhone[ +]OS|CPU[ +]iPhone|CPU IPhone OS|CPU iPad OS)[ +]+(\\d+)[_\\.](\\d+)(?:[_\\.](\\d+)|)",
@@ -965,6 +1085,27 @@
               {:regex "CFNetwork/.{0,100} Darwin/(21)\\.\\d+",
                :os_replacement "iOS",
                :os_v1_replacement "15"}
+              {:regex "CFNetwork/.{0,100} Darwin/22\\.([0-5])\\.\\d+",
+               :os_replacement "iOS",
+               :os_v1_replacement "16",
+               :os_v2_replacement "$1"}
+              {:regex "CFNetwork/.{0,100} Darwin/(22)\\.\\d+",
+               :os_replacement "iOS",
+               :os_v1_replacement "16"}
+              {:regex "CFNetwork/.{0,100} Darwin/23\\.([0-5])\\.\\d+",
+               :os_replacement "iOS",
+               :os_v1_replacement "17",
+               :os_v2_replacement "$1"}
+              {:regex "CFNetwork/.{0,100} Darwin/(23)\\.\\d+",
+               :os_replacement "iOS",
+               :os_v1_replacement "17"}
+              {:regex "CFNetwork/.{0,100} Darwin/24\\.([0-5])\\.\\d+",
+               :os_replacement "iOS",
+               :os_v1_replacement "18",
+               :os_v2_replacement "$1"}
+              {:regex "CFNetwork/.{0,100} Darwin/(24)\\.\\d+",
+               :os_replacement "iOS",
+               :os_v1_replacement "18"}
               {:regex "CFNetwork/.{0,100} Darwin/",
                :os_replacement "iOS"}
               {:regex "\\b(iOS[ /]|iOS; |iPhone(?:/| v|[ _]OS[/,]|; | OS : |\\d,\\d/|\\d,\\d; )|iPad/)(\\d{1,2})[_\\.](\\d{1,2})(?:[_\\.](\\d+)|)",
@@ -1048,8 +1189,6 @@
               {:regex "BMP;", :os_replacement "Brew MP"}
               {:regex "(GoogleTV)(?: (\\d+)\\.(\\d+)(?:\\.(\\d+)|)|/[\\da-z]+)"}
               {:regex "(WebTV)/(\\d+).(\\d+)"}
-              {:regex "(CrKey)(?:[/](\\d+)\\.(\\d+)(?:\\.(\\d+)|)|)",
-               :os_replacement "Chromecast"}
               {:regex "(hpw|web)OS/(\\d+)\\.(\\d+)(?:\\.(\\d+)|)",
                :os_replacement "webOS"}
               {:regex "(VRE);"}
@@ -1067,8 +1206,14 @@
               {:regex "\\((freebsd)(\\d+)\\.(\\d+)\\)",
                :os_replacement "FreeBSD"}
               {:regex "linux", :os_replacement "Linux"}
-              {:regex "^(Roku)/DVP-(\\d+)\\.(\\d+)"}],
- :device_parsers [{:regex "^.{0,100}?(?:(?:iPhone|Windows CE|Windows Phone|Android).{0,300}(?:(?:Bot|Yeti)-Mobile|YRSpider|BingPreview|bots?/\\d|(?:bot|spider)\\.html)|AdsBot-Google-Mobile.{0,200}iPhone)",
+              {:regex "^(Roku)/DVP-(\\d+)\\.(\\d+)"}
+              {:regex "os\\/macos[#]?(\\d*)[.]?(\\d*)[.]?(\\d*)",
+               :os_replacement "Mac OS X",
+               :os_v1_replacement "$1",
+               :os_v2_replacement "$2",
+               :os_v3_replacement "$3"}
+              {:regex "(HarmonyOS)[\\s;]+(\\d+|)\\.?(\\d+|)\\.?(\\d+|)"}],
+ :device_parsers [{:regex "^.{0,100}?(?:(?:iPhone|Windows CE|Windows Phone|Android).{0,300}(?:(?:Bot|Yeti)-Mobile|YRSpider|BingPreview|bots?/\\d|(?:bot|spider)\\.html|Google-InspectionTool)|AdsBot-Google-Mobile.{0,200}iPhone)",
                    :regex_flag "i",
                    :device_replacement "Spider",
                    :brand_replacement "Spider",
@@ -1084,11 +1229,11 @@
                   {:regex "X11; Datanyze; Linux",
                    :device_replacement "Spider",
                    :brand_replacement "Spider"}
-                  {:regex "Mozilla.{1,100}Mobile.{1,100}AspiegelBot",
+                  {:regex "Mozilla.{1,100}Mobile.{1,100}(AspiegelBot|PetalBot)",
                    :device_replacement "Spider",
                    :brand_replacement "Spider",
                    :model_replacement "Smartphone"}
-                  {:regex "Mozilla.{0,200}AspiegelBot",
+                  {:regex "Mozilla.{0,200}(AspiegelBot|PetalBot)",
                    :device_replacement "Spider",
                    :brand_replacement "Spider",
                    :model_replacement "Desktop"}
@@ -1407,6 +1552,22 @@
                    :device_replacement "$1",
                    :brand_replacement "ChangJia",
                    :model_replacement "$1"}
+                  {:regex "CrKey.*DeviceType/([^/]*)",
+                   :brand_replacement "Google",
+                   :device_replacement "Chromecast",
+                   :model_replacement "$1"}
+                  {:regex "Fuchsia.*CrKey",
+                   :brand_replacement "Google",
+                   :device_replacement "Chromecast",
+                   :model_replacement "Nest Hub"}
+                  {:regex "Linux.*CrKey/1.36",
+                   :brand_replacement "Google",
+                   :device_replacement "Chromecast",
+                   :model_replacement "First Generation"}
+                  {:regex "CrKey/",
+                   :brand_replacement "Google",
+                   :device_replacement "Chromecast",
+                   :model_replacement "Chromecast"}
                   {:regex "; {0,2}(Cloudfone)[ _](Excite)([^ ][^;/]{1,100}?)(?: Build|\\) AppleWebKit)",
                    :device_replacement "$1 $2 $3",
                    :brand_replacement "Cloudfone",
@@ -1788,7 +1949,7 @@
                    :device_replacement "HTC $1",
                    :brand_replacement "HTC",
                    :model_replacement "$1"}
-                  {:regex "; {0,2}(ADR6200|ADR6400L|ADR6425LVW|Amaze|DesireS?|EndeavorU|Eris|EVO|Evo\\d[A-Z]+|HD2|IncredibleS?|Inspire[A-Z0-9]*|Inspire[A-Z0-9]*|Sensation[A-Z0-9]*|Wildfire)[ _-](.{1,200}?)(?:[/;\\)]|Build|MIUI|1\\.0)",
+                  {:regex "; {0,2}(ADR6200|ADR6400L|ADR6425LVW|Amaze|DesireS?|EndeavorU|Eris|EVO|Evo\\d[A-Z]+|HD2|IncredibleS?|Inspire[A-Z0-9]*|Sensation[A-Z0-9]*|Wildfire)[ _-](.{1,200}?)(?:[/;\\)]|Build|MIUI|1\\.0)",
                    :regex_flag "i",
                    :device_replacement "HTC $1 $2",
                    :brand_replacement "HTC",
@@ -2153,6 +2314,22 @@
                    :device_replacement "Meizu $1",
                    :brand_replacement "Meizu",
                    :model_replacement "$1"}
+                  {:regex "Quest 3",
+                   :device_replacement "Quest",
+                   :brand_replacement "Meta",
+                   :model_replacement "Quest 3"}
+                  {:regex "Quest 2",
+                   :device_replacement "Quest",
+                   :brand_replacement "Meta",
+                   :model_replacement "Quest 2"}
+                  {:regex "Quest Pro",
+                   :device_replacement "Quest",
+                   :brand_replacement "Meta",
+                   :model_replacement "Quest Pro"}
+                  {:regex "Quest",
+                   :device_replacement "Quest",
+                   :brand_replacement "Meta",
+                   :model_replacement "Quest"}
                   {:regex "; {0,2}(?:Micromax[ _](A111|A240)|(A111|A240)) Build",
                    :regex_flag "i",
                    :device_replacement "Micromax $1$2",
@@ -3448,7 +3625,7 @@
                    :device_replacement "Nintendo Wii U",
                    :brand_replacement "Nintendo",
                    :model_replacement "Wii U"}
-                  {:regex "Nintendo (DS|3DS|DSi|Wii);",
+                  {:regex "Nintendo (Switch|DS|3DS|DSi|Wii);",
                    :device_replacement "Nintendo $1",
                    :brand_replacement "Nintendo",
                    :model_replacement "$1"}
@@ -3576,7 +3753,7 @@
                    :device_replacement "Generic Smartphone",
                    :brand_replacement "Generic",
                    :model_replacement "Smartphone"}
-                  {:regex "^.{0,100}(bot|BUbiNG|zao|borg|DBot|oegp|silk|Xenu|zeal|^NING|CCBot|crawl|htdig|lycos|slurp|teoma|voila|yahoo|Sogou|CiBra|Nutch|^Java/|^JNLP/|Daumoa|Daum|Genieo|ichiro|larbin|pompos|Scrapy|snappy|speedy|spider|msnbot|msrbot|vortex|^vortex|crawler|favicon|indexer|Riddler|scooter|scraper|scrubby|WhatWeb|WinHTTP|bingbot|BingPreview|openbot|gigabot|furlbot|polybot|seekbot|^voyager|archiver|Icarus6j|mogimogi|Netvibes|blitzbot|altavista|charlotte|findlinks|Retreiver|TLSProber|WordPress|SeznamBot|ProoXiBot|wsr\\-agent|Squrl Java|EtaoSpider|PaperLiBot|SputnikBot|A6\\-Indexer|netresearch|searchsight|baiduspider|YisouSpider|ICC\\-Crawler|http%20client|Python-urllib|dataparksearch|converacrawler|Screaming Frog|AppEngine-Google|YahooCacheSystem|fast\\-webcrawler|Sogou Pic Spider|semanticdiscovery|Innovazion Crawler|facebookexternalhit|Google.{0,200}/\\+/web/snippet|Google-HTTP-Java-Client|BlogBridge|IlTrovatore-Setaccio|InternetArchive|GomezAgent|WebThumbnail|heritrix|NewsGator|PagePeeker|Reaper|ZooShot|holmes|NL-Crawler|Pingdom|StatusCake|WhatsApp|masscan|Google Web Preview|Qwantify|Yeti|OgScrper)",
+                  {:regex "^.{0,100}(bot|BUbiNG|zao|borg|DBot|oegp|silk|Xenu|zeal|^NING|CCBot|crawl|htdig|lycos|slurp|teoma|voila|yahoo|Sogou|CiBra|Nutch|^Java/|^JNLP/|Daumoa|Daum|Genieo|ichiro|larbin|pompos|Scrapy|snappy|speedy|spider|msnbot|msrbot|vortex|^vortex|crawler|favicon|indexer|Riddler|scooter|scraper|scrubby|WhatWeb|WinHTTP|bingbot|BingPreview|openbot|gigabot|furlbot|polybot|seekbot|^voyager|archiver|Icarus6j|mogimogi|Netvibes|blitzbot|altavista|charlotte|findlinks|Retreiver|TLSProber|WordPress|SeznamBot|ProoXiBot|wsr\\-agent|Squrl Java|EtaoSpider|PaperLiBot|SputnikBot|A6\\-Indexer|netresearch|searchsight|baiduspider|YisouSpider|ICC\\-Crawler|http%20client|Python-urllib|dataparksearch|converacrawler|Screaming Frog|AppEngine-Google|YahooCacheSystem|fast\\-webcrawler|Sogou Pic Spider|semanticdiscovery|Innovazion Crawler|facebookexternalhit|Google.{0,200}/\\+/web/snippet|Google-HTTP-Java-Client|BlogBridge|IlTrovatore-Setaccio|InternetArchive|GomezAgent|WebThumbnail|heritrix|NewsGator|PagePeeker|Reaper|ZooShot|holmes|NL-Crawler|Pingdom|StatusCake|WhatsApp|masscan|Google Web Preview|Qwantify|Yeti|OgScrper|RecipeRadar|GPTBot|Google-InspectionTool)",
                    :regex_flag "i",
                    :device_replacement "Spider",
                    :brand_replacement "Spider",

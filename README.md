@@ -16,7 +16,20 @@ Add this to the `:dependencies` stanza of your `project.clj`:
 
 [![Clojars Project](http://clojars.org/uap-clj/latest-version.svg)](http://clojars.org/uap-clj)
 
-`uap-clj` depends on the file `regexes.yaml` actively maintained in the public [`ua-parser/uap-core`](https://github.com/ua-parser/uap-core) repository, as well as on the test fixtures `test_ua.yaml`, `test_os.yaml`, and `test_device.yaml` contained therein. Be sure to run `rm -rf .lein-get-deps && lein git-deps && lein deps` after cloning this code repository, and re-run on occasion to pull in changes committed to those `uap-core` assets.
+`uap-clj` depends on the file `regexes.yaml` actively maintained in the public [`ua-parser/uap-core`](https://github.com/ua-parser/uap-core) repository, as well as on the test fixtures `test_ua.yaml`, `test_os.yaml`, and `test_device.yaml` contained therein. After cloning this code repository, first initialize the git submodules, then fetch dependencies:
+
+``` bash
+git submodule update --init --recursive
+rm -rf .lein-git-deps && lein git-deps && lein deps
+```
+
+Re-run on occasion to pull in changes committed to those `uap-core` assets.
+
+**Note:** If you encounter `transfer failed` or `Broken pipe` errors during dependency resolution, your JVM may be failing TLS handshakes over IPv6. Fix this by setting:
+
+``` bash
+export LEIN_JVM_OPTS="-Djava.net.preferIPv4Stack=true"
+```
 
 `uap-clj` needs `regexes.yaml` in `edn` format. One way do this conversion is to run:
 
@@ -43,13 +56,13 @@ Created [...]/uap-clj/target/uap-clj-1.7.1-standalone.jar
 
 ### Java dependencies
 
-This code was originally tested and shown to run under Java 7, and hasn't broken yet through Java 16:
+This code was originally tested and shown to run under Java 7, and hasn't broken yet through Java 21:
 
 ```console
 $ java -version
-openjdk version "17.0.7" 2023-04-18
-OpenJDK Runtime Environment Temurin-17.0.7+7 (build 17.0.7+7)
-OpenJDK 64-Bit Server VM Temurin-17.0.7+7 (build 17.0.7+7, mixed mode, sharing)s
+openjdk version "21" 2023-09-19 LTS
+OpenJDK Runtime Environment Temurin-21+35 (build 21+35-LTS)
+OpenJDK 64-Bit Server VM Temurin-21+35 (build 21+35-LTS, mixed mode, sharing)
 ```
 
 ## Development
@@ -60,8 +73,8 @@ This project uses [`speclj`](http://speclj.com). The core test suite comprises a
 ```console
 $ lein test
 [...]
-Finished in 0.26248 seconds
-112663 examples, 0 failuress, 112663 assertions
+Finished in 0.41278 seconds
+113861 examples, 0 failures, 113861 assertions
 ```
 The test suite runs against all the browser, o/s, and device YAML fixtures in [`ua-parser/uap-core/tests`](https://github.com/ua-parser/uap-core/blob/master/tests), for both the native Clojure core library and the Java API. The `clojars` artifact is compiled with these fixtures linked as a git submodule dependency.
 
@@ -286,7 +299,7 @@ __Maintained by Russell Whitaker__
 
 The MIT License (MIT)
 
-Copyright (c) 2015-2023 Russell Whitaker
+Copyright (c) 2015-2026 Russell Whitaker
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
