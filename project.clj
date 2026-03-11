@@ -21,6 +21,8 @@
   :plugins [[com.github.liquidz/antq "2.11.1276"]
             [lein-git-deps "0.0.2"]
             [speclj "3.12.1"]]
+  :deploy-repositories [["clojars" {:url "https://repo.clojars.org"
+                                    :sign-releases false}]]
   :git-dependencies [["https://github.com/ua-parser/uap-core.git"]]
   :main ^:skip-aot uap-clj.core
   :aliases {"test"  ["do" ["clean"] ["spec" "--reporter=d"]]

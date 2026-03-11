@@ -12,15 +12,21 @@ The canonical version of this project lives at [`russellwhitaker/uap-clj`](https
 
 ## Setup
 
-Add this to the `:dependencies` stanza of your `project.clj`:
+Add this to your `deps.edn`:
+
+```clojure
+uap-clj/uap-clj {:mvn/version "1.8.0"}
+```
+
+Or, if using Leiningen, add to the `:dependencies` stanza of your `project.clj`:
 
 [![Clojars Project](http://clojars.org/uap-clj/latest-version.svg)](http://clojars.org/uap-clj)
 
-`uap-clj` depends on the file `regexes.yaml` actively maintained in the public [`ua-parser/uap-core`](https://github.com/ua-parser/uap-core) repository, as well as on the test fixtures `test_ua.yaml`, `test_os.yaml`, and `test_device.yaml` contained therein. After cloning this code repository, first initialize the git submodules, then fetch dependencies:
+`uap-clj` depends on the file `regexes.yaml` actively maintained in the public [`ua-parser/uap-core`](https://github.com/ua-parser/uap-core) repository, as well as on the test fixtures `test_ua.yaml`, `test_os.yaml`, and `test_device.yaml` contained therein. After cloning this code repository, initialize the git submodules and fetch dependencies:
 
 ``` bash
 git submodule update --init --recursive
-rm -rf .lein-git-deps && lein git-deps && lein deps
+clojure -P && clojure -P -M:test
 ```
 
 Re-run on occasion to pull in changes committed to those `uap-core` assets.
@@ -28,7 +34,7 @@ Re-run on occasion to pull in changes committed to those `uap-core` assets.
 **Note:** If you encounter `transfer failed` or `Broken pipe` errors during dependency resolution, your JVM may be failing TLS handshakes over IPv6. Fix this by setting:
 
 ``` bash
-export LEIN_JVM_OPTS="-Djava.net.preferIPv4Stack=true"
+export JAVA_TOOL_OPTIONS="-Djava.net.preferIPv4Stack=true"
 ```
 
 `uap-clj` needs `regexes.yaml` in `edn` format. One way do this conversion is to run:
@@ -49,9 +55,17 @@ Converting the regexes.yaml file to native Clojure EDN data format removes the r
 To generate your classes and .jar files:
 
 ```console
-$ lein build
-Created [...]/uap-clj/target/uap-clj-1.8.0.jar
-Created [...]/uap-clj/target/uap-clj-1.8.0-standalone.jar
+$ clojure -T:build jar
+Built target/uap-clj-1.8.0.jar
+
+$ clojure -T:build uber
+Built target/uap-clj-1.8.0-standalone.jar
+```
+
+To deploy to Clojars:
+
+```console
+$ CLOJARS_USERNAME=<user> CLOJARS_PASSWORD=<deploy-token> clojure -T:build deploy
 ```
 
 ### Java dependencies
@@ -68,10 +82,10 @@ OpenJDK 64-Bit Server VM Temurin-21+35 (build 21+35-LTS, mixed mode, sharing)
 ## Development
 ### Running the test suite
 
-This project uses [`speclj`](http://speclj.com). The core test suite comprises almost entirely test generators built from reading in test fixtures from the [`ua-parser/uap-core`](https://github.com/ua-parser/uap-core) repository, which themselves are pulled into the local workspace as dependencies using [`tobyhede/lein-git-deps`](https://github.com/tobyhede/lein-git-deps).
+This project uses [`speclj`](http://speclj.com). The core test suite comprises almost entirely test generators built from reading in test fixtures from the [`ua-parser/uap-core`](https://github.com/ua-parser/uap-core) repository, which themselves are pulled into the local workspace as a git submodule.
 
 ```console
-$ lein test
+$ clojure -M:test
 [...]
 Finished in 0.41278 seconds
 113861 examples, 0 failures, 113861 assertions
@@ -94,36 +108,26 @@ This command takes as its first argument the name of a text file containing one 
 
 The output file has a single-line header and can be be trivially imported by your favorite spreadsheet or database ETL tool.
 
-A Leiningen-based run option is available as well, which is particularly convenient during development:
+A Clojure CLI-based run option is available as well, which is particularly convenient during development:
 
 ```bash
-lein run <input_filename> [<optional_out_filename>]
+clojure -M -m uap-clj.core <input_filename> [<optional_out_filename>]
 ```
 
-Note that these instructions assume you're using the standalone version of the project .jar file, for development & portability: this will get you running quickly, but it's almost always a better thing to use the mininal jarfile instead, since it _doesn't_ pull in 4Mb of dependencies. To enable this, you'll need to install prerequisite dependencies (specified in `project.clj`) on your classpath.
+Note that these instructions assume you're using the standalone version of the project .jar file, for development & portability: this will get you running quickly, but it's almost always a better thing to use the mininal jarfile instead, since it _doesn't_ pull in 4Mb of dependencies. To enable this, you'll need to install prerequisite dependencies (specified in `deps.edn`) on your classpath.
 
 ### In a Clojure REPL
 
-If you'd like to explore useragent data interactively, and you have Leiningen installed, you can do this:
+If you'd like to explore useragent data interactively, you can start a REPL:
 
 ```clojure
-$ lein repl
-nREPL server started on port 62340 on host 127.0.0.1 - nrepl://127.0.0.1:62340
-REPL-y 0.5.1, nREPL 1.0.0
+$ clj -A:dev
 Clojure 1.12.4
-OpenJDK 64-Bit Server VM 21+35-LTS
-    Docs: (doc function-name-here)
-          (find-doc "part-of-name-here")
-  Source: (source function-name-here)
- Javadoc: (javadoc java-object-or-class-here)
-    Exit: Control+D or (exit) or (quit)
- Results: Stored in vars *1, *2, *3, an exception in *e
-
-uap-clj.core=> (require `[uap-clj.core :as u])
+user=> (require '[uap-clj.core :as u])
 nil
-uap-clj.core=> (def my-useragent "Lenovo-A288t_TD/S100 Linux/2.6.35 Android/2.3.5 Release/02.29.2012 Browser/AppleWebkit533.1 Mobile Safari/533.1 FlyFlow/1.4")
-#'uap-clj.core/my-useragent
-uap-clj.core=> (pprint (uap-clj.core/useragent my-useragent))
+user=> (def my-useragent "Lenovo-A288t_TD/S100 Linux/2.6.35 Android/2.3.5 Release/02.29.2012 Browser/AppleWebkit533.1 Mobile Safari/533.1 FlyFlow/1.4")
+#'user/my-useragent
+user=> (clojure.pprint/pprint (u/useragent my-useragent))
 {:ua
  "Lenovo-A288t_TD/S100 Linux/2.6.35 Android/2.3.5 Release/02.29.2012 Browser/AppleWebkit533.1 Mobile Safari/533.1 FlyFlow/1.4",
  :browser
@@ -142,18 +146,18 @@ nil
 If you only care about particular `browser`, `os`, or `device` values, you can look each of these separately:
 
 ```clojure
-uap-clj.core=> (browser my-useragent)
+user=> (u/browser my-useragent)
 {:family "Baidu Explorer", :major "1", :minor "4", :patch ""}
-uap-clj.core=> (os my-useragent)
+user=> (u/os my-useragent)
 {:family "Android", :major "2", :minor "3", :patch "5", :patch_minor ""}
-uap-clj.core=> (device my-useragent)
+user=> (u/device my-useragent)
 {:family "Lenovo A288t_TD", :brand "Lenovo", :model "A288t_TD"}
 ```
 
 Unknown useragents are classified "Other":
 
 ```clojure
-uap-clj.core=> (pprint (useragent "Some unknown useragent we've not yet categorized/v0.2.0/yomama@yamama.co.jp"))
+user=> (clojure.pprint/pprint (u/useragent "Some unknown useragent we've not yet categorized/v0.2.0/yomama@yamama.co.jp"))
 {:ua
  "Some unknown useragent we've not yet categorized/v0.2.0/yomama@yamama.co.jp",
  :browser {:family "Other", :patch nil, :major nil, :minor nil},
@@ -165,7 +169,7 @@ uap-clj.core=> (pprint (useragent "Some unknown useragent we've not yet categori
   :minor nil},
  :device {:family "Other", :brand nil, :model nil}}
 nil
-uap-clj.core=>
+user=>
 ```
 You can also use any other Clojure REPL for the same type of interactive data exploration.
 
@@ -186,7 +190,7 @@ If you have an Heroku account, [you can easily deploy a Compojure app there](htt
   (ANY "*" []
        (route/not-found (slurp (io/resource "404.html")))))
 ```
-All you need to enable the use of the `lookup-useragent` function here is to add `[uap-clj "1.8.0"]` to the `:dependencies` vector in your Compojure app's `project.clj` (or a similar entry to `deps.edn` if you're using a more modern `tools-deps` toolchain), and `[uap-clj.core :refer [lookup-useragent]]` to the `:require` vector of your `web.clj`. Then you can do this type of thing after deployment:
+All you need to enable the use of the `lookup-useragent` function here is to add `uap-clj/uap-clj {:mvn/version "1.8.0"}` to your `deps.edn` (or `[uap-clj "1.8.0"]` to the `:dependencies` vector in your `project.clj`), and `[uap-clj.core :refer [lookup-useragent]]` to the `:require` vector of your `web.clj`. Then you can do this type of thing after deployment:
 
 ```bash
 → curl --data "ua=AppleCoreMedia/1.0.0.12F69 (Apple TV; U; CPU OS 8_3 like Mac OS X; en_us)" http://<your_app>.herokuapp.com {:ua "AppleCoreMedia/1.0.0.12F69 (Apple TV; U; CPU OS 8_3 like Mac OS X; en_us)", :browser {:family "Other", :patch nil, :major nil, :minor nil}, :os {:family "ATV OS X", :major "", :minor "", :patch "", :patch_minor ""}, :device {:family "AppleTV", :brand "Apple", :model "AppleTV"}}
@@ -292,6 +296,7 @@ Device model: A288t_TD
 * add option to source `regexes.yaml` from an S3 bucket
 * replace `speclj` with `clojure.test`
 * add `clojure.spec`
+* complete removal of `project.clj` (Leiningen)
 
 __Maintained by Russell Whitaker__
 
