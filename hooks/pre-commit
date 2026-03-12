@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+# Pre-commit hook: run cljstyle fix on staged Clojure files
+# Install: cp hooks/pre-commit .git/hooks/pre-commit && chmod +x .git/hooks/pre-commit
+
+set -euo pipefail
+
+staged=$(git diff --cached --name-only --diff-filter=ACM -z -- '*.clj' '*.cljc' '*.cljs' '*.edn')
+
+if [[ -z "$staged" ]]; then
+  exit 0
+fi
+
+echo "Running cljstyle fix on staged Clojure files..."
+git diff --cached --name-only --diff-filter=ACM -z -- '*.clj' '*.cljc' '*.cljs' '*.edn' | xargs -0 clojure -M:cljstyle-fix
+
+# Re-stage any files that were reformatted
+git diff --cached --name-only --diff-filter=ACM -z -- '*.clj' '*.cljc' '*.cljs' '*.edn' | xargs -0 git add
+
+echo "cljstyle fix complete."

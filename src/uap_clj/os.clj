@@ -1,10 +1,13 @@
 (ns uap-clj.os
   "Useragent o/s lookup"
-  (:require [uap-clj.common :refer [regexes-all first-match field]]
-            [clojure.java.io :as io :refer [resource]]
-            [clojure.string :as s :refer [join trim]]))
+  (:require
+   [clojure.java.io :as io :refer [resource]]
+   [clojure.string :as s :refer [join trim]]
+   [uap-clj.common :refer [regexes-all first-match field]]))
+
 
 (def regexes (:os_parsers regexes-all))
+
 
 (defn os
   [ua]
@@ -30,6 +33,7 @@
        :patch nil
        :patch_minor nil})))
 
-; For use in production settings where speed may be preferred
-;  in exchange for the tradeoff of increased memory bloat:
+
+;; For use in production settings where speed may be preferred
+;;  in exchange for the tradeoff of increased memory bloat:
 (def os-memoized (memoize os))

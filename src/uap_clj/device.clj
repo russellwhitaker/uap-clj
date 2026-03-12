@@ -1,10 +1,13 @@
 (ns uap-clj.device
   "Useragent device lookup"
-  (:require [uap-clj.common :refer [regexes-all first-match field]]
-            [clojure.java.io :as io :refer [resource]]
-            [clojure.string :as s :refer [join trim]]))
+  (:require
+   [clojure.java.io :as io :refer [resource]]
+   [clojure.string :as s :refer [join trim]]
+   [uap-clj.common :refer [regexes-all first-match field]]))
+
 
 (def regexes (:device_parsers regexes-all))
+
 
 (defn device
   [ua]
@@ -19,6 +22,7 @@
           {:family family :brand brand :model model})))
     (catch java.lang.IndexOutOfBoundsException e
       {:family "Other" :brand nil :model nil})))
+
 
 ;; For use in production settings where speed may be preferred
 ;; in exchange for the tradeoff of increased memory bloat:

@@ -1,10 +1,13 @@
 (ns uap-clj.browser
   "Useragent browser lookup"
-  (:require [uap-clj.common :refer [regexes-all first-match field]]
-            [clojure.java.io :as io :refer [resource]]
-            [clojure.string :as s :refer [join trim]]))
+  (:require
+   [clojure.java.io :as io :refer [resource]]
+   [clojure.string :as s :refer [join trim]]
+   [uap-clj.common :refer [regexes-all first-match field]]))
+
 
 (def regexes (:user_agent_parsers regexes-all))
+
 
 (defn browser
   [ua]
@@ -20,6 +23,7 @@
           {:family family :major major :minor minor :patch patch})))
     (catch java.lang.IndexOutOfBoundsException e
       {:family "Other" :major nil :minor nil :patch nil})))
+
 
 ;; For use in production settings where speed may be preferred
 ;; in exchange for the tradeoff of increased memory bloat:

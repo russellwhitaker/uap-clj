@@ -1,10 +1,13 @@
 (ns uap-clj.java.api.os-test
   "Test suite for Java API to o/s lookup functionality"
-  (:require [clojure.test :refer [deftest is testing]]
-            [uap-clj.java.api.os :refer [-lookup]]
-            [uap-clj.test-helpers :refer [unknown-ua load-fixture]]))
+  (:require
+   [clojure.test :refer [deftest is testing]]
+   [uap-clj.java.api.os :refer [-lookup]]
+   [uap-clj.test-helpers :refer [unknown-ua load-fixture]]))
+
 
 (def tests (load-fixture "test_os.yaml"))
+
 
 (deftest known-os-test
   (doseq [fixture tests]
@@ -17,6 +20,7 @@
         (is (= (str (get expected :minor "")) (str (.get result "minor"))))
         (is (= (str (get expected :patch "")) (str (.get result "patch"))))
         (is (= (str (get expected :patch_minor "")) (str (.get result "patch_minor"))))))))
+
 
 (deftest unknown-os-test
   (testing (format "An as-yet uncataloged o/s '%s'" unknown-ua)

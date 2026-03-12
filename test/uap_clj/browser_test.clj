@@ -1,10 +1,13 @@
 (ns uap-clj.browser-test
   "Test suite for browser lookup functionality"
-  (:require [clojure.test :refer [deftest is testing]]
-            [uap-clj.browser :refer [browser]]
-            [uap-clj.test-helpers :refer [unknown-ua load-fixture]]))
+  (:require
+   [clojure.test :refer [deftest is testing]]
+   [uap-clj.browser :refer [browser]]
+   [uap-clj.test-helpers :refer [unknown-ua load-fixture]]))
+
 
 (def tests (load-fixture "test_ua.yaml"))
+
 
 (deftest known-browsers-test
   (doseq [fixture tests]
@@ -17,10 +20,12 @@
         (is (= (str (get expected :minor "")) (str (:minor result))))
         (is (= (str (get expected :patch "")) (str (:patch result))))))))
 
+
 (deftest nil-input-test
   (testing "graceful handling of nil input"
     (is (= {:family nil :major nil :minor nil :patch nil}
            (browser nil)))))
+
 
 (deftest unknown-browser-test
   (testing (format "An as-yet uncataloged browser '%s'" unknown-ua)

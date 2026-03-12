@@ -31,7 +31,9 @@ jobs:
         key: clojure-${{ hashFiles('deps.edn') }}
         restore-keys: clojure-
     - name: Install dependencies
-      run: clojure -P && clojure -P -M:test && clojure -P -T:build
+      run: clojure -P && clojure -P -M:test && clojure -P -M:cljstyle-check && clojure -P -T:build
+    - name: Check formatting
+      run: clojure -M:cljstyle-check
     - name: Check for outdated dependencies
       run: clojure -T:build outdated
     - name: Run tests
