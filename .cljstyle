@@ -1,0 +1,4 @@
+{:rules
+ {:indentation
+  {:list-indent 1
+   :indents {try+ [[:block 0]]}}}}

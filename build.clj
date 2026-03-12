@@ -1,7 +1,9 @@
 (ns build
-  (:require [clojure.tools.build.api :as b]
-            [clojure.string :as str])
-  (:refer-clojure :exclude [test]))
+  (:refer-clojure :exclude [test])
+  (:require
+   [clojure.string :as str]
+   [clojure.tools.build.api :as b]))
+
 
 (def lib 'uap-clj/uap-clj)
 (def version "1.8.1")
@@ -10,6 +12,7 @@
 (def uber-file (format "target/%s-%s-standalone.jar" (name lib) version))
 
 (def basis (delay (b/create-basis {:project "deps.edn"})))
+
 
 (def pom-data
   [[:description "Clojure language implementation of ua-parser"]
@@ -24,11 +27,13 @@
     [:developerConnection "scm:git:ssh://git@github.com/russellwhitaker/uap-clj.git"]
     [:tag (str "v" version)]]])
 
+
 (defn clean
   "Delete the target directory.
    Usage: clojure -T:build clean"
   [_]
   (b/delete {:path "target"}))
+
 
 (defn compile-java
   "AOT compile gen-class namespaces for the Java API.
@@ -40,6 +45,7 @@
                   :ns-compile ['uap-clj.java.api.browser
                                'uap-clj.java.api.device
                                'uap-clj.java.api.os]}))
+
 
 (defn jar
   "Build the library JAR for deployment to Clojars.
@@ -66,6 +72,7 @@
           :jar-file jar-file})
   (println "Built" jar-file))
 
+
 (defn uber
   "Build a standalone uberjar.
    Usage: clojure -T:build uber"
@@ -90,6 +97,7 @@
            :main 'uap-clj.core})
   (println "Built" uber-file))
 
+
 (defn deploy
   "Deploy the library JAR to Clojars.
    Requires CLOJARS_USERNAME and CLOJARS_PASSWORD env vars.
@@ -102,6 +110,7 @@
     :pom-file (b/pom-path {:lib lib :class-dir class-dir})
     :sign-releases? false}))
 
+
 (defn test
   "Run the clojure.test suite via Cognitect test-runner.
    Usage: clojure -T:build test"
@@ -111,6 +120,7 @@
                  (.start))]
     (when-not (zero? (.waitFor proc))
       (throw (ex-info "Tests failed" {:exit (.exitValue proc)})))))
+
 
 (defn tag
   "Create a git tag for the current version (e.g. v1.8.1).
@@ -125,6 +135,7 @@
       (throw (ex-info (str "Failed to create tag " tag) result)))
     (println "Created tag" tag)))
 
+
 (defn- github-repo
   "Derive owner/repo from the origin remote URL."
   []
@@ -134,6 +145,7 @@
       (throw (ex-info "Failed to get origin remote URL" result)))
     (let [url (str/trim (:out result))]
       (second (re-find #"github\.com[:/](.+?)(?:\.git)?$" url)))))
+
 
 (defn release
   "Build, deploy to Clojars, create a git tag, push it, and create a GitHub Release.
@@ -147,13 +159,13 @@
                             :dir "."})]
       (when-not (zero? (:exit fetch))
         (throw (ex-info "Failed to fetch tags from origin; aborting release before deploy."
-                         fetch))))
+                        fetch))))
     (let [check (b/process {:command-args ["git" "rev-parse" "-q" "--verify"
                                            (str "refs/tags/" release-tag)]
                             :dir "."})]
       (when (zero? (:exit check))
         (throw (ex-info (str "Tag " release-tag " already exists; aborting release before deploy.")
-                         check))))
+                        check))))
     ;; Deploy to Clojars and create local tag
     (deploy nil)
     (tag nil)
@@ -182,6 +194,7 @@
       (when-not (zero? (:exit gh))
         (throw (ex-info "Failed to create GitHub Release" gh))))
     (println (str "\nRelease " version " complete."))))
+
 
 (defn outdated
   "Check for outdated dependencies. Wraps antq.

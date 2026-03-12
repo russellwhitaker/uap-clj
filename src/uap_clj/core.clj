@@ -1,14 +1,17 @@
 (ns uap-clj.core
   "Core library with entrypoint main function"
-  (:require [uap-clj.conf :refer [load-config]]
-            [uap-clj.common :as common :refer :all]
-            [uap-clj.browser :refer [browser]]
-            [uap-clj.os :refer [os]]
-            [uap-clj.device :refer [device]]
-            [clojure.java.io :as io]
-            [clojure.string :as s :refer [join trim]]))
+  (:require
+   [clojure.java.io :as io]
+   [clojure.string :as s :refer [join trim]]
+   [uap-clj.browser :refer [browser]]
+   [uap-clj.common :as common :refer :all]
+   [uap-clj.conf :refer [load-config]]
+   [uap-clj.device :refer [device]]
+   [uap-clj.os :refer [os]]))
+
 
 (def cfg (load-config))
+
 
 (defn useragent
   "Look up all 3 sets of fields for:
@@ -22,17 +25,21 @@
    :os (os ua)
    :device (device ua)})
 
+
 ;; For use in production settings where speed may be preferred
 ;; in exchange for the tradeoff of increased memory bloat:
 (def useragent-memoized (memoize useragent))
 
 (def columns (:output-columns cfg))
+
+
 (def header
   (str
-    (s/join \tab
-            (map #(s/join " " (map name (flatten %)))
-                 columns))
-    \newline))
+   (s/join \tab
+           (map #(s/join " " (map name (flatten %)))
+                columns))
+   \newline))
+
 
 (defn -main
   "Takes a filename from the commandline containing one useragent
@@ -47,9 +54,9 @@
     (let [out-file (or (first opt-args)
                        (:output-filename cfg))
           results (doall
-                    (map useragent (line-seq rdr)))]
+                   (map useragent (line-seq rdr)))]
       (with-open
-        [wtr (clojure.java.io/writer out-file :append false)]
+       [wtr (clojure.java.io/writer out-file :append false)]
         (.write wtr header)
         (doseq [ua results]
           (.write wtr

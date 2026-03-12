@@ -1,11 +1,15 @@
 (ns uap-clj.common
   "Common functions for field matching"
-  (:require [clojure.edn :as edn]
-            [clojure.java.io :as io :refer [resource]]
-            [clojure.string :as s :refer [join trim]]))
+  (:require
+   [clojure.edn :as edn]
+   [clojure.java.io :as io :refer [resource]]
+   [clojure.string :as s :refer [join trim]]))
 
-(def regexes-all (edn/read-string {:reader {'ordered/map sorted-map}}
-                                  (slurp (io/resource "regexes.edn"))))
+
+(def regexes-all
+  (edn/read-string {:reader {'ordered/map sorted-map}}
+                   (slurp (io/resource "regexes.edn"))))
+
 
 (defn match-with-context
   "Return match result with match groups & regex replacement map,
@@ -22,6 +26,7 @@
     (catch java.lang.NullPointerException e
       {:ua line :result {} :regex (merge regex {:regex nil})})))
 
+
 (defn first-match
   "The uaparser/core specification indicates that for each type
    (browser, o/s, device), the first successful match for a regex
@@ -32,10 +37,11 @@
   "
   [ua regexes]
   (or
-    (first
-      (filter #(not (nil? (:result %)))
-              (map #(match-with-context ua %) regexes)))
-    {:ua ua :result "Other"}))
+   (first
+    (filter #(not (nil? (:result %)))
+            (map #(match-with-context ua %) regexes)))
+   {:ua ua :result "Other"}))
+
 
 (defn field
   "Extract individual type field or supply an alternate substitute
