@@ -1,6 +1,7 @@
 # uap-clj
 
 [![CI](https://github.com/russellwhitaker/uap-clj/actions/workflows/clojure.yml/badge.svg)](https://github.com/russellwhitaker/uap-clj/actions/workflows/clojure.yml)
+[![Clojars Project](https://clojars.org/uap-clj/latest-version.svg)](https://clojars.org/uap-clj)
 
 A [`ua-parser/uap-core`](https://github.com/ua-parser/uap-core) based Clojure library for extracting browser, operating system, and device information from a raw useragent string.
 
@@ -17,8 +18,6 @@ Add this to your `deps.edn`:
 ```clojure
 uap-clj/uap-clj {:mvn/version "1.8.1"}
 ```
-
-[![Clojars Project](http://clojars.org/uap-clj/latest-version.svg)](http://clojars.org/uap-clj)
 
 `uap-clj` depends on the file `regexes.yaml` actively maintained in the public [`ua-parser/uap-core`](https://github.com/ua-parser/uap-core) repository, as well as on the test fixtures `test_ua.yaml`, `test_os.yaml`, and `test_device.yaml` contained therein. After cloning this code repository, initialize the git submodules and fetch dependencies:
 
@@ -83,6 +82,32 @@ Ran 17 tests containing 113861 assertions.
 0 failures, 0 errors.
 ```
 The test suite runs against all the browser, o/s, and device YAML fixtures in [`ua-parser/uap-core/tests`](https://github.com/ua-parser/uap-core/blob/master/tests), for both the native Clojure core library and the Java API. The `clojars` artifact is compiled with these fixtures linked as a git submodule dependency.
+
+### Benchmarks
+
+Run the [criterium](https://github.com/hugoduncan/criterium)-based benchmark suite:
+
+```console
+$ clojure -M:bench
+```
+
+This benchmarks `browser`, `os`, `device`, and `useragent` lookups individually and in batch.
+
+### Specs
+
+`clojure.spec` definitions for all parsed output maps are available in `uap-clj.spec`. To use them:
+
+```clojure
+(require '[clojure.spec.alpha :as s]
+         '[uap-clj.spec]
+         '[uap-clj.core :refer [useragent]])
+
+(s/valid? :uap-clj.spec/useragent (useragent "Mozilla/5.0 ..."))
+;; => true
+
+(s/explain :uap-clj.spec/browser {:family "Chrome" :major "120" :minor "0" :patch "0"})
+;; => Success!
+```
 
 ## Use / Production
 
@@ -303,7 +328,7 @@ This project uses [GitHub Actions](https://github.com/russellwhitaker/uap-clj/ac
 
 ## Future / Enhancements
 
-* add `clojure.spec`
+_No outstanding items._
 
 __Maintained by Russell Whitaker__
 
