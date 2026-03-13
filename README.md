@@ -1,6 +1,7 @@
 # uap-clj
 
 [![CI](https://github.com/russellwhitaker/uap-clj/actions/workflows/clojure.yml/badge.svg)](https://github.com/russellwhitaker/uap-clj/actions/workflows/clojure.yml)
+<br>
 [![Clojars Project](https://clojars.org/uap-clj/latest-version.svg)](https://clojars.org/uap-clj)
 
 A [`ua-parser/uap-core`](https://github.com/ua-parser/uap-core) based Clojure library for extracting browser, operating system, and device information from a raw useragent string.
