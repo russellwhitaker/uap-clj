@@ -5,6 +5,11 @@ on:
     types:
       - published
   workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Release tag to attach binaries to (e.g. v1.9.0)'
+        required: false
+        type: string
 
 permissions:
   contents: write
@@ -68,9 +73,10 @@ jobs:
         path: target/uap-clj
 
     - name: Upload to release
-      if: github.event_name == 'release'
+      if: github.event_name == 'release' || inputs.tag != ''
       env:
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        TAG: ${{ github.event.release.tag_name || inputs.tag }}
       run: |
         cp target/uap-clj target/${{ matrix.artifact }}
-        gh release upload ${{ github.event.release.tag_name }} target/${{ matrix.artifact }} --clobber
+        gh release upload "$TAG" target/${{ matrix.artifact }} --clobber
