@@ -16,7 +16,7 @@ The canonical version of this project lives at [`russellwhitaker/uap-clj`](https
 Add this to your `deps.edn`:
 
 ```clojure
-uap-clj/uap-clj {:mvn/version "1.8.1"}
+uap-clj/uap-clj {:mvn/version "1.9.0"}
 ```
 
 `uap-clj` depends on the file `regexes.yaml` actively maintained in the public [`ua-parser/uap-core`](https://github.com/ua-parser/uap-core) repository, as well as on the test fixtures `test_ua.yaml`, `test_os.yaml`, and `test_device.yaml` contained therein. After cloning this code repository, initialize the git submodules and fetch dependencies:
@@ -47,10 +47,10 @@ To generate your classes and .jar files:
 
 ```console
 $ clojure -T:build jar
-Built target/uap-clj-1.8.1.jar
+Built target/uap-clj-1.9.0.jar
 
 $ clojure -T:build uber
-Built target/uap-clj-1.8.1-standalone.jar
+Built target/uap-clj-1.9.0-standalone.jar
 ```
 
 To deploy to Clojars:
@@ -116,7 +116,7 @@ The basic utility functions of this library comprise `useragent`, `browser`, `os
 ### Commandline (CLI)
 
 ```bash
-/usr/bin/java -jar uap-clj-1.8.1-standalone.jar <input_filename> [<optional_out_filename>]
+/usr/bin/java -jar uap-clj-1.9.0-standalone.jar <input_filename> [<optional_out_filename>]
 ```
 
 A native binary (no JVM required) is also available via [GraalVM native-image](https://www.graalvm.org/latest/reference-manual/native-image/). Pre-built binaries for Linux and macOS are attached to each [GitHub Release](https://github.com/russellwhitaker/uap-clj/releases). To build locally:
@@ -216,7 +216,7 @@ If you have an Heroku account, [you can easily deploy a Compojure app there](htt
   (ANY "*" []
        (route/not-found (slurp (io/resource "404.html")))))
 ```
-All you need to enable the use of the `lookup-useragent` function here is to add `uap-clj/uap-clj {:mvn/version "1.8.1"}` to your `deps.edn` and `[uap-clj.core :refer [lookup-useragent]]` to the `:require` vector of your `web.clj`. Then you can do this type of thing after deployment:
+All you need to enable the use of the `lookup-useragent` function here is to add `uap-clj/uap-clj {:mvn/version "1.9.0"}` to your `deps.edn` and `[uap-clj.core :refer [lookup-useragent]]` to the `:require` vector of your `web.clj`. Then you can do this type of thing after deployment:
 
 ```bash
 → curl --data "ua=AppleCoreMedia/1.0.0.12F69 (Apple TV; U; CPU OS 8_3 like Mac OS X; en_us)" http://<your_app>.herokuapp.com {:ua "AppleCoreMedia/1.0.0.12F69 (Apple TV; U; CPU OS 8_3 like Mac OS X; en_us)", :browser {:family "Other", :patch nil, :major nil, :minor nil}, :os {:family "ATV OS X", :major "", :minor "", :patch "", :patch_minor ""}, :device {:family "AppleTV", :brand "Apple", :model "AppleTV"}}
@@ -244,7 +244,7 @@ Then add these dependencies to your `pom.xml`:
 <dependency>
   <groupId>uap-clj</groupId>
   <artifactId>uap-clj</artifactId>
-  <version>1.8.1</version>
+  <version>1.9.0</version>
 </dependency>
 ```
 

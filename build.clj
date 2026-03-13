@@ -7,7 +7,7 @@
 
 
 (def lib 'uap-clj/uap-clj)
-(def version "1.8.1")
+(def version "1.9.0")
 (def class-dir "target/classes")
 (def jar-file (format "target/%s-%s.jar" (name lib) version))
 (def uber-file (format "target/%s-%s-standalone.jar" (name lib) version))
