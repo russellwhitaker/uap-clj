@@ -44,7 +44,7 @@ jobs:
 
     - name: Install Clojure Tools
       if: steps.check.outputs.updated == 'true'
-      uses: DeLaGuardo/setup-clojure@13.5.2
+      uses: DeLaGuardo/setup-clojure@13.5.3
       with:
         cli: latest
 
