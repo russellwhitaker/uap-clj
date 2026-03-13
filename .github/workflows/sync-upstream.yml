@@ -40,5 +40,6 @@ jobs:
           --arg body "$RELEASE_BODY" \
           '{tag_name: $tag, name: $name, body: $body}' \
         | gh api repos/ua-parser/uap-clj/releases \
+            -X POST \
             --input - \
             --jq '.html_url'

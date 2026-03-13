@@ -6,8 +6,12 @@ on:
       - published
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   build:
+    if: github.event_name == 'workflow_dispatch' || startsWith(github.event.release.tag_name, 'v')
     strategy:
       matrix:
         include:
