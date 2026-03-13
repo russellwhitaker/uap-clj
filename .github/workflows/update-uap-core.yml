@@ -1,0 +1,91 @@
+name: Update uap-core submodule
+
+on:
+  schedule:
+    - cron: '0 9 * * 1'  # Weekly on Monday at 9am UTC
+  workflow_dispatch:       # Allow manual trigger
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v6.0.2
+      with:
+        submodules: recursive
+        fetch-depth: 0
+
+    - name: Check for submodule updates
+      id: check
+      run: |
+        cd src/resources/submodules
+        git fetch origin master
+        LOCAL=$(git rev-parse HEAD)
+        REMOTE=$(git rev-parse origin/master)
+        echo "local=$LOCAL" >> "$GITHUB_OUTPUT"
+        echo "remote=$REMOTE" >> "$GITHUB_OUTPUT"
+        if [[ "$LOCAL" != "$REMOTE" ]]; then
+          echo "updated=true" >> "$GITHUB_OUTPUT"
+          COMMIT_COUNT=$(git rev-list --count HEAD..origin/master)
+          echo "commit_count=$COMMIT_COUNT" >> "$GITHUB_OUTPUT"
+        else
+          echo "updated=false" >> "$GITHUB_OUTPUT"
+        fi
+
+    - name: Update submodule
+      if: steps.check.outputs.updated == 'true'
+      run: |
+        cd src/resources/submodules
+        git checkout origin/master
+
+    - name: Install Clojure Tools
+      if: steps.check.outputs.updated == 'true'
+      uses: DeLaGuardo/setup-clojure@13.5.2
+      with:
+        cli: latest
+
+    - name: Install jet
+      if: steps.check.outputs.updated == 'true'
+      env:
+        JET_VERSION: "0.7.27"
+        JET_SHA256: "411e65cbe6ea94ea6994e22723cbc73843c715e29828cb3fb8ca6c5af639a68d"
+      run: |
+        curl -fSLO "https://github.com/borkdude/jet/releases/download/v${JET_VERSION}/jet-${JET_VERSION}-linux-amd64.tar.gz"
+        echo "${JET_SHA256}  jet-${JET_VERSION}-linux-amd64.tar.gz" | sha256sum -c -
+        tar xzf "jet-${JET_VERSION}-linux-amd64.tar.gz"
+        sudo mv jet /usr/local/bin/
+        jet --version
+
+    - name: Regenerate regexes.edn
+      if: steps.check.outputs.updated == 'true'
+      run: |
+        cat src/resources/submodules/regexes.yaml | jet -i yaml -o edn -k > resources/regexes.edn
+
+    - name: Run tests
+      if: steps.check.outputs.updated == 'true'
+      run: clojure -M:test
+
+    - name: Create pull request
+      if: steps.check.outputs.updated == 'true'
+      uses: peter-evans/create-pull-request@v7
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        branch: auto/update-uap-core
+        commit-message: |
+          Update uap-core submodule (${{ steps.check.outputs.commit_count }} commits)
+
+          Regenerate regexes.edn from latest upstream regexes.yaml.
+        title: "Update uap-core submodule (${{ steps.check.outputs.commit_count }} new commits)"
+        body: |
+          Automated update of the uap-core submodule to latest upstream.
+
+          - **Commits**: ${{ steps.check.outputs.commit_count }} new commits
+          - **Previous**: `${{ steps.check.outputs.local }}`
+          - **Updated to**: `${{ steps.check.outputs.remote }}`
+          - **regexes.edn**: regenerated from updated regexes.yaml
+          - **Tests**: passed
+        labels: dependencies

@@ -1,0 +1,59 @@
+name: Sync upstream mirror
+
+on:
+  push:
+    branches:
+      - master
+  release:
+    types:
+      - published
+
+jobs:
+  sync:
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v6.0.2
+      with:
+        fetch-depth: 0
+    - name: Push to upstream mirror
+      env:
+        UPSTREAM_TOKEN: ${{ secrets.UPSTREAM_PUSH_TOKEN }}
+      run: |
+        git remote add upstream https://x-access-token:${UPSTREAM_TOKEN}@github.com/ua-parser/uap-clj.git
+        git push upstream master --tags
+
+  mirror-release:
+    if: github.event_name == 'release'
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v6.0.2
+      with:
+        fetch-depth: 0
+    - name: Push tag to upstream
+      env:
+        UPSTREAM_TOKEN: ${{ secrets.UPSTREAM_PUSH_TOKEN }}
+      run: |
+        git remote add upstream https://x-access-token:${UPSTREAM_TOKEN}@github.com/ua-parser/uap-clj.git
+        git push upstream "${{ github.event.release.tag_name }}"
+    - name: Mirror GitHub Release to upstream
+      env:
+        GH_TOKEN: ${{ secrets.UPSTREAM_PUSH_TOKEN }}
+        RELEASE_TAG: ${{ github.event.release.tag_name }}
+        RELEASE_NAME: ${{ github.event.release.name }}
+        RELEASE_BODY: ${{ github.event.release.body }}
+      run: |
+        # Check if release already exists upstream
+        if gh api repos/ua-parser/uap-clj/releases/tags/"$RELEASE_TAG" --silent 2>/dev/null; then
+          echo "Release $RELEASE_TAG already exists upstream — skipping"
+          exit 0
+        fi
+        jq -n \
+          --arg tag "$RELEASE_TAG" \
+          --arg name "$RELEASE_NAME" \
+          --arg body "$RELEASE_BODY" \
+          '{tag_name: $tag, name: $name, body: $body}' \
+        | gh api repos/ua-parser/uap-clj/releases \
+            -X POST \
+            --input - \
+            --jq '.html_url'
