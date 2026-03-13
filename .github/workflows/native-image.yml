@@ -1,0 +1,68 @@
+name: Native Image
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        include:
+          - os: ubuntu-latest
+            artifact: uap-clj-linux-amd64
+          - os: macos-latest
+            artifact: uap-clj-macos-amd64
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+    - uses: actions/checkout@v6.0.2
+      with:
+        submodules: recursive
+
+    - uses: graalvm/setup-graalvm@v1
+      with:
+        java-version: '21'
+        distribution: 'graalce'
+
+    - name: Install Clojure Tools
+      uses: DeLaGuardo/setup-clojure@13.5.2
+      with:
+        cli: latest
+
+    - name: Cache Clojure dependencies
+      uses: actions/cache@v4
+      with:
+        path: |
+          ~/.m2/repository
+          ~/.gitlibs
+          ~/.clojure/.cpcache
+        key: native-${{ matrix.os }}-${{ hashFiles('deps.edn') }}
+        restore-keys: native-${{ matrix.os }}-
+
+    - name: Build native image
+      run: clojure -T:build native-image
+
+    - name: Smoke test
+      run: |
+        echo "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36" > /tmp/test-ua.txt
+        ./target/uap-clj /tmp/test-ua.txt /tmp/test-output.tsv
+        cat /tmp/test-output.tsv
+        [[ -s /tmp/test-output.tsv ]]
+
+    - name: Upload artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: ${{ matrix.artifact }}
+        path: target/uap-clj
+
+    - name: Upload to release
+      if: startsWith(github.ref, 'refs/tags/')
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        cp target/uap-clj target/${{ matrix.artifact }}
+        gh release upload ${{ github.ref_name }} target/${{ matrix.artifact }}

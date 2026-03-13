@@ -1,6 +1,6 @@
 # uap-clj
 
-[![CircleCI](https://circleci.com/gh/russellwhitaker/uap-clj.svg?style=svg)](https://circleci.com/gh/russellwhitaker/uap-clj)
+[![CI](https://github.com/russellwhitaker/uap-clj/actions/workflows/clojure.yml/badge.svg)](https://github.com/russellwhitaker/uap-clj/actions/workflows/clojure.yml)
 
 A [`ua-parser/uap-core`](https://github.com/ua-parser/uap-core) based Clojure library for extracting browser, operating system, and device information from a raw useragent string.
 
@@ -99,6 +99,15 @@ The basic utility functions of this library comprise `useragent`, `browser`, `os
 ```bash
 /usr/bin/java -jar uap-clj-1.8.1-standalone.jar <input_filename> [<optional_out_filename>]
 ```
+
+A native binary (no JVM required) is also available via [GraalVM native-image](https://www.graalvm.org/latest/reference-manual/native-image/). Pre-built binaries for Linux and macOS are attached to each [GitHub Release](https://github.com/russellwhitaker/uap-clj/releases). To build locally:
+
+```console
+$ clojure -T:build native-image
+$ ./target/uap-clj <input_filename> [<optional_out_filename>]
+```
+
+This requires GraalVM CE 21+ with the `native-image` component installed.
 
 This command takes as its first argument the name of a text file containing one useragent per line, and prints a TSV (tab-separated) file - defaulting to `useragent_lookup.tsv` - with this line format:
 
@@ -289,9 +298,17 @@ Device model: A288t_TD
 [INFO] ------------------------------------------------------------------------
 ```
 
+## CI/CD
+
+This project uses [GitHub Actions](https://github.com/russellwhitaker/uap-clj/actions) for CI/CD:
+
+- **CI** (`clojure.yml`): runs tests, checks formatting (cljstyle), and checks for outdated dependencies on every push and PR.
+- **Upstream sync** (`sync-upstream.yml`): mirrors pushes to `master` (including tags) to the [`ua-parser/uap-clj`](https://github.com/ua-parser/uap-clj) upstream fork.
+- **uap-core update** (`update-uap-core.yml`): weekly scheduled check for new commits in the `ua-parser/uap-core` submodule. When updates are found, it regenerates `regexes.edn`, runs the test suite, and opens a PR automatically.
+- **Native image** (`native-image.yml`): builds GraalVM native binaries for Linux and macOS on each tagged release and uploads them as release assets.
+
 ## Future / Enhancements
 
-* add option to source `regexes.yaml` from an S3 bucket
 * add `clojure.spec`
 
 __Maintained by Russell Whitaker__

@@ -98,6 +98,32 @@
   (println "Built" uber-file))
 
 
+(def native-image-name (format "target/%s" (name lib)))
+
+
+(defn native-image
+  "Build a native binary using GraalVM native-image.
+   Requires GraalVM with native-image installed.
+   Usage: clojure -T:build native-image"
+  [_]
+  (uber nil)
+  (let [result (b/process
+                {:command-args ["native-image"
+                                "-jar" uber-file
+                                "-o" native-image-name
+                                "--no-fallback"
+                                "-H:+ReportExceptionStackTraces"
+                                "--initialize-at-build-time"
+                                "-H:Log=registerResource:"
+                                "-H:EnableURLProtocols=http,https"
+                                "--enable-url-protocols=http,https"]
+                 :dir "."
+                 :inherit true})]
+    (when-not (zero? (:exit result))
+      (throw (ex-info "native-image build failed" result))))
+  (println "Built" native-image-name))
+
+
 (defn deploy
   "Deploy the library JAR to Clojars.
    Requires CLOJARS_USERNAME and CLOJARS_PASSWORD env vars.

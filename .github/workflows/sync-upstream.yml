@@ -1,0 +1,20 @@
+name: Sync upstream mirror
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v6.0.2
+      with:
+        fetch-depth: 0
+    - name: Push to upstream mirror
+      env:
+        UPSTREAM_TOKEN: ${{ secrets.UPSTREAM_PUSH_TOKEN }}
+      run: |
+        git remote add upstream https://x-access-token:${UPSTREAM_TOKEN}@github.com/ua-parser/uap-clj.git
+        git push upstream master --tags
