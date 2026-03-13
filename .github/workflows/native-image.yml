@@ -19,7 +19,7 @@ jobs:
             artifact: uap-clj-linux-amd64
           - os: macos-13
             artifact: uap-clj-macos-amd64
-          - os: macos-latest
+          - os: macos-14
             artifact: uap-clj-macos-arm64
 
     runs-on: ${{ matrix.os }}

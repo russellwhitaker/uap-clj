@@ -53,8 +53,7 @@ jobs:
       env:
         JET_VERSION: "0.7.27"
       run: |
-        curl -sLO "https://github.com/borkdude/jet/releases/download/v${JET_VERSION}/jet-linux-amd64.tar.gz"
-        echo "Installed jet v${JET_VERSION}"
+        curl -fSLO "https://github.com/borkdude/jet/releases/download/v${JET_VERSION}/jet-linux-amd64.tar.gz"
         tar xzf jet-linux-amd64.tar.gz
         sudo mv jet /usr/local/bin/
         jet --version
