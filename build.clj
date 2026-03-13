@@ -115,6 +115,7 @@
                                 "-H:+ReportExceptionStackTraces"
                                 "--initialize-at-build-time"
                                 "-H:Log=registerResource:"
+                                "-H:IncludeResources=regexes.edn"
                                 "--enable-url-protocols=http,https"]
                  :dir "."
                  :inherit true})]

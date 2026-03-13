@@ -52,9 +52,11 @@ jobs:
       if: steps.check.outputs.updated == 'true'
       env:
         JET_VERSION: "0.7.27"
+        JET_SHA256: "411e65cbe6ea94ea6994e22723cbc73843c715e29828cb3fb8ca6c5af639a68d"
       run: |
-        curl -fSLO "https://github.com/borkdude/jet/releases/download/v${JET_VERSION}/jet-linux-amd64.tar.gz"
-        tar xzf jet-linux-amd64.tar.gz
+        curl -fSLO "https://github.com/borkdude/jet/releases/download/v${JET_VERSION}/jet-${JET_VERSION}-linux-amd64.tar.gz"
+        echo "${JET_SHA256}  jet-${JET_VERSION}-linux-amd64.tar.gz" | sha256sum -c -
+        tar xzf "jet-${JET_VERSION}-linux-amd64.tar.gz"
         sudo mv jet /usr/local/bin/
         jet --version
 
