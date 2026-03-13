@@ -1,5 +1,6 @@
 (ns uap-clj.core
   "Core library with entrypoint main function"
+  (:gen-class)
   (:require
    [clojure.java.io :as io]
    [clojure.string :as s :refer [join trim]]
