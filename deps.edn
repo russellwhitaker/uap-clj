@@ -24,6 +24,7 @@
           com.github.liquidz/antq        {:mvn/version "2.11.1276"}
           slipset/deps-deploy            {:mvn/version "0.2.2"}
           clj-commons/clj-yaml           {:mvn/version "1.0.29"}}
+   :jvm-opts    ["-Djava.net.preferIPv4Stack=true"]
    :ns-default build}
 
   :bench
