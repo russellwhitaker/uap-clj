@@ -35,14 +35,14 @@ Re-run on occasion to pull in changes committed to those `uap-core` assets.
 export JAVA_TOOL_OPTIONS="-Djava.net.preferIPv4Stack=true"
 ```
 
-`uap-clj` needs `regexes.yaml` in `edn` format. To regenerate it:
+`uap-clj` uses `resources/regexes.edn`, which is derived from the upstream `regexes.yaml`. To regenerate it after a submodule update:
 
 ```console
 $ clojure -T:build update-regexes
 Wrote resources/regexes.edn
 ```
 
-Converting the regexes.yaml file to native Clojure EDN data format removes the runtime clj-yaml dependency.
+Shipping the pre-converted EDN file removes the runtime `clj-yaml` dependency.
 
 To generate your classes and .jar files:
 
