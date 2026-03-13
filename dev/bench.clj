@@ -19,22 +19,24 @@
 
 (defn -main
   [& _args]
-  (println "=== uap-clj benchmarks ===\n")
+  (let [known-ua   (first sample-uas)
+        unknown-ua (last sample-uas)]
+    (println "=== uap-clj benchmarks ===\n")
 
-  (println "--- browser (single UA) ---")
-  (crit/quick-bench (browser (first sample-uas)))
+    (println "--- browser (single UA) ---")
+    (crit/quick-bench (browser known-ua))
 
-  (println "\n--- os (single UA) ---")
-  (crit/quick-bench (os (first sample-uas)))
+    (println "\n--- os (single UA) ---")
+    (crit/quick-bench (os known-ua))
 
-  (println "\n--- device (single UA) ---")
-  (crit/quick-bench (device (first sample-uas)))
+    (println "\n--- device (single UA) ---")
+    (crit/quick-bench (device known-ua))
 
-  (println "\n--- useragent (single UA, all fields) ---")
-  (crit/quick-bench (useragent (first sample-uas)))
+    (println "\n--- useragent (single UA, all fields) ---")
+    (crit/quick-bench (useragent known-ua))
 
-  (println "\n--- useragent (batch of 5 UAs) ---")
-  (crit/quick-bench (mapv useragent sample-uas))
+    (println "\n--- useragent (batch of 5 UAs) ---")
+    (crit/quick-bench (mapv useragent sample-uas))
 
-  (println "\n--- browser (unknown UA) ---")
-  (crit/quick-bench (browser (last sample-uas))))
+    (println "\n--- browser (unknown UA) ---")
+    (crit/quick-bench (browser unknown-ua))))
