@@ -22,7 +22,8 @@ jobs:
         UPSTREAM_TOKEN: ${{ secrets.UPSTREAM_PUSH_TOKEN }}
       run: |
         git remote add upstream https://x-access-token:${UPSTREAM_TOKEN}@github.com/ua-parser/uap-clj.git
-        git push upstream master --tags
+        git push upstream master
+        git push upstream --tags || echo "Some tags already exist upstream — continuing"
 
   mirror-release:
     if: github.event_name == 'release'
