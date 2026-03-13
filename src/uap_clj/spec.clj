@@ -34,7 +34,7 @@
 
 
 ;; Full useragent result
-(s/def ::ua string?)
+(s/def ::ua (s/nilable string?))
 
 
 (s/def ::useragent

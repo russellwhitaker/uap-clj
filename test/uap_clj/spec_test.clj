@@ -7,15 +7,12 @@
    [uap-clj.core :refer [useragent]]
    [uap-clj.device :refer [device]]
    [uap-clj.os :refer [os]]
-   [uap-clj.spec]))
+   [uap-clj.spec]
+   [uap-clj.test-helpers :refer [unknown-ua]]))
 
 
 (def chrome-ua
   "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36")
-
-
-(def unknown-ua
-  "Unknown new useragent in the wild/v0.1.0")
 
 
 (deftest browser-spec-test
@@ -31,18 +28,24 @@
   (testing "known OS conforms to ::os spec"
     (is (s/valid? :uap-clj.spec/os (os chrome-ua))))
   (testing "unknown OS conforms to ::os spec"
-    (is (s/valid? :uap-clj.spec/os (os unknown-ua)))))
+    (is (s/valid? :uap-clj.spec/os (os unknown-ua))))
+  (testing "nil input conforms to ::os spec"
+    (is (s/valid? :uap-clj.spec/os (os nil)))))
 
 
 (deftest device-spec-test
   (testing "known device conforms to ::device spec"
     (is (s/valid? :uap-clj.spec/device (device chrome-ua))))
   (testing "unknown device conforms to ::device spec"
-    (is (s/valid? :uap-clj.spec/device (device unknown-ua)))))
+    (is (s/valid? :uap-clj.spec/device (device unknown-ua))))
+  (testing "nil input conforms to ::device spec"
+    (is (s/valid? :uap-clj.spec/device (device nil)))))
 
 
 (deftest useragent-spec-test
   (testing "full useragent result conforms to ::useragent spec"
     (is (s/valid? :uap-clj.spec/useragent (useragent chrome-ua))))
   (testing "unknown useragent conforms to ::useragent spec"
-    (is (s/valid? :uap-clj.spec/useragent (useragent unknown-ua)))))
+    (is (s/valid? :uap-clj.spec/useragent (useragent unknown-ua))))
+  (testing "nil input conforms to ::useragent spec"
+    (is (s/valid? :uap-clj.spec/useragent (useragent nil)))))
