@@ -182,11 +182,10 @@
 (defn- github-repo
   "Derive owner/repo from the origin remote URL."
   []
-  (let [result (b/process {:command-args ["git" "remote" "get-url" "origin"]
-                           :dir "."})]
-    (when-not (zero? (:exit result))
-      (throw (ex-info "Failed to get origin remote URL" result)))
-    (let [url (str/trim (:out result))]
+  (let [{:keys [exit out]} (clojure.java.shell/sh "git" "remote" "get-url" "origin")]
+    (when-not (zero? exit)
+      (throw (ex-info "Failed to get origin remote URL" {})))
+    (let [url (str/trim out)]
       (second (re-find #"github\.com[:/](.+?)(?:\.git)?$" url)))))
 
 
@@ -219,11 +218,10 @@
       (when-not (zero? (:exit push))
         (throw (ex-info (str "Failed to push tag " release-tag) push))))
     ;; Create GitHub Release
-    (let [prev-tag-proc (b/process {:command-args ["git" "describe" "--tags" "--abbrev=0"
-                                                   (str release-tag "^")]
-                                    :dir "."})
-          body (if (zero? (:exit prev-tag-proc))
-                 (let [prev-tag (str/trim (:out prev-tag-proc))]
+    (let [prev-tag-result (clojure.java.shell/sh "git" "describe" "--tags" "--abbrev=0"
+                                                 (str release-tag "^"))
+          body (if (zero? (:exit prev-tag-result))
+                 (let [prev-tag (str/trim (:out prev-tag-result))]
                    (str "**Full Changelog**: https://github.com/" repo "/compare/"
                         prev-tag "..." release-tag))
                  (str "Release " release-tag))
