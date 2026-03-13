@@ -84,6 +84,32 @@ Ran 17 tests containing 113861 assertions.
 ```
 The test suite runs against all the browser, o/s, and device YAML fixtures in [`ua-parser/uap-core/tests`](https://github.com/ua-parser/uap-core/blob/master/tests), for both the native Clojure core library and the Java API. The `clojars` artifact is compiled with these fixtures linked as a git submodule dependency.
 
+### Benchmarks
+
+Run the [criterium](https://github.com/hugoduncan/criterium)-based benchmark suite:
+
+```console
+$ clojure -M:bench
+```
+
+This benchmarks `browser`, `os`, `device`, and `useragent` lookups individually and in batch.
+
+### Specs
+
+`clojure.spec` definitions for all parsed output maps are available in `uap-clj.spec`. To use them:
+
+```clojure
+(require '[clojure.spec.alpha :as s]
+         '[uap-clj.spec]
+         '[uap-clj.core :refer [useragent]])
+
+(s/valid? :uap-clj.spec/useragent (useragent "Mozilla/5.0 ..."))
+;; => true
+
+(s/explain :uap-clj.spec/browser {:family "Chrome" :major "120" :minor "0" :patch "0"})
+;; => Success!
+```
+
 ## Use / Production
 
 The basic utility functions of this library comprise `useragent`, `browser`, `os`, and `device`; memoized versions of the same functions are provided as conveniences for production environments where a requirement for low latency response from large numbers of rapidly repeated requests is worth the memory penalty incurred by the need to maintain a growing cache of input/output value mappings. Accordingly, these functions are named `useragent-memoized`, `browser-memoized`, `os-memoized`, and `device-memoized`.
@@ -303,7 +329,7 @@ This project uses [GitHub Actions](https://github.com/russellwhitaker/uap-clj/ac
 
 ## Future / Enhancements
 
-* add `clojure.spec`
+_No outstanding items._
 
 __Maintained by Russell Whitaker__
 

@@ -26,6 +26,12 @@
           clj-commons/clj-yaml           {:mvn/version "1.0.29"}}
    :ns-default build}
 
+  :bench
+  {:extra-paths ["dev"]
+   :extra-deps  {criterium/criterium {:mvn/version "0.4.6"}}
+   :jvm-opts    ["-Xss512M"]
+   :main-opts   ["-m" "bench"]}
+
   :cljstyle-check
   {:extra-deps {mvxcvi/cljstyle {:mvn/version "0.17.642"}}
    :main-opts  ["-m" "cljstyle.main" "check"]}
