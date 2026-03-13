@@ -5,7 +5,7 @@
  :aliases
  {:dev
   {:extra-paths ["test" "src/resources/submodules/tests"]
-   :extra-deps  {criterium/criterium       {:mvn/version "0.4.6"}
+   :extra-deps  {criterium/criterium       {:mvn/version "0.5.153-ALPHA"}
                  clj-commons/clj-yaml      {:mvn/version "1.0.29"}}
    :jvm-opts    ["-Xss512M"]}
 
@@ -28,7 +28,7 @@
 
   :bench
   {:extra-paths ["dev"]
-   :extra-deps  {criterium/criterium {:mvn/version "0.4.6"}}
+   :extra-deps  {criterium/criterium {:mvn/version "0.5.153-ALPHA"}}
    :jvm-opts    ["-Xss512M"]
    :main-opts   ["-m" "bench"]}
 

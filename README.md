@@ -1,6 +1,7 @@
 # uap-clj
 
 [![CI](https://github.com/russellwhitaker/uap-clj/actions/workflows/clojure.yml/badge.svg)](https://github.com/russellwhitaker/uap-clj/actions/workflows/clojure.yml)
+[![Clojars Project](http://clojars.org/uap-clj/latest-version.svg)](http://clojars.org/uap-clj)
 
 A [`ua-parser/uap-core`](https://github.com/ua-parser/uap-core) based Clojure library for extracting browser, operating system, and device information from a raw useragent string.
 
@@ -17,8 +18,6 @@ Add this to your `deps.edn`:
 ```clojure
 uap-clj/uap-clj {:mvn/version "1.8.1"}
 ```
-
-[![Clojars Project](http://clojars.org/uap-clj/latest-version.svg)](http://clojars.org/uap-clj)
 
 `uap-clj` depends on the file `regexes.yaml` actively maintained in the public [`ua-parser/uap-core`](https://github.com/ua-parser/uap-core) repository, as well as on the test fixtures `test_ua.yaml`, `test_os.yaml`, and `test_device.yaml` contained therein. After cloning this code repository, initialize the git submodules and fetch dependencies:
 

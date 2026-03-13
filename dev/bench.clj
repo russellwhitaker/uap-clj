@@ -22,19 +22,19 @@
   (println "=== uap-clj benchmarks ===\n")
 
   (println "--- browser (single UA) ---")
-  (crit/bench (browser (first sample-uas)))
+  (crit/quick-bench (browser (first sample-uas)))
 
   (println "\n--- os (single UA) ---")
-  (crit/bench (os (first sample-uas)))
+  (crit/quick-bench (os (first sample-uas)))
 
   (println "\n--- device (single UA) ---")
-  (crit/bench (device (first sample-uas)))
+  (crit/quick-bench (device (first sample-uas)))
 
   (println "\n--- useragent (single UA, all fields) ---")
-  (crit/bench (useragent (first sample-uas)))
+  (crit/quick-bench (useragent (first sample-uas)))
 
   (println "\n--- useragent (batch of 5 UAs) ---")
-  (crit/bench (mapv useragent sample-uas))
+  (crit/quick-bench (mapv useragent sample-uas))
 
   (println "\n--- browser (unknown UA) ---")
-  (crit/bench (browser (last sample-uas))))
+  (crit/quick-bench (browser (last sample-uas))))
