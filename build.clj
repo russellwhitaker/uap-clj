@@ -1,6 +1,7 @@
 (ns build
   (:refer-clojure :exclude [test])
   (:require
+   [clojure.java.shell :as shell]
    [clojure.pprint :as pprint]
    [clojure.string :as str]
    [clojure.tools.build.api :as b]))
@@ -182,7 +183,7 @@
 (defn- github-repo
   "Derive owner/repo from the origin remote URL."
   []
-  (let [{:keys [exit out]} (clojure.java.shell/sh "git" "remote" "get-url" "origin")]
+  (let [{:keys [exit out]} (shell/sh "git" "remote" "get-url" "origin")]
     (when-not (zero? exit)
       (throw (ex-info "Failed to get origin remote URL" {})))
     (let [url (str/trim out)]
@@ -218,8 +219,8 @@
       (when-not (zero? (:exit push))
         (throw (ex-info (str "Failed to push tag " release-tag) push))))
     ;; Create GitHub Release
-    (let [prev-tag-result (clojure.java.shell/sh "git" "describe" "--tags" "--abbrev=0"
-                                                 (str release-tag "^"))
+    (let [prev-tag-result (shell/sh "git" "describe" "--tags" "--abbrev=0"
+                                    (str release-tag "^"))
           body (if (zero? (:exit prev-tag-result))
                  (let [prev-tag (str/trim (:out prev-tag-result))]
                    (str "**Full Changelog**: https://github.com/" repo "/compare/"
