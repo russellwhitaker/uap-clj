@@ -58,9 +58,9 @@
                    (map useragent (line-seq rdr)))]
       (with-open
        [wtr (clojure.java.io/writer out-file :append false)]
-        (.write wtr header)
+        (.write ^java.io.Writer wtr (str header))
         (doseq [ua results]
-          (.write wtr
+          (.write ^java.io.Writer wtr
                   (str (s/join \tab
                                (map #(get-in ua %) columns))
                        \newline)))))))
