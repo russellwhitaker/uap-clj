@@ -50,10 +50,14 @@ jobs:
 
     - name: Install jet
       if: steps.check.outputs.updated == 'true'
+      env:
+        JET_VERSION: "0.7.27"
       run: |
-        curl -sLO https://github.com/borkdude/jet/releases/latest/download/jet-linux-amd64.tar.gz
+        curl -sLO "https://github.com/borkdude/jet/releases/download/v${JET_VERSION}/jet-linux-amd64.tar.gz"
+        echo "Installed jet v${JET_VERSION}"
         tar xzf jet-linux-amd64.tar.gz
         sudo mv jet /usr/local/bin/
+        jet --version
 
     - name: Regenerate regexes.edn
       if: steps.check.outputs.updated == 'true'
@@ -62,9 +66,7 @@ jobs:
 
     - name: Run tests
       if: steps.check.outputs.updated == 'true'
-      run: |
-        clojure -P && clojure -P -M:test
-        clojure -M:test
+      run: clojure -M:test
 
     - name: Create pull request
       if: steps.check.outputs.updated == 'true'

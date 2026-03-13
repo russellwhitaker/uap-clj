@@ -33,6 +33,7 @@ jobs:
       with:
         java-version: '21'
         distribution: 'graalce'
+        native-image-job-reports: 'true'
 
     - name: Install Clojure Tools
       uses: DeLaGuardo/setup-clojure@13.5.2

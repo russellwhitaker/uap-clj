@@ -115,7 +115,6 @@
                                 "-H:+ReportExceptionStackTraces"
                                 "--initialize-at-build-time"
                                 "-H:Log=registerResource:"
-                                "-H:EnableURLProtocols=http,https"
                                 "--enable-url-protocols=http,https"]
                  :dir "."
                  :inherit true})]
