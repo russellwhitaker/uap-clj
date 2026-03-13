@@ -10,7 +10,7 @@ on:
 
 jobs:
   sync:
-    if: github.event_name == 'push'
+    if: github.repository == 'russellwhitaker/uap-clj' && github.event_name == 'push'
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v6.0.2
@@ -26,7 +26,7 @@ jobs:
         git push upstream --tags || echo "Some tags already exist upstream — continuing"
 
   mirror-release:
-    if: github.event_name == 'release'
+    if: github.repository == 'russellwhitaker/uap-clj' && github.event_name == 'release'
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v6.0.2

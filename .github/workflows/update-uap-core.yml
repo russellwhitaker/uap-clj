@@ -44,26 +44,13 @@ jobs:
 
     - name: Install Clojure Tools
       if: steps.check.outputs.updated == 'true'
-      uses: DeLaGuardo/setup-clojure@13.5.2
+      uses: DeLaGuardo/setup-clojure@13.5.3
       with:
         cli: latest
 
-    - name: Install jet
-      if: steps.check.outputs.updated == 'true'
-      env:
-        JET_VERSION: "0.7.27"
-        JET_SHA256: "411e65cbe6ea94ea6994e22723cbc73843c715e29828cb3fb8ca6c5af639a68d"
-      run: |
-        curl -fSLO "https://github.com/borkdude/jet/releases/download/v${JET_VERSION}/jet-${JET_VERSION}-linux-amd64.tar.gz"
-        echo "${JET_SHA256}  jet-${JET_VERSION}-linux-amd64.tar.gz" | sha256sum -c -
-        tar xzf "jet-${JET_VERSION}-linux-amd64.tar.gz"
-        sudo mv jet /usr/local/bin/
-        jet --version
-
     - name: Regenerate regexes.edn
       if: steps.check.outputs.updated == 'true'
-      run: |
-        cat src/resources/submodules/regexes.yaml | jet -i yaml -o edn -k > resources/regexes.edn
+      run: clojure -T:build update-regexes
 
     - name: Run tests
       if: steps.check.outputs.updated == 'true'

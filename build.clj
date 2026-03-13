@@ -1,6 +1,7 @@
 (ns build
   (:refer-clojure :exclude [test])
   (:require
+   [clojure.pprint :as pprint]
    [clojure.string :as str]
    [clojure.tools.build.api :as b]))
 
@@ -96,6 +97,22 @@
            :basis @basis
            :main 'uap-clj.core})
   (println "Built" uber-file))
+
+
+(def yaml-source "src/resources/submodules/regexes.yaml")
+(def edn-target "resources/regexes.edn")
+
+
+(defn update-regexes
+  "Convert regexes.yaml to regexes.edn using clj-yaml.
+   Replaces the manual 'cat ... | jet ...' pipeline.
+   Usage: clojure -T:build update-regexes"
+  [_]
+  (let [parse-string (requiring-resolve 'clj-yaml.core/parse-string)
+        yaml (slurp yaml-source)
+        data (parse-string yaml)]
+    (spit edn-target (with-out-str (pprint/pprint data)))
+    (println "Wrote" edn-target)))
 
 
 (def native-image-name (format "target/%s" (name lib)))
