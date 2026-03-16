@@ -325,7 +325,7 @@ This project uses [GitHub Actions](https://github.com/russellwhitaker/uap-clj/ac
 - **CI** (`clojure.yml`): runs tests, checks formatting (cljstyle), and checks for outdated dependencies on every push and PR.
 - **Upstream sync** (`sync-upstream.yml`): mirrors pushes to `master` and tags to the [`ua-parser/uap-clj`](https://github.com/ua-parser/uap-clj) upstream fork. On release, also mirrors the GitHub Release.
 - **uap-core update** (`update-uap-core.yml`): weekly scheduled check for new commits in the `ua-parser/uap-core` submodule. When updates are found, it regenerates `regexes.edn`, runs the test suite, and opens a PR automatically.
-- **Native image** (`native-image.yml`): builds GraalVM native binaries for Linux (amd64) and macOS (amd64, arm64) on each tagged release and uploads them as release assets.
+- **Native image** (`native-image.yml`): builds GraalVM native binaries for Linux (amd64) and macOS (arm64) on each tagged release and uploads them as release assets. On release, also uploads binaries to the upstream [`ua-parser/uap-clj`](https://github.com/ua-parser/uap-clj) release.
 
 ## Future / Enhancements
 

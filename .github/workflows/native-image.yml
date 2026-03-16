@@ -78,3 +78,16 @@ jobs:
       run: |
         cp target/uap-clj target/${{ matrix.artifact }}
         gh release upload "$TAG" target/${{ matrix.artifact }} --clobber
+
+    - name: Upload to upstream release
+      if: github.event_name == 'release'
+      env:
+        GH_TOKEN: ${{ secrets.UPSTREAM_PUSH_TOKEN }}
+        TAG: ${{ github.event.release.tag_name }}
+      run: |
+        # Only upload if the upstream release exists
+        if gh api repos/ua-parser/uap-clj/releases/tags/"$TAG" --silent 2>/dev/null; then
+          gh release upload "$TAG" target/${{ matrix.artifact }} --clobber --repo ua-parser/uap-clj
+        else
+          echo "Upstream release $TAG not found — skipping artifact upload"
+        fi
