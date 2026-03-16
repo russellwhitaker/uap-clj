@@ -16,7 +16,7 @@
 - Build system: deps.edn + tools.build (`build.clj`)
 - Key aliases: `:dev`, `:test`, `:build`, `:bench`
 - Build tasks: `clojure -T:build test`, `clojure -T:build uber`, `clojure -T:build native-image`
-- Formatting: cljstyle (runs via pre-commit hook in `hooks/pre-commit`; install with `ln -s ../../hooks/pre-commit .git/hooks/pre-commit`)
+- Formatting: cljstyle (runs via pre-commit hook in `hooks/pre-commit`; install with `cp hooks/pre-commit .git/hooks/pre-commit && chmod +x .git/hooks/pre-commit`)
 - Native image requires GraalVM with `native-image` on PATH
 
 ## Deploy
