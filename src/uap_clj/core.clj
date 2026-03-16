@@ -34,7 +34,7 @@
 (def columns (:output-columns cfg))
 
 
-(def header
+(def ^String header
   (str
    (s/join \tab
            (map #(s/join " " (map name (flatten %)))
