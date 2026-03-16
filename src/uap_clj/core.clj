@@ -3,7 +3,7 @@
   (:gen-class)
   (:require
    [clojure.java.io :as io]
-   [clojure.string :as s :refer [join trim]]
+   [clojure.string :as s :refer [join]]
    [uap-clj.browser :refer [browser]]
    [uap-clj.common :as common :refer :all]
    [uap-clj.conf :refer [load-config]]
@@ -51,16 +51,18 @@
    'useragent_lookup.tsv' is the name of the default output file.
   "
   [in-file & opt-args]
-  (with-open [rdr (clojure.java.io/reader in-file)]
+  (with-open [rdr (io/reader in-file)]
     (let [out-file (or (first opt-args)
                        (:output-filename cfg))
           results (doall
                    (map useragent (line-seq rdr)))]
       (with-open
-       [wtr (clojure.java.io/writer out-file :append false)]
-        (.write wtr header)
+       ;; Type hints must be per-call: with-open macro expansion drops
+       ;; binding-level hints, causing reflection failures in native-image.
+       [wtr (io/writer out-file :append false)]
+        (.write ^java.io.Writer wtr header)
         (doseq [ua results]
-          (.write wtr
+          (.write ^java.io.Writer wtr
                   (str (s/join \tab
                                (map #(get-in ua %) columns))
                        \newline)))))))
