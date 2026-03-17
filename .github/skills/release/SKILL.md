@@ -109,7 +109,7 @@ After the release, several GitHub Actions workflows will run:
 Confirm the artifact is available:
 
 ```sh
-curl -s "https://clojars.org/api/artifacts/uap-clj/uap-clj" | python3 -c "import sys,json; print(json.load(sys.stdin)['latest_release'])"
+curl -s "https://clojars.org/api/artifacts/uap-clj/uap-clj" | jq -r '.latest_release'
 ```
 
 Expected output: `X.Y.Z`
