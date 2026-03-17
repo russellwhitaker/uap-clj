@@ -85,9 +85,14 @@ This single command performs:
 4. **Push tag**: pushes the tag to origin
 5. **GitHub Release**: creates a release with a changelog link
 
-### 8. Verify CI workflows
+### 8. Verify CI and post-release workflows
 
-After the release, several GitHub Actions workflows will run:
+#### CI (`clojure.yml`) — already ran on merge to `master`
+- Triggered when the version-bump PR was merged (push to `master`)
+- Runs tests, formatting check, and outdated check
+- Should have passed (you already verified locally in steps 2-4)
+
+After the release task creates the GitHub Release, two additional workflows trigger:
 
 #### Upstream sync (`sync-upstream.yml`) — triggers on `release: published`
 - Mirrors the tag and GitHub Release to `ua-parser/uap-clj`
@@ -98,11 +103,6 @@ After the release, several GitHub Actions workflows will run:
 - Uploads them to the GitHub Release on both origin and upstream
 - Polls up to 5 minutes for the upstream release to appear
 - Check: look for `uap-clj-linux-amd64` and `uap-clj-macos-arm64` assets on the release page
-
-#### CI (`clojure.yml`) — triggers on push to `master`
-- Already ran when the version-bump PR was merged
-- Runs tests, formatting check, and outdated check
-- Should pass (you already verified locally in steps 2-4)
 
 ### 9. Verify Clojars
 
