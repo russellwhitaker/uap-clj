@@ -13,7 +13,8 @@ Complete procedure for releasing a new version of uap-clj.
 
 ## Prerequisites
 
-- Clean working tree on a feature branch (never release from `master` directly)
+- Version bump done on a feature branch via PR (never commit directly to `master`)
+- Clean working tree on `master` after the version-bump PR is merged
 - `gh` CLI authenticated
 - `CLOJARS_USERNAME` and `CLOJARS_PASSWORD` environment variables set
 - All tests passing
@@ -86,21 +87,22 @@ This single command performs:
 
 ### 8. Verify CI workflows
 
-After the release is published, three GitHub Actions workflows trigger automatically:
+After the release, several GitHub Actions workflows will run:
 
-#### Upstream sync (`sync-upstream.yml`)
+#### Upstream sync (`sync-upstream.yml`) — triggers on `release: published`
 - Mirrors the tag and GitHub Release to `ua-parser/uap-clj`
 - Check: `gh api repos/ua-parser/uap-clj/releases/tags/vX.Y.Z --jq '.html_url'`
 
-#### Native image (`native-image.yml`)
+#### Native image (`native-image.yml`) — triggers on `release: published`
 - Builds binaries for Linux (amd64) and macOS (arm64)
 - Uploads them to the GitHub Release on both origin and upstream
 - Polls up to 5 minutes for the upstream release to appear
 - Check: look for `uap-clj-linux-amd64` and `uap-clj-macos-arm64` assets on the release page
 
-#### CI (`clojure.yml`)
-- Runs tests, formatting check, and outdated check against the new master
-- Should pass (you already verified locally)
+#### CI (`clojure.yml`) — triggers on push to `master`
+- Already ran when the version-bump PR was merged
+- Runs tests, formatting check, and outdated check
+- Should pass (you already verified locally in steps 2-4)
 
 ### 9. Verify Clojars
 
@@ -128,9 +130,9 @@ Then also delete the GitHub Release via the web UI or `gh release delete vX.Y.Z`
 ### Native image build fails with reflection errors
 Check for reflection warnings:
 ```sh
-clojure -e "(set! *warn-on-reflection* true)" -M -m uap-clj.core 2>&1 | grep "Reflection warning"
+clojure -M -e "(set! *warn-on-reflection* true) (require 'uap-clj.core)" 2>&1 | grep "Reflection warning"
 ```
-Add type hints (`^String`, `^java.io.Writer`) to resolve. See PR #64 for precedent.
+This loads the namespace without invoking `-main` (which requires CLI arguments). Add type hints (`^String`, `^java.io.Writer`) to resolve any warnings. See PR #64 for precedent.
 
 ### Upstream release not found by native-image workflow
 The `native-image.yml` workflow polls for the upstream release (created by `sync-upstream.yml`) for up to 5 minutes. If `sync-upstream.yml` is slow or fails, check its run logs and re-run if needed. The native-image workflow will emit a warning and skip upstream upload if the release never appears.
