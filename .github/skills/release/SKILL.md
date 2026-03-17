@@ -37,7 +37,7 @@ This single value drives the JAR filename, POM version, git tag, and GitHub Rele
 clojure -T:build test
 ```
 
-All 21 tests (113,000+ assertions) must pass. Do not proceed if any fail.
+All tests must pass. Do not proceed if any fail.
 
 ### 3. Check formatting
 
