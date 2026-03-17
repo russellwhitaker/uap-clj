@@ -96,6 +96,16 @@ $ clojure -M:bench
 
 This benchmarks `browser`, `os`, `device`, and `useragent` lookups individually and in batch.
 
+### Agent Skills
+
+This project includes [Agent Skills](https://agentskills.io/) — machine-readable workflow instructions that AI coding agents (Claude Code, VS Code Copilot, Roo Code, and others) discover and follow automatically. Skills live in `.github/skills/` and encode project-specific procedural knowledge so agents can execute complex workflows (like releasing to Clojars) without manual prompting.
+
+Available skills:
+
+| Skill | Description |
+|-------|-------------|
+| [`release`](.github/skills/release/SKILL.md) | Full release workflow: version bump, testing, Clojars deploy, tagging, GitHub Release, and post-release CI verification |
+
 ### Specs
 
 `clojure.spec` definitions for all parsed output maps are available in `uap-clj.spec`. To use them:

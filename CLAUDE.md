@@ -23,3 +23,7 @@
 
 - Clojars deploy requires `-Djava.net.preferIPv4Stack=true` (already in `:build` alias JVM opts)
 - Use `clojure -T:build deploy` to publish to Clojars
+
+## Skills
+
+- Release workflow: `.github/skills/release/SKILL.md`
