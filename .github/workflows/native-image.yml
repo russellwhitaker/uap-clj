@@ -80,7 +80,7 @@ jobs:
         gh release upload "$TAG" target/${{ matrix.artifact }} --clobber
 
     - name: Upload to upstream release
-      if: github.event_name == 'release'
+      if: github.event_name == 'release' && github.repository == 'russellwhitaker/uap-clj'
       env:
         GH_TOKEN: ${{ secrets.UPSTREAM_PUSH_TOKEN }}
         TAG: ${{ github.event.release.tag_name }}
