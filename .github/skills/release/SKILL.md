@@ -134,7 +134,7 @@ Check for reflection warnings:
 ```sh
 clojure -M -e "(set! *warn-on-reflection* true) (require 'uap-clj.core)" 2>&1 | grep "Reflection warning"
 ```
-This loads the namespace without invoking `-main` (which requires CLI arguments). Add type hints (`^String`, `^java.io.Writer`) to resolve any warnings. See the comments in `src/uap_clj/core.clj` (lines 60-61) for precedent.
+This loads the namespace without invoking `-main` (which requires CLI arguments). Add type hints (`^String`, `^java.io.Writer`) to resolve any warnings. See the `with-open` native-image reflection comment in `uap-clj.core/-main` for precedent.
 
 ### Upstream release not found by native-image workflow
 The `native-image.yml` workflow polls for the upstream release (created by `sync-upstream.yml`) for up to 5 minutes. If `sync-upstream.yml` is slow or fails, check its run logs and re-run if needed. The native-image workflow will emit a warning and skip upstream upload if the release never appears.
