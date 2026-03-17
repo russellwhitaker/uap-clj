@@ -34,7 +34,7 @@ This single value drives the JAR filename, POM version, git tag, and GitHub Rele
 ### 2. Run the full test suite
 
 ```sh
-clojure -T:build test
+clojure -M:test
 ```
 
 All tests must pass. Do not proceed if any fail.
