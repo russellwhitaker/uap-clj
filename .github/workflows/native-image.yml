@@ -98,7 +98,7 @@ jobs:
         MAX_ATTEMPTS=10
         DELAY=30
         for attempt in $(seq 1 $MAX_ATTEMPTS); do
-          HTTP_STATUS=$(gh api repos/ua-parser/uap-clj/releases/tags/"$TAG" -i 2>/dev/null | head -1 | awk '{print $2}' || true)
+          HTTP_STATUS=$(gh api repos/ua-parser/uap-clj/releases/tags/"$TAG" -i 2>&1 | head -1 | awk '{print $2}' || true)
           if [[ "$HTTP_STATUS" == "200" ]]; then
             echo "Upstream release $TAG found"
             gh release upload "$TAG" target/${{ matrix.artifact }} --clobber --repo ua-parser/uap-clj
@@ -106,6 +106,9 @@ jobs:
           elif [[ "$HTTP_STATUS" == "404" ]]; then
             echo "Attempt $attempt/$MAX_ATTEMPTS: upstream release $TAG not found yet, retrying in ${DELAY}s..."
             sleep $DELAY
+          elif [[ -z "$HTTP_STATUS" ]]; then
+            echo "::error::Failed to reach upstream API (no HTTP response received)"
+            exit 1
           else
             echo "::error::Upstream API returned HTTP $HTTP_STATUS"
             exit 1
