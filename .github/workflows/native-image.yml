@@ -98,7 +98,7 @@ jobs:
         MAX_ATTEMPTS=10
         DELAY=30
         for attempt in $(seq 1 $MAX_ATTEMPTS); do
-          HTTP_STATUS=$(gh api repos/ua-parser/uap-clj/releases/tags/"$TAG" -i 2>/dev/null | head -1 | awk '{print $2}')
+          HTTP_STATUS=$(gh api repos/ua-parser/uap-clj/releases/tags/"$TAG" -i 2>/dev/null | head -1 | awk '{print $2}' || true)
           if [[ "$HTTP_STATUS" == "200" ]]; then
             echo "Upstream release $TAG found"
             gh release upload "$TAG" target/${{ matrix.artifact }} --clobber --repo ua-parser/uap-clj
