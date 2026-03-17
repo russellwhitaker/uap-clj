@@ -1,7 +1,7 @@
 ---
 name: release
 description: "Release uap-clj to Clojars and GitHub. Use when bumping version, publishing a release, deploying to Clojars, creating a GitHub Release, or cutting a new version. Covers version bump, testing, Clojars deploy, tagging, GitHub Release, native-image CI verification, and upstream sync."
-compatibility: "Requires Clojure CLI, gh CLI, jq, CLOJARS_USERNAME and CLOJARS_PASSWORD env vars, and UPSTREAM_PUSH_TOKEN GitHub secret."
+compatibility: "Requires Clojure CLI, gh CLI, jq, CLOJARS_USERNAME and CLOJARS_PASSWORD env vars. UPSTREAM_PUSH_TOKEN GitHub secret is needed only for post-release upstream mirroring (sync-upstream/native-image workflows)."
 metadata:
   author: russellwhitaker
   version: "1.0"
