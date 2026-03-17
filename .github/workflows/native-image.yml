@@ -94,13 +94,21 @@ jobs:
         # Ensure renamed artifact exists independently of prior step
         cp -f target/uap-clj target/${{ matrix.artifact }}
 
-        # Check upstream release; skip on 404, fail loudly on auth/other errors
-        RESPONSE=$(gh api repos/ua-parser/uap-clj/releases/tags/"$TAG" 2>&1) && FOUND=true || FOUND=false
-        if [[ "$FOUND" == "true" ]]; then
-          gh release upload "$TAG" target/${{ matrix.artifact }} --clobber --repo ua-parser/uap-clj
-        elif echo "$RESPONSE" | grep -q "Not Found"; then
-          echo "Upstream release $TAG not found — skipping artifact upload"
-        else
-          echo "::error::Upstream API error: $RESPONSE"
-          exit 1
-        fi
+        # Poll for upstream release (sync-upstream.yml may still be creating it)
+        MAX_ATTEMPTS=10
+        DELAY=30
+        for attempt in $(seq 1 $MAX_ATTEMPTS); do
+          HTTP_STATUS=$(gh api repos/ua-parser/uap-clj/releases/tags/"$TAG" -i 2>/dev/null | head -1 | awk '{print $2}')
+          if [[ "$HTTP_STATUS" == "200" ]]; then
+            echo "Upstream release $TAG found"
+            gh release upload "$TAG" target/${{ matrix.artifact }} --clobber --repo ua-parser/uap-clj
+            exit 0
+          elif [[ "$HTTP_STATUS" == "404" ]]; then
+            echo "Attempt $attempt/$MAX_ATTEMPTS: upstream release $TAG not found yet, retrying in ${DELAY}s..."
+            sleep $DELAY
+          else
+            echo "::error::Upstream API returned HTTP $HTTP_STATUS"
+            exit 1
+          fi
+        done
+        echo "::warning::Upstream release $TAG not found after ${MAX_ATTEMPTS} attempts — skipping artifact upload"
