@@ -85,9 +85,22 @@ jobs:
         GH_TOKEN: ${{ secrets.UPSTREAM_PUSH_TOKEN }}
         TAG: ${{ github.event.release.tag_name }}
       run: |
-        # Only upload if the upstream release exists
-        if gh api repos/ua-parser/uap-clj/releases/tags/"$TAG" --silent 2>/dev/null; then
+        # Fail fast if token is not configured
+        if [[ -z "$GH_TOKEN" ]]; then
+          echo "::error::UPSTREAM_PUSH_TOKEN secret is not set"
+          exit 1
+        fi
+
+        # Ensure renamed artifact exists independently of prior step
+        cp -f target/uap-clj target/${{ matrix.artifact }}
+
+        # Check upstream release; skip on 404, fail loudly on auth/other errors
+        RESPONSE=$(gh api repos/ua-parser/uap-clj/releases/tags/"$TAG" 2>&1) && FOUND=true || FOUND=false
+        if [[ "$FOUND" == "true" ]]; then
           gh release upload "$TAG" target/${{ matrix.artifact }} --clobber --repo ua-parser/uap-clj
-        else
+        elif echo "$RESPONSE" | grep -q "Not Found"; then
           echo "Upstream release $TAG not found — skipping artifact upload"
+        else
+          echo "::error::Upstream API error: $RESPONSE"
+          exit 1
         fi
