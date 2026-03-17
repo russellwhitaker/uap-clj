@@ -1,7 +1,7 @@
 ---
 name: release
 description: "Release uap-clj to Clojars and GitHub. Use when bumping version, publishing a release, deploying to Clojars, creating a GitHub Release, or cutting a new version. Covers version bump, testing, Clojars deploy, tagging, GitHub Release, native-image CI verification, and upstream sync."
-compatibility: "Requires Clojure CLI, gh CLI, CLOJARS_USERNAME and CLOJARS_PASSWORD env vars, and UPSTREAM_PUSH_TOKEN GitHub secret."
+compatibility: "Requires Clojure CLI, gh CLI, jq, CLOJARS_USERNAME and CLOJARS_PASSWORD env vars, and UPSTREAM_PUSH_TOKEN GitHub secret."
 metadata:
   author: russellwhitaker
   version: "1.0"
@@ -16,7 +16,9 @@ Complete procedure for releasing a new version of uap-clj.
 - Version bump done on a feature branch via PR (never commit directly to `master`)
 - Clean working tree on `master` after the version-bump PR is merged
 - `gh` CLI authenticated
+- `jq` installed (used for Clojars verification)
 - `CLOJARS_USERNAME` and `CLOJARS_PASSWORD` environment variables set
+- uap-core submodule initialized (`git submodule update --init --recursive`)
 - All tests passing
 
 ## Procedure
@@ -83,7 +85,7 @@ This single command performs:
 2. **Clojars deploy**: builds the JAR and deploys to Clojars (uses `-Djava.net.preferIPv4Stack=true` from `:build` alias)
 3. **Git tag**: creates annotated tag `vX.Y.Z`
 4. **Push tag**: pushes the tag to origin
-5. **GitHub Release**: creates a release with a changelog link
+5. **GitHub Release**: creates a release (includes a "Full Changelog" compare link when a previous tag exists; otherwise uses a plain "Release vX.Y.Z" body)
 
 ### 8. Verify CI and post-release workflows
 
@@ -132,7 +134,7 @@ Check for reflection warnings:
 ```sh
 clojure -M -e "(set! *warn-on-reflection* true) (require 'uap-clj.core)" 2>&1 | grep "Reflection warning"
 ```
-This loads the namespace without invoking `-main` (which requires CLI arguments). Add type hints (`^String`, `^java.io.Writer`) to resolve any warnings. See PR #64 for precedent.
+This loads the namespace without invoking `-main` (which requires CLI arguments). Add type hints (`^String`, `^java.io.Writer`) to resolve any warnings. See the comments in `src/uap_clj/core.clj` (lines 60-61) for precedent.
 
 ### Upstream release not found by native-image workflow
 The `native-image.yml` workflow polls for the upstream release (created by `sync-upstream.yml`) for up to 5 minutes. If `sync-upstream.yml` is slow or fails, check its run logs and re-run if needed. The native-image workflow will emit a warning and skip upstream upload if the release never appears.
