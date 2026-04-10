@@ -58,6 +58,8 @@
   {:regex "X11; (Datanyze); Linux"}
   {:regex "(NewRelicPinger)/(\\d+)\\.(\\d+)",
    :family_replacement "NewRelicPingerBot"}
+  {:regex "(RuxitSynthetic)/(\\d+)\\.(\\d+)",
+   :family_replacement "Ruxit Synthetic"}
   {:regex "(Tableau)/(\\d+)\\.(\\d+)", :family_replacement "Tableau"}
   {:regex
    "AppleWebKit/\\d{1,10}\\.\\d{1,10}.{0,200} Safari.{0,200} (CreativeCloud)/(\\d+)\\.(\\d+).(\\d+)",
@@ -120,6 +122,7 @@
    "(Pinterest)(?: for Android(?: Tablet|)|)/(\\d+)(?:\\.(\\d+)|)(?:\\.(\\d+)|)"}
   {:regex
    "Mozilla.{1,200}Mobile.{1,100}(Instagram).(\\d+)\\.(\\d+)\\.(\\d+)"}
+  {:regex "(Instagram) (\\d+)\\.(\\d+)\\.(\\d+)"}
   {:regex
    "Mozilla.{1,200}Mobile.{1,100}(Flipboard).(\\d+)\\.(\\d+)\\.(\\d+)"}
   {:regex
@@ -139,6 +142,8 @@
   {:regex
    "Mozilla.{1,200}Mobile.{1,100}(KAKAOTALK)/(\\d+)\\.(\\d+)\\.(\\d+)",
    :family_replacement "KakaoTalk"}
+  {:regex "(Telegram-Android)/(\\d+)\\.(\\d+)\\.(\\d+)",
+   :family_replacement "Telegram"}
   {:regex
    "Mozilla.{1,200}Mobile.{1,100}(Phantom\\/ios|Phantom\\/android).(\\d+)\\.(\\d+)\\.(\\d+)",
    :family_replacement "Phantom"}
@@ -149,6 +154,7 @@
    :family_replacement "Basilisk"}
   {:regex "(PaleMoon)/(\\d+)\\.(\\d+)(?:\\.(\\d+)|)",
    :family_replacement "Pale Moon"}
+  {:regex "(Camoufox) Camoufox (\\d+)\\.(\\d+)"}
   {:regex "(Fennec)/(\\d+)\\.(\\d+)\\.?([ab]?\\d+[a-z]*)",
    :family_replacement "Firefox Mobile"}
   {:regex "(Fennec)/(\\d+)\\.(\\d+)(pre)",
@@ -186,7 +192,8 @@
    :family_replacement "Netscape"}
   {:regex "(MyIBrow)/(\\d+)\\.(\\d+)",
    :family_replacement "My Internet Browser"}
-  {:regex "(UC? ?Browser|UCWEB|U3)[ /]?(\\d+)\\.(\\d+)\\.(\\d+)",
+  {:regex
+   "(UC? ?Browser|UCWEB|UCMobile|U3)[ /]?(\\d+)\\.(\\d+)\\.(\\d+)",
    :family_replacement "UC Browser"}
   {:regex
    "(Opera Tablet).{0,200}Version/(\\d+)\\.(\\d+)(?:\\.(\\d+)|)"}
@@ -203,6 +210,10 @@
    :family_replacement "Opera Mobile"}
   {:regex "(?:Chrome).{1,300}(OPR)/(\\d+)\\.(\\d+)\\.(\\d+)",
    :family_replacement "Opera"}
+  {:regex "(OPX)/(\\d+)\\.(\\d+)(?:\\.(\\d+)|)",
+   :family_replacement "Opera GX"}
+  {:regex "(OPT)/(\\d+)\\.(\\d+)(?:\\.(\\d+)|)",
+   :family_replacement "Opera Touch"}
   {:regex "(Coast)/(\\d+).(\\d+).(\\d+)",
    :family_replacement "Opera Coast"}
   {:regex "(OPiOS)/(\\d+).(\\d+).(\\d+)",
@@ -312,7 +323,7 @@
   {:regex "(VivoBrowser)\\/(\\d+)\\.(\\d+)\\.(\\d+)(?:\\.(\\d+)|)"}
   {:regex "(H[Ii]Browser)\\/v(\\d+)\\.(\\d+)\\.(\\d+)\\.(\\d+)",
    :family_replacement "HiBrowser"}
-  {:regex "(HonorBrowser)/(\\d+)\\.(\\d+)\\.(\\d+)\\.(\\d+)",
+  {:regex "(HonorBrowser)/(\\d+)\\.(\\d+)\\.(\\d+)(?:\\.(\\d+)|)",
    :family_replacement "Honor Browser"}
   {:regex "(bdhonorbrowser)/(\\d+)\\.(\\d+)\\.(\\d+)\\.(\\d+)",
    :family_replacement "Honor Browser"}
@@ -378,8 +389,7 @@
    :family_replacement "Quark"}
   {:regex "(QuarkPC)/(\\d+)\\.(\\d+)\\.(\\d+)",
    :family_replacement "Quark PC"}
-  {:regex
-   "(SLBrowser)/(\\d+)\\.(\\d+)\\.(\\d+)\\.(\\d+) SLBChan/(\\d+)",
+  {:regex "(SLBrowser)/(\\d+)\\.(\\d+)\\.(\\d+)",
    :family_replacement "Smart Lenovo Browser"}
   {:regex "(Atom)/(\\d+)\\.(\\d+)\\.(\\d+)\\.(\\d+)",
    :family_replacement "Atom Browser"}
@@ -409,7 +419,7 @@
    :family_replacement "Wolvic Browser"}
   {:regex "(Thano)/(\\d+)\\.(\\d+)",
    :family_replacement "SmartTV WebBrowser"}
-  {:regex "(MicroMessenger)/(\\d+)\\.(\\d+)\\.(\\d+)",
+  {:regex "(MicroMessenger)/(\\d+)\\.(\\d+)(?:\\.(\\d+)|)",
    :family_replacement "WeChat Browser"}
   {:regex "(Odin)/(\\d+)\\.(\\d+)\\.(\\d+)\\.(\\d+)",
    :family_replacement "Odin"}
@@ -421,6 +431,11 @@
    :family_replacement "Vewd Browser"}
   {:regex "(Mypal)/(\\d+)\\.(\\d+)\\.(\\d+)",
    :family_replacement "Mypal Browser"}
+  {:regex "(Chesscom-Android)/(\\d+)\\.(\\d+)\\.(\\d+)"}
+  {:regex "(RobloxApp)/(\\d+)\\.(\\d+)\\.(\\d+)",
+   :family_replacement "Roblox App"}
+  {:regex "(Roadrunner)/IOS/\\d+/(\\d+)\\.(\\d+)\\.(\\d+)"}
+  {:regex "(AncestryAndroid)/(\\d+)\\.(\\d+)(?:\\.(\\d+)|)"}
   {:regex "(Slack_SSB)/(\\d+)\\.(\\d+)\\.(\\d+)",
    :family_replacement "Slack Desktop Client"}
   {:regex "(HipChat)/?(\\d+|)",
@@ -464,6 +479,33 @@
   {:regex "(RCM CardDAV plugin)/(\\d+)\\.(\\d+)\\.(\\d+(?:-dev|))"}
   {:regex
    "(bingbot|Bolt|AdobeAIR|Jasmine|IceCat|Skyfire|Midori|Maxthon|Lynx|Arora|IBrowse|Dillo|Camino|Shiira|Fennec|Phoenix|Flock|Netscape|Lunascape|Epiphany|WebPilot|Opera Mini|Opera|NetFront|Netfront|Konqueror|Googlebot|SeaMonkey|Kazehakase|Vienna|Iceape|Iceweasel|IceWeasel|Iron|K-Meleon|Sleipnir|Galeon|GranParadiso|iCab|iTunes|MacAppStore|NetNewsWire|Space Bison|Stainless|Orca|Dolfin|BOLT|Minimo|Tizen Browser|Polaris|Abrowser|Planetweb|ICE Browser|mDolphin|qutebrowser|Otter|QupZilla|MailBar|kmail2|YahooMobileMail|ExchangeWebServices|ExchangeServicesClient|Dragon|Outlook-iOS-Android)/(\\d+)\\.(\\d+)(?:\\.(\\d+)|)"}
+  {:regex "(QtWebEngine)/(\\d+)\\.(\\d+)\\.(\\d+)",
+   :family_replacement "Qt Web Engine"}
+  {:regex "(OpenWave)/(\\d+)\\.(\\d+)\\.(\\d+)",
+   :family_replacement "Open Wave"}
+  {:regex "(AtContent)/(\\d+)\\.(\\d+)\\.(\\d+)"}
+  {:regex "(Trailer)/(\\d+)\\.(\\d+)\\.(\\d+)"}
+  {:regex "(Agency)/(\\d+)\\.(\\d+)\\.(\\d+)"}
+  {:regex "(Herring)/(\\d+)\\.(\\d+)\\.(\\d+)"}
+  {:regex "(Config)/(\\d+)\\.(\\d+)\\.(\\d+)"}
+  {:regex "(Viewer)/(\\d+)\\.(\\d+)\\.(\\d+)"}
+  {:regex "(LikeWise)/(\\d+)\\.(\\d+)\\.(\\d+)"}
+  {:regex "(Unique)/(\\d+)\\.(\\d+)\\.(\\d+)"}
+  {:regex "(CitizenFX)/(\\d+)\\.(\\d+)\\.(\\d+)"}
+  {:regex "(R2Client)/(\\d+)\\.(\\d+)(?:\\.(\\d+)|)"}
+  {:regex "(OBS)/(\\d+)\\.(\\d+)\\.(\\d+)",
+   :family_replacement "OBS Studio"}
+  {:regex "(AdobeCEP)/(\\d+)\\.(\\d+)\\.(\\d+)",
+   :family_replacement "Adobe CEP"}
+  {:regex
+   "Valve Steam (GameOverlay).{1,200}Chrome/(\\d+)\\.(\\d+)\\.(\\d+)",
+   :family_replacement "Steam GameOverlay"}
+  {:regex
+   "Valve Steam (Gamepad)/Steam Deck.{1,200}Chrome/(\\d+)\\.(\\d+)\\.(\\d+)",
+   :family_replacement "Steam Deck"}
+  {:regex
+   "(Valve(?: Steam|) Client).{1,200}Chrome/(\\d+)\\.(\\d+)\\.(\\d+)",
+   :family_replacement "Steam Client"}
   {:regex
    "(Chromium|Chrome)/(\\d+)\\.(\\d+)(?:\\.(\\d+)|)(?:\\.(\\d+)|)"}
   {:regex "(IEMobile)[ /](\\d+)\\.(\\d+)",
