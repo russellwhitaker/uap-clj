@@ -468,6 +468,8 @@
    :family_replacement "Lotus Notes"}
   {:regex "Superhuman", :family_replacement "Superhuman"}
   {:regex "(Vivaldi)/(\\d+)(?:\\.(\\d+)|)(?:\\.(\\d+)|)"}
+  {:regex ".{0,200}(Teams)/(\\d+)\\.(\\d+)\\.(\\d+)",
+   :family_replacement "Microsoft Teams"}
   {:regex "(Edge?)/(\\d+)(?:\\.(\\d+)|)(?:\\.(\\d+)|)(?:\\.(\\d+)|)",
    :family_replacement "Edge"}
   {:regex "(Chrome)/(\\d+)\\.(\\d+)\\.(\\d+)[\\d.]{0,100} Iron[^/]",
@@ -506,6 +508,7 @@
   {:regex
    "(Valve(?: Steam|) Client).{1,200}Chrome/(\\d+)\\.(\\d+)\\.(\\d+)",
    :family_replacement "Steam Client"}
+  {:regex "(Ladybird)/(\\d+)\\.(\\d+)(?:\\.(\\d+)|)"}
   {:regex
    "(Chromium|Chrome)/(\\d+)\\.(\\d+)(?:\\.(\\d+)|)(?:\\.(\\d+)|)"}
   {:regex "(IEMobile)[ /](\\d+)\\.(\\d+)",
